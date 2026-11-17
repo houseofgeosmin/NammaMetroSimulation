@@ -59,6 +59,12 @@ with sync_playwright() as p:
     tap(); adv(30); tap(); adv(90); tap()
     r2 = [x for x in rows() if x['line'] == 'Y'][0]
     check(r2['done'] and len(r2['stops']) == 2 and r2['toName'] == 'Bommasandra', 'auto end at terminal: ' + r2['toName'])
+    # history on the phone and CSV export (one row per station, same columns as the manual template)
+    csv_text = pg.evaluate('toCSV()'); lines = csv_text.strip().split('\r\n')
+    check(lines[0].startswith('session_id,date,line,towards,station,doors_open,doors_close'), 'CSV header')
+    check(len(lines) == 1 + 4 + 2, f'CSV has a row per station of both rides ({len(lines) - 1} rows)')
+    check(',Green,Silk Institute,Majestic,' in csv_text and ',Yellow,Bommasandra,' in csv_text, 'CSV rows carry line and direction')
+    check('2 rides' in pg.inner_text('#hSum'), 'history summary: ' + pg.inner_text('#hSum'))
     pg.click('#mTrip'); pg.wait_for_timeout(100)
     check(pg.is_visible('#today') and not pg.is_visible('#ride'), 'back to single-trip mode')
     print('errors', errs)

@@ -1,0 +1,4 @@
+session_id,date,line,towards,station,doors_open,doors_close,platform_at,display_min,crowd,source,notes
+R20261118-0905,2026-11-18,Green,Silk Institute,Majestic,09:05:12,09:05:58,09:01:30,3,4,manual,boarded here; display said 3 min
+R20261118-0905,2026-11-18,Green,Silk Institute,Chickpete,09:07:40,09:08:05,,,4,manual,
+R20261118-0905,2026-11-18,Green,Silk Institute,Krishna Rajendra Market,09:09:31,,,,3,manual,got off here

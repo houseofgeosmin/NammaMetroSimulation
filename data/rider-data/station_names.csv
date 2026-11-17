@@ -1,0 +1,171 @@
+line,towards,order,station
+Green,Silk Institute,1,Madavara
+Green,Silk Institute,2,Chikkabidarakallu
+Green,Silk Institute,3,Manjunathanagara
+Green,Silk Institute,4,Nagasandra
+Green,Silk Institute,5,Dasarahalli
+Green,Silk Institute,6,Jalahalli
+Green,Silk Institute,7,Peenya Industry
+Green,Silk Institute,8,Peenya
+Green,Silk Institute,9,Goraguntepalya
+Green,Silk Institute,10,Yeshwantpur
+Green,Silk Institute,11,Sandal Soap Factory
+Green,Silk Institute,12,Mahalakshmi
+Green,Silk Institute,13,Rajajinagar
+Green,Silk Institute,14,Mahakavi Kuvempu Road
+Green,Silk Institute,15,Srirampura
+Green,Silk Institute,16,Mantri Square Sampige Road
+Green,Silk Institute,17,Majestic
+Green,Silk Institute,18,Chickpete
+Green,Silk Institute,19,Krishna Rajendra Market
+Green,Silk Institute,20,National College
+Green,Silk Institute,21,Lalbagh
+Green,Silk Institute,22,South End Circle
+Green,Silk Institute,23,Jayanagar
+Green,Silk Institute,24,RV Road
+Green,Silk Institute,25,Banashankari
+Green,Silk Institute,26,Jaya Prakash Nagar
+Green,Silk Institute,27,Yelachenahalli
+Green,Silk Institute,28,Konanakunte Cross
+Green,Silk Institute,29,Doddakallasandra
+Green,Silk Institute,30,Vajarahalli
+Green,Silk Institute,31,Thalaghattapura
+Green,Silk Institute,32,Silk Institute
+Green,Madavara,1,Silk Institute
+Green,Madavara,2,Thalaghattapura
+Green,Madavara,3,Vajarahalli
+Green,Madavara,4,Doddakallasandra
+Green,Madavara,5,Konanakunte Cross
+Green,Madavara,6,Yelachenahalli
+Green,Madavara,7,Jaya Prakash Nagar
+Green,Madavara,8,Banashankari
+Green,Madavara,9,RV Road
+Green,Madavara,10,Jayanagar
+Green,Madavara,11,South End Circle
+Green,Madavara,12,Lalbagh
+Green,Madavara,13,National College
+Green,Madavara,14,Krishna Rajendra Market
+Green,Madavara,15,Chickpete
+Green,Madavara,16,Majestic
+Green,Madavara,17,Mantri Square Sampige Road
+Green,Madavara,18,Srirampura
+Green,Madavara,19,Mahakavi Kuvempu Road
+Green,Madavara,20,Rajajinagar
+Green,Madavara,21,Mahalakshmi
+Green,Madavara,22,Sandal Soap Factory
+Green,Madavara,23,Yeshwantpur
+Green,Madavara,24,Goraguntepalya
+Green,Madavara,25,Peenya
+Green,Madavara,26,Peenya Industry
+Green,Madavara,27,Jalahalli
+Green,Madavara,28,Dasarahalli
+Green,Madavara,29,Nagasandra
+Green,Madavara,30,Manjunathanagara
+Green,Madavara,31,Chikkabidarakallu
+Green,Madavara,32,Madavara
+Purple,Challaghatta,1,Whitefield (Kadugodi)
+Purple,Challaghatta,2,Hopefarm Channasandra
+Purple,Challaghatta,3,Kadugodi Tree Park
+Purple,Challaghatta,4,Pattandur Agrahara
+Purple,Challaghatta,5,Sri Sathya Sai Hospital
+Purple,Challaghatta,6,Nallurahalli
+Purple,Challaghatta,7,Kundalahalli
+Purple,Challaghatta,8,Seetharampalya
+Purple,Challaghatta,9,Hoodi
+Purple,Challaghatta,10,Garudacharpalya
+Purple,Challaghatta,11,Singayyanapalya
+Purple,Challaghatta,12,Krishnarajapura
+Purple,Challaghatta,13,Benniganahalli
+Purple,Challaghatta,14,Baiyappanahalli
+Purple,Challaghatta,15,Swami Vivekananda Road
+Purple,Challaghatta,16,Indiranagar
+Purple,Challaghatta,17,Halasuru
+Purple,Challaghatta,18,Trinity
+Purple,Challaghatta,19,Mahatma Gandhi Road
+Purple,Challaghatta,20,Cubbon Park
+Purple,Challaghatta,21,"Dr. B. R. Ambedkar Station, Vidhana Soudha"
+Purple,Challaghatta,22,"Sir M. Visvesvaraya Stn., Central College"
+Purple,Challaghatta,23,Majestic
+Purple,Challaghatta,24,Krantivira Sangolli Rayanna Railway Station
+Purple,Challaghatta,25,Magadi Road
+Purple,Challaghatta,26,"Sri Balagangadharanatha Swamiji Station, Hosahalli"
+Purple,Challaghatta,27,Vijayanagar
+Purple,Challaghatta,28,Attiguppe
+Purple,Challaghatta,29,Deepanjali Nagar
+Purple,Challaghatta,30,Mysore Road
+Purple,Challaghatta,31,Pantharapalya - Nayandahalli
+Purple,Challaghatta,32,Rajarajeshwari Nagar
+Purple,Challaghatta,33,Jnanabharathi
+Purple,Challaghatta,34,Pattanagere
+Purple,Challaghatta,35,Kengeri Bus Terminal
+Purple,Challaghatta,36,Kengeri
+Purple,Challaghatta,37,Challaghatta
+Purple,Whitefield (Kadugodi),1,Challaghatta
+Purple,Whitefield (Kadugodi),2,Kengeri
+Purple,Whitefield (Kadugodi),3,Kengeri Bus Terminal
+Purple,Whitefield (Kadugodi),4,Pattanagere
+Purple,Whitefield (Kadugodi),5,Jnanabharathi
+Purple,Whitefield (Kadugodi),6,Rajarajeshwari Nagar
+Purple,Whitefield (Kadugodi),7,Pantharapalya - Nayandahalli
+Purple,Whitefield (Kadugodi),8,Mysore Road
+Purple,Whitefield (Kadugodi),9,Deepanjali Nagar
+Purple,Whitefield (Kadugodi),10,Attiguppe
+Purple,Whitefield (Kadugodi),11,Vijayanagar
+Purple,Whitefield (Kadugodi),12,"Sri Balagangadharanatha Swamiji Station, Hosahalli"
+Purple,Whitefield (Kadugodi),13,Magadi Road
+Purple,Whitefield (Kadugodi),14,Krantivira Sangolli Rayanna Railway Station
+Purple,Whitefield (Kadugodi),15,Majestic
+Purple,Whitefield (Kadugodi),16,"Sir M. Visvesvaraya Stn., Central College"
+Purple,Whitefield (Kadugodi),17,"Dr. B. R. Ambedkar Station, Vidhana Soudha"
+Purple,Whitefield (Kadugodi),18,Cubbon Park
+Purple,Whitefield (Kadugodi),19,Mahatma Gandhi Road
+Purple,Whitefield (Kadugodi),20,Trinity
+Purple,Whitefield (Kadugodi),21,Halasuru
+Purple,Whitefield (Kadugodi),22,Indiranagar
+Purple,Whitefield (Kadugodi),23,Swami Vivekananda Road
+Purple,Whitefield (Kadugodi),24,Baiyappanahalli
+Purple,Whitefield (Kadugodi),25,Benniganahalli
+Purple,Whitefield (Kadugodi),26,Krishnarajapura
+Purple,Whitefield (Kadugodi),27,Singayyanapalya
+Purple,Whitefield (Kadugodi),28,Garudacharpalya
+Purple,Whitefield (Kadugodi),29,Hoodi
+Purple,Whitefield (Kadugodi),30,Seetharampalya
+Purple,Whitefield (Kadugodi),31,Kundalahalli
+Purple,Whitefield (Kadugodi),32,Nallurahalli
+Purple,Whitefield (Kadugodi),33,Sri Sathya Sai Hospital
+Purple,Whitefield (Kadugodi),34,Pattandur Agrahara
+Purple,Whitefield (Kadugodi),35,Kadugodi Tree Park
+Purple,Whitefield (Kadugodi),36,Hopefarm Channasandra
+Purple,Whitefield (Kadugodi),37,Whitefield (Kadugodi)
+Yellow,RV Road,1,Bommasandra
+Yellow,RV Road,2,Biocon Hebbagodi
+Yellow,RV Road,3,Huskur Road
+Yellow,RV Road,4,Infosys Foundation Konappana Agrahara
+Yellow,RV Road,5,Electronic City
+Yellow,RV Road,6,Beratena Agrahara
+Yellow,RV Road,7,Hosa Road
+Yellow,RV Road,8,Singasandra
+Yellow,RV Road,9,Kudlu Gate
+Yellow,RV Road,10,Hongasandra
+Yellow,RV Road,11,Bommanahalli
+Yellow,RV Road,12,Central Silk Board
+Yellow,RV Road,13,BTM Layout
+Yellow,RV Road,14,Jayadeva Hospital
+Yellow,RV Road,15,Ragigudda
+Yellow,RV Road,16,RV Road
+Yellow,Bommasandra,1,RV Road
+Yellow,Bommasandra,2,Ragigudda
+Yellow,Bommasandra,3,Jayadeva Hospital
+Yellow,Bommasandra,4,BTM Layout
+Yellow,Bommasandra,5,Central Silk Board
+Yellow,Bommasandra,6,Bommanahalli
+Yellow,Bommasandra,7,Hongasandra
+Yellow,Bommasandra,8,Kudlu Gate
+Yellow,Bommasandra,9,Singasandra
+Yellow,Bommasandra,10,Hosa Road
+Yellow,Bommasandra,11,Beratena Agrahara
+Yellow,Bommasandra,12,Electronic City
+Yellow,Bommasandra,13,Infosys Foundation Konappana Agrahara
+Yellow,Bommasandra,14,Huskur Road
+Yellow,Bommasandra,15,Biocon Hebbagodi
+Yellow,Bommasandra,16,Bommasandra

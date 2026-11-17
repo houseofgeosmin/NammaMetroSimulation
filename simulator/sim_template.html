@@ -143,6 +143,14 @@ body.kiosk .zoom,body.kiosk .hint,body.kiosk .hud,body.kiosk .cb{display:none}
 .crowd .sum{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:8px}
 .crowd .sum div{background:rgba(8,16,24,.55);border:1px solid var(--line);border-radius:12px;padding:10px 12px;font-size:12.5px;color:var(--muted)}
 .crowd .sum b{display:block;font-size:18px;color:var(--fg,#e8f0f7)}
+/* footer, after houseofgeosmin.com: logo mark, gradient quote, spaced meta line (colours lifted for the dark page) */
+.foot{border-top:1px solid var(--line);margin-top:8px;padding:28px 0 12px;text-align:center;font-family:"Century Gothic",CenturyGothic,AppleGothic,Questrial,"Avant Garde","URW Gothic",sans-serif}
+.foot .fmark{width:26px;height:26px;display:block;margin:0 auto 10px;filter:brightness(1.35) saturate(1.1)}
+.foot .fquote{font-size:clamp(1rem,3vw,1.4rem);line-height:1.35;max-width:26em;margin:0 auto;background-image:linear-gradient(90deg,#e0401a,#ff8a4c);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;color:transparent}
+.foot .fmeta{margin-top:14px;text-transform:uppercase;letter-spacing:.22em;font-size:.62rem;color:var(--muted);display:flex;flex-wrap:wrap;justify-content:center;gap:6px 20px}
+.foot .fmeta a{color:var(--muted);text-decoration:none}.foot .fmeta a:hover{color:var(--accent)}
+.foot .fproj{margin-top:10px;font-size:.62rem;letter-spacing:.12em;text-transform:uppercase;color:#6f8396}
+body.kiosk .foot{display:none}
 </style>
 
 <div class="wrap">
@@ -154,7 +162,16 @@ body.kiosk .zoom,body.kiosk .hint,body.kiosk .hud,body.kiosk .cb{display:none}
     <div class="when"><div id="clock">--:--:--</div><div class="meta"><span id="daytype"></span><span class="pill" id="mode">Live clock</span></div></div>
   </header>
 
-  <section class="lines" id="legend" aria-label="Lines and directions"></section>
+  <section class="timebar glass" aria-label="Time controls">
+    <div class="field"><span>Speed</span>
+      <div class="seg">
+        <button data-sp="1" aria-pressed="true">Live</button><button data-sp="10" aria-pressed="false">10x</button><button data-sp="60" aria-pressed="false">60x</button><button data-sp="300" aria-pressed="false">300x</button>
+      </div></div>
+    <div class="field"><label for="jump">Jump to time</label><div class="row"><input type="time" id="jump"><button class="btn" id="now">Back to now</button></div></div>
+    <div class="field"><label for="svc">Timetable</label>
+      <select id="svc"><option value="auto">Today (automatic)</option><option value="weekday">Tuesday to Saturday</option><option value="monday">Monday</option><option value="sunday">Sunday</option><option value="holiday">Holiday (2nd and 4th Saturday)</option></select></div>
+  </section>
+
 
   <aside id="kiosk" aria-label="Station display">
     <div class="ktop"><div><h1 id="kName"></h1></div><div><div id="kClock">--:--:--</div><div id="kDay"></div></div></div>
@@ -174,15 +191,7 @@ body.kiosk .zoom,body.kiosk .hint,body.kiosk .hud,body.kiosk .cb{display:none}
     <div class="hud br" id="hudCoord">12.9716&deg;N  77.5946&deg;E</div>
   </div>
 
-  <section class="timebar glass" aria-label="Time controls">
-    <div class="field"><span>Speed</span>
-      <div class="seg">
-        <button data-sp="1" aria-pressed="true">Live</button><button data-sp="10" aria-pressed="false">10x</button><button data-sp="60" aria-pressed="false">60x</button><button data-sp="300" aria-pressed="false">300x</button>
-      </div></div>
-    <div class="field"><label for="jump">Jump to time</label><div class="row"><input type="time" id="jump"><button class="btn" id="now">Back to now</button></div></div>
-    <div class="field"><label for="svc">Timetable</label>
-      <select id="svc"><option value="auto">Today (automatic)</option><option value="weekday">Tuesday to Saturday</option><option value="monday">Monday</option><option value="sunday">Sunday</option><option value="holiday">Holiday (2nd and 4th Saturday)</option></select></div>
-  </section>
+  <section class="lines" id="legend" aria-label="Lines and directions"></section>
 
   <section class="panel glass">
     <div class="phead"><h2>Next departures</h2>
@@ -200,6 +209,18 @@ body.kiosk .zoom,body.kiosk .hint,body.kiosk .hud,body.kiosk .cb{display:none}
   </section>
 
   <p class="note">Every train runs on the BMRCL timetable as transcribed in the unofficial community GTFS feed (valid 17 Aug 2026 to 17 Aug 2027). BMRCL publishes terminal times only, so times at stations between the terminals are modelled and can differ from the platform display by a minute or two. Trains are drawn as six-car sets like the real ones, but longer than true scale so they stay visible. Lines and stations are drawn at their real coordinates, without street tiles, and the 3D tilt is only a viewing angle. Pink Line trains are not in this feed yet. Planned lines (Pink, Blue, Orange, Grey and Sarjapur to Hebbal) can be switched on from the last card. They show only terminals and junctions, in dashed lines, with underground parts dotted. Positions of stations that do not exist yet are approximate and the straight links between them are schematic.</p>
+
+  <footer class="foot">
+    <svg class="fmark" viewBox="0 300 1240 1180" aria-hidden="true"><defs>
+      <linearGradient id="hgOuter" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#780403"/><stop offset=".6" stop-color="#7f0805"/><stop offset="1" stop-color="#8c1007"/></linearGradient>
+      <linearGradient id="hgPetal" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#780403"/><stop offset=".35" stop-color="#830906"/><stop offset=".7" stop-color="#ab1b0a"/><stop offset="1" stop-color="#d93a14"/></linearGradient>
+      <linearGradient id="hgBase" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#c52c0e"/><stop offset="1" stop-color="#ea461a"/></linearGradient>
+      <g id="hgHalf"><path fill="url(#hgOuter)" d="M592 312 C 520 430 410 600 340 740 C 295 830 285 900 285 965 C 285 1110 190 1310 28 1405 Q 0 1425 8 1450 L 22 1470 L 617 1470 L 617 1000 Z"/><path fill="url(#hgPetal)" d="M596 312 C 500 470 292 720 286 950 C 284 1160 470 1370 617 1470 L 617 1000 C 612 800 604 520 596 312 Z"/><path fill="url(#hgBase)" d="M10 1450 Q 0 1430 30 1410 C 190 1370 420 1370 617 1470 L 22 1470 Q 8 1462 10 1450 Z"/></g></defs>
+      <use href="#hgHalf"/><use href="#hgHalf" transform="translate(1234 0) scale(-1 1)"/></svg>
+    <p class="fquote">Leave People and Places better than you found them.</p>
+    <div class="fmeta"><span>&copy; <span class="fyr">2026</span> House of Geosmin</span><span>HSR Layout &middot; Bengaluru</span><a href="https://houseofgeosmin.com" target="_blank" rel="noopener">houseofgeosmin.com</a><a href="https://www.instagram.com/thehouseofgeosmin" target="_blank" rel="noopener">Instagram</a></div>
+    <p class="fproj">Scheduled simulation, not live GPS &middot; Not a BMRCL service &middot; Timetable from the community GTFS feed</p>
+  </footer>
 </div>
 
 <script>
@@ -683,5 +704,6 @@ function loop(ts){const info=frame();
     {const n=KEYS.reduce((s,k)=>s+info.counts[k],0);const h=document.getElementById('hudTrains');if(h)h.textContent=String(n).padStart(2,'0');const hc=document.getElementById('hudClock');if(hc)hc.textContent=`${p(d.getUTCHours())}:${p(d.getUTCMinutes())}:${p(d.getUTCSeconds())}`}
     if(kiosk){document.getElementById('kClock').textContent=`${p(d.getUTCHours())}:${p(d.getUTCMinutes())}:${p(d.getUTCSeconds())}`;document.getElementById('kDay').textContent=d.toUTCString().slice(0,16)+' · '+DAYNAME[info.svc];renderKiosk(info)}else renderDeps()}
   requestAnimationFrame(loop)}
+document.querySelectorAll('.fyr').forEach(e=>e.textContent=new Date(Date.now()+IST).getUTCFullYear());
 applyHash();requestAnimationFrame(loop);
 </script>

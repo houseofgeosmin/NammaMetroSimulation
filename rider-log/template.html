@@ -41,6 +41,17 @@ details.card[open] summary{margin-bottom:2px}
 .seg button{flex:1;font:600 14px Inter,sans-serif;border:0;border-radius:9px;padding:10px;background:transparent;color:var(--mut);cursor:pointer}
 .seg button[aria-pressed="true"]{background:var(--card);color:var(--fg);box-shadow:0 1px 3px rgba(0,0,0,.14)}
 .go.close{background:var(--warn)}
+/* footer, after houseofgeosmin.com */
+.foot{border-top:1px solid var(--line);margin-top:12px;padding:28px 0 12px;text-align:center;font-family:"Century Gothic",CenturyGothic,AppleGothic,Questrial,"Avant Garde","URW Gothic",sans-serif;--fq:linear-gradient(90deg,#b4200c,#e0401a)}
+.foot .fmark{width:26px;height:26px;display:block;margin:0 auto 10px}
+.foot .fquote{font-size:clamp(1rem,3vw,1.4rem);line-height:1.35;max-width:26em;margin:0 auto;background-image:var(--fq);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;color:transparent}
+.foot .fmeta{margin-top:14px;text-transform:uppercase;letter-spacing:.22em;font-size:.62rem;color:var(--mut);display:flex;flex-wrap:wrap;justify-content:center;gap:6px 20px}
+.foot .fmeta a{color:var(--mut);text-decoration:none}.foot .fmeta a:hover{color:var(--acc)}
+.foot .fproj{margin-top:10px;font-size:.62rem;letter-spacing:.12em;text-transform:uppercase;color:var(--mut)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .foot{--fq:linear-gradient(90deg,#e0401a,#ff8a4c)}:root:not([data-theme="light"]) .foot .fmark{filter:brightness(1.35) saturate(1.1)}}
+:root[data-theme="dark"] .foot{--fq:linear-gradient(90deg,#e0401a,#ff8a4c)}:root[data-theme="dark"] .foot .fmark{filter:brightness(1.35) saturate(1.1)}
+.btns{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
+.btn[disabled]{opacity:.45;cursor:default}
 </style></head><body><main>
 <header><h1>Namma Metro Rider Log</h1><p class="mut">Tap a button as your train arrives, leaves and reaches your stop. The time is recorded for you, so there is nothing to type. Your taps help make the metro simulator more accurate. A community project, not a BMRCL service.</p></header>
 
@@ -87,6 +98,14 @@ details.card[open] summary{margin-bottom:2px}
   <p class="mut" style="margin-top:8px">Not on Google Calendar? Set a repeating alarm on your phone: "Log my metro trip".</p>
 </details>
 
+<section class="card" id="myData">
+  <h2>Your data on this phone</h2>
+  <p class="mut" id="hSum">Nothing logged on this phone yet.</p>
+  <div class="btns"><button class="btn" id="hCsv">Download as CSV</button><button class="btn" id="hCopy">Copy as text</button><button class="btn sm" id="hClear">Clear after sending</button></div>
+  <p class="mut" id="hMsg" role="status" style="margin-top:8px"></p>
+  <p class="mut" style="margin-top:6px">Every trip and ride is kept here, even without signing in. Download the file and send it in: it is the same format as the manual spreadsheet (one row per station).</p>
+</section>
+
 <section class="card">
   <h2>Thank you, here is what we have so far</h2>
   <div class="sum" id="sum"></div>
@@ -97,6 +116,17 @@ details.card[open] summary{margin-bottom:2px}
   <div id="mine"></div>
 </section>
 <p class="mut">Times are Indian Standard Time. Reports are rider-reported and unchecked. Only your nickname, stations and times are shared with the group.</p>
+<footer class="foot">
+  <svg class="fmark" viewBox="0 300 1240 1180" aria-hidden="true"><defs>
+    <linearGradient id="hgOuter" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#780403"/><stop offset=".6" stop-color="#7f0805"/><stop offset="1" stop-color="#8c1007"/></linearGradient>
+    <linearGradient id="hgPetal" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#780403"/><stop offset=".35" stop-color="#830906"/><stop offset=".7" stop-color="#ab1b0a"/><stop offset="1" stop-color="#d93a14"/></linearGradient>
+    <linearGradient id="hgBase" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#c52c0e"/><stop offset="1" stop-color="#ea461a"/></linearGradient>
+    <g id="hgHalf"><path fill="url(#hgOuter)" d="M592 312 C 520 430 410 600 340 740 C 295 830 285 900 285 965 C 285 1110 190 1310 28 1405 Q 0 1425 8 1450 L 22 1470 L 617 1470 L 617 1000 Z"/><path fill="url(#hgPetal)" d="M596 312 C 500 470 292 720 286 950 C 284 1160 470 1370 617 1470 L 617 1000 C 612 800 604 520 596 312 Z"/><path fill="url(#hgBase)" d="M10 1450 Q 0 1430 30 1410 C 190 1370 420 1370 617 1470 L 22 1470 Q 8 1462 10 1450 Z"/></g></defs>
+    <use href="#hgHalf"/><use href="#hgHalf" transform="translate(1234 0) scale(-1 1)"/></svg>
+  <p class="fquote">Leave People and Places better than you found them.</p>
+  <div class="fmeta"><span>&copy; <span class="fyr">2026</span> House of Geosmin</span><span>HSR Layout &middot; Bengaluru</span><a href="https://houseofgeosmin.com" target="_blank" rel="noopener">houseofgeosmin.com</a><a href="https://www.instagram.com/thehouseofgeosmin" target="_blank" rel="noopener">Instagram</a></div>
+  <p class="fproj">Community project &middot; Not a BMRCL service</p>
+</footer>
 </main>
 <script>
 const D=__DATA__;
@@ -159,6 +189,7 @@ function refreshSteps(){const s=step(),has=!!profile,b=$('main');
   else if(s===2){b.textContent='I have reached '+sName(profile.to);b.disabled=false}
   else{b.textContent='Trip saved. Thank you!';b.disabled=true}
   $('skip2').hidden=s!==1;$('reset').hidden=!(s>0&&s<3);
+  if(trip.t1!=null&&window.__hReady)keepTrip(); // history helpers are defined further down
   $('times').textContent=trip.t1!=null?'Arrived '+sfmt(trip.t1)+(trip.t2!=null?'  \u00b7  Left '+sfmt(trip.t2):'')+(trip.t3!=null?'  \u00b7  Reached '+sfmt(trip.t3):''):''}
 function match(f,t,sec,svc){let best=null;const cs=cands(f,t);
   for(const add of[0,86400,-86400]){for(const r of D.runs[svc]){const pr=D.profiles[r[0]];const c=cs.find(x=>x.i===pr.p);if(!c)continue;
@@ -222,7 +253,7 @@ async function rSave(){if(!db){$('rMsg').innerHTML+=' Saved on your phone only. 
     else{if(!rref)rref=db.collection('trips').doc(ride.id);await rref.update(rDoc())}}
   catch(e){$('rMsg').textContent='Could not save ('+(e&&e.code||'error')+'). Your taps are kept on this phone.'}}
 function rPush(){const c=JSON.parse(JSON.stringify(ride));delete c.hist;ride.hist=(ride.hist||[]).concat([c]).slice(-30)}
-function rCommit(msg){ride.last=Math.round(nowSec());rSched();lsSet('ride',ride);$('rMsg').innerHTML=msg;rDraw();return rSave()}
+function rCommit(msg){ride.last=Math.round(nowSec());rSched();lsSet('ride',ride);keepRide();$('rMsg').innerHTML=msg;rDraw();return rSave()}
 $('rMain').onclick=async()=>{buzz();const now=Math.round(nowSec());
   if(ride&&ride.done){ride=null;rref=null;lsSet('ride',null);$('rMsg').textContent='';rDraw();return}
   if(!ride){const l=$('rLine').value,dr=+$('rDir').value,from=+$('rFrom').value,route=routeOf(l,dr);
@@ -255,6 +286,27 @@ function rDraw(){const b=$('rMain');$('rSetup').hidden=!!ride;$('rCtl').hidden=!
   $('rLog').innerHTML='<table><tr><th>Station</th><th>Doors open</th><th>Doors close</th><th>Halt</th><th>vs timetable</th></tr>'+ride.stops.slice().reverse().map(s=>`<tr><td>${s.name}</td><td>${s.arrSec!=null?sfmt(s.arrSec):'-'}</td><td>${s.depSec!=null?sfmt(s.depSec):'-'}</td><td>${s.dwellSec!=null?s.dwellSec+' s':'-'}</td><td>${s.delayArrSec!=null?dl(s.delayArrSec):'-'}</td></tr>`).join('')+'</table>'}
 {const s=lsGet('rideSetup');if(s&&routeOf(s.l,s.dr)){$('rLine').value=s.l;rFillDir();$('rDir').value=s.dr;rFillFrom();$('rFrom').value=s.from;if($('rFrom').value==='')$('rFrom').selectedIndex=0}else rFillDir()}
 
+/* history on this phone: every trip and ride, one entry per session, exported as one CSV row per station.
+   Columns match data/rider-data/TEMPLATE_rider_stops.csv so app exports and hand-made sheets are read the same way. */
+const hist=()=>lsGet('history')||[];
+function keep(rec){const h=hist(),i=h.findIndex(x=>x.sid===rec.sid);if(i>=0)h[i]=rec;else h.push(rec);lsSet('history',h.slice(-1000));hDraw()}
+function keepTrip(){if(!profile||trip.t1==null)return;const f=profile.from,t=profile.to,c=cands(f,t)[0],p=c&&D.patterns[c.i],r=p&&routeOf(p.l,p.dr);
+  keep({sid:'T'+trip.day.replace(/-/g,'')+'-'+trip.t1,kind:'trip',date:trip.day,line:p?LCN[p.l]:'',towards:r?sName(r.s[r.s.length-1]):'',
+    stops:[{name:sName(f),arr:trip.t1,dep:trip.t2!=null?trip.t2:null},...(trip.t3!=null?[{name:sName(t),arr:trip.t3,dep:null}]:[])]})}
+function keepRide(){if(!ride)return;const r=routeOf(ride.l,ride.dr);
+  keep({sid:'R'+ride.day.replace(/-/g,'')+'-'+ride.stops[0].arrSec,kind:'ride',date:ride.day,line:LCN[ride.l],towards:sName(r.s[r.s.length-1]),
+    stops:ride.stops.map(s=>({name:s.name,arr:s.arrSec,dep:s.depSec}))})}
+const CSV_COLS=['session_id','date','line','towards','station','doors_open','doors_close','platform_at','display_min','crowd','source','notes'];
+function toCSV(){const q=v=>{v=v==null?'':String(v);return/[",\r\n]/.test(v)?'"'+v.replace(/"/g,'""')+'"':v};
+  const rows=[CSV_COLS];hist().forEach(h=>h.stops.forEach(s=>rows.push([h.sid,h.date,h.line,h.towards,s.name,s.arr!=null?sfmt(s.arr):'',s.dep!=null?sfmt(s.dep):'','','','',h.kind==='ride'?'app-ride':'app-trip',''])));
+  return rows.map(r=>r.map(q).join(',')).join('\r\n')+'\r\n'}
+function hDraw(){const h=hist(),rides=h.filter(x=>x.kind==='ride').length,n=h.reduce((a,x)=>a+x.stops.length,0);
+  $('hSum').textContent=h.length?`${rides} rides and ${h.length-rides} trips, ${n} station rows, from ${h[0].date} to ${h[h.length-1].date}.`:'Nothing logged on this phone yet.';
+  ['hCsv','hCopy','hClear'].forEach(id=>$(id).disabled=!h.length)}
+$('hCsv').onclick=()=>{try{const b=new Blob([toCSV()],{type:'text/csv'}),a=document.createElement('a');a.href=URL.createObjectURL(b);a.download='namma-metro-rider-data-'+ymd(Date.now())+'.csv';document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(a.href),5000);$('hMsg').textContent='Downloaded. Send the file in, then you can clear it here.'}catch(e){$('hMsg').textContent='Download is blocked here. Use "Copy as text" and paste it into a message or a text file.'}};
+$('hCopy').onclick=async()=>{try{await navigator.clipboard.writeText(toCSV());$('hMsg').textContent='Copied. Paste it into a message or a .csv file.'}catch(e){$('hMsg').textContent='Copy is blocked here. Try "Download as CSV".'}};
+$('hClear').onclick=()=>{if(!confirm('Delete the trips and rides kept on this phone? Download or copy them first. Trips already shared with the group are not affected.'))return;lsSet('history',[]);hDraw();$('hMsg').textContent='Cleared.'};
+
 /* results: single trips and the stations of rides both count towards halts and timetable error */
 function draw(){const all=trips.filter(r=>r.kind==='trip'),rides=trips.filter(r=>r.kind==='ride'),mineT=trips.filter(r=>uid&&r.uid===uid&&(r.kind==='trip'||r.kind==='ride'));
   const rs=[];rides.forEach(r=>(r.stops||[]).forEach(s=>rs.push(s)));
@@ -266,7 +318,9 @@ function draw(){const all=trips.filter(r=>r.kind==='trip'),rides=trips.filter(r=
   const ks=Object.keys(g).sort((a,b)=>g[b].d.length-g[a].d.length);
   $('dwellTbl').innerHTML=ks.length?'<table><tr><th>Station</th><th>Trips</th><th>Halt (median)</th><th>Timetable</th></tr>'+ks.map(k=>`<tr><td>${k}</td><td>${g[k].d.length}</td><td>${med(g[k].d)} s</td><td>${g[k].s.length?med(g[k].s)+' s':'-'}</td></tr>`).join('')+'</table>':'<p class="mut">No halt times yet. Log your first trip.</p>';
   $('mine').innerHTML=mineT.length?mineT.slice(0,6).map(r=>r.kind==='ride'?`<div class="row"><span>${r.date} &middot; ride ${r.fromName} to ${r.toName}</span><span><span class="tag">${r.nStops} stations</span></span></div>`:`<div class="row"><span>${r.date} &middot; ${r.fromName} to ${r.toName}</span><span>${r.dwellSec!=null?r.dwellSec+' s halt':''} ${r.delayArrSec!=null?dl(r.delayArrSec):''}</span></div>`).join(''):'<p class="mut">Your trips will appear here.</p>'}
-applyProfile();refreshSteps();draw();setMode(mode);
+document.querySelectorAll('.fyr').forEach(e=>e.textContent=new Date(Date.now()+IST).getUTCFullYear());
+window.__hReady=true;
+applyProfile();refreshSteps();draw();setMode(mode);hDraw();
 (async()=>{try{db=await claude.use('db');const u=await claude.use('user');if(u&&u.id)uid=await u.id()}catch(e){}
   if(!db){$('dbMsg').textContent='Sign in to the artifact to save trips and see group results.';return}
   if(uid&&!profile){try{const s=await db.doc('data/users/'+uid+'/profile').get();if(s.exists){profile=s.data();lsSet('profile',profile);applyProfile()}}catch(e){}}
