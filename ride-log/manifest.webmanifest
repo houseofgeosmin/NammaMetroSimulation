@@ -1,0 +1,17 @@
+{
+  "name": "Timely Ride Log: Namma Metro",
+  "short_name": "Ride Log",
+  "description": "Log real Namma Metro train times with one tap per moment. Works offline, underground.",
+  "id": "/ride-log/",
+  "start_url": "/ride-log/",
+  "scope": "/ride-log",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#0b141c",
+  "theme_color": "#0e8f5a",
+  "icons": [
+    { "src": "/ride-log/icons/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
+    { "src": "/ride-log/icons/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" },
+    { "src": "/ride-log/icons/icon-maskable-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+  ]
+}

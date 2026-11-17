@@ -4,11 +4,30 @@ Newest first. Updated after every change to project files, and committed with ev
 Live site: https://live-nammametro-simulation.vercel.app/ · Repo: https://github.com/houseofgeosmin/NammaMetroSimulation (private)
 
 ## Now
-- **Waiting on:** your rider data (CSV files in `data/rider-data/`). Then: `python tools/make_corrections.py`, and
-  the simulator reads `simulator/corrections.json` (code for that is the next build step).
-- **Later:** database for the public rider log (Supabase), own domain, Pink Line, Figma fixes, BMRCL letter.
+- **Waiting on you:** Supabase setup through Vercel + run `supabase/schema.sql` + set `RIDE_LOG_CODE_SHA256`
+  (HANDOFF.md section 8), then the airplane-mode test on a real phone using the preview URL of branch `ride-log`.
+- **Then:** merge `ride-log` into `main`, share the link with friends; rider data -> `scripts/export_rides.py` ->
+  `tools/make_corrections.py` -> the simulator reads `simulator/corrections.json` (next build step).
+- **Later:** move the simulator's Rider reports panel to the same database, own domain, Pink Line, Figma fixes, BMRCL letter.
 
 ## 2026-11-17
+### Timely Ride Log on Vercel (Claude Code, branch `ride-log`)
+- `ride-log/`: port of `ride-logger/template.html` with the same four-button flow, as an installable offline-first app:
+  service worker (`sw.js` -> `site/ride-log-sw.js`) precaches page, script, manifest, self-hosted fonts and icons; every
+  tap to IndexedDB (`queue.js`) + localStorage mirror; background upload with backoff, `online`/visibility triggers and
+  Background Sync; honest status line with unsent count; resume unfinished ride; Backup/Copy CSV; install prompt.
+- `api/_ride-log-core.js`, `api/ride-log.js`, `api/keepalive.js`: access code (SHA-256 env), rate limits, validation,
+  idempotent upsert via `ride_log_submit`; daily keep-alive cron (`vercel.json`) so the free Supabase never pauses.
+- `supabase/schema.sql`, `scripts/export_rides.py`, `scripts/hash_code.py`, `tools/make_ride_log_icons.py`, `package.json`.
+- Simulator: "Timely Ride Log" button (phone: own row top right, 44 px, safe areas; desktop: by the clock), only on the
+  Vercel build. `build_site.py` now gives the simulator a doctype and phone viewport (real phones were getting the
+  desktop layout scaled down) and `window.SITE` flags; Rider reports panel hidden by flag `riderReports:false`.
+- Tests: `tests/test_timely_ride_log.py` (49 checks: full ride, offline + reload from the service worker, close/reopen with
+  the server down, exactly-once upload, button at 390 px), `tests/ride_log_server.py`, `tests/test_api_core.mjs` (25 checks).
+- `.gitignore`: keep app icons, ignore `exports/`. HANDOFF.md: merged the older copy you restored (kept your ride-logger
+  row and schema) with the current facts, and added section 8 (setup, deploy, share). Node.js LTS installed for tests.
+
+### Rider data and layout
 ### Layout, footer, rider data pipeline (Claude Code)
 - `simulator/sim_template.html`: order is now header, time controls (speed, jump, timetable), map, line cards and
   planned lines, next departures, rider reports, notes, footer. Footer after houseofgeosmin.com (logo mark, quote,

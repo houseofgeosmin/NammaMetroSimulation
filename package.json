@@ -1,0 +1,6 @@
+{
+  "name": "namma-metro-simulation",
+  "private": true,
+  "type": "module",
+  "description": "Static site in site/ plus Vercel functions in api/ (no npm dependencies)."
+}

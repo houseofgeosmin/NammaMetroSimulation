@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Timely Ride Log</title>
+<meta name="description" content="Log real Namma Metro train times with one tap per moment. Works offline, underground.">
+<meta name="theme-color" content="#0e8f5a">
+<link rel="manifest" href="/ride-log/manifest.webmanifest">
+<link rel="icon" href="/ride-log/icons/icon-192.png" type="image/png">
+<link rel="apple-touch-icon" href="/ride-log/icons/apple-touch-icon.png">
+<meta name="apple-mobile-web-app-capable" content="yes"><meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Ride Log">
+<style>
+/* fonts are self-hosted so the page looks the same with no signal (SIL Open Font License, see fonts/OFL-*.txt) */
+@font-face{font-family:Inter;font-style:normal;font-weight:100 900;font-display:swap;src:url(/ride-log/fonts/inter-latin.woff2) format('woff2')}
+@font-face{font-family:'Space Grotesk';font-style:normal;font-weight:300 700;font-display:swap;src:url(/ride-log/fonts/space-grotesk-latin.woff2) format('woff2')}
+:root{--bg:#f4f7fa;--card:#fff;--fg:#0f1b26;--mut:#5b6b7a;--line:#dbe3ea;--acc:#0e8f5a;--accfg:#fff;--warn:#c2410c;--ok:#0e8f5a;--chip:#eef3f7;color-scheme:light}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0b141c;--card:#121f2a;--fg:#e8f0f7;--mut:#93a6b8;--line:#25384a;--acc:#19c37d;--accfg:#04140c;--warn:#ff8a65;--ok:#6ee7a8;--chip:#182836;color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#0b141c;--card:#121f2a;--fg:#e8f0f7;--mut:#93a6b8;--line:#25384a;--acc:#19c37d;--accfg:#04140c;--warn:#ff8a65;--ok:#6ee7a8;--chip:#182836;color-scheme:dark}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--fg);font:15px/1.5 Inter,system-ui,sans-serif;padding-top:max(8px,env(safe-area-inset-top,0px));padding-bottom:max(40px,env(safe-area-inset-bottom,0px));padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+main{max-width:640px;margin:0 auto;display:flex;flex-direction:column;gap:14px}
+h1{font:700 25px/1.15 'Space Grotesk',Inter,sans-serif;margin:14px 0 2px}
+h2{font:600 17px 'Space Grotesk',Inter,sans-serif;margin:0 0 10px}
+p{margin:0}.mut{color:var(--mut);font-size:13.5px}
+a{color:var(--acc)}
+.card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:16px;min-width:0}
+label{display:block;font-size:12.5px;color:var(--mut);margin:0 0 4px}
+select,input[type=text]{width:100%;min-width:0;font:inherit;color:var(--fg);background:var(--bg);border:1px solid var(--line);border-radius:10px;padding:10px 11px;min-height:44px}
+.btn{font:600 14px Inter,sans-serif;border-radius:12px;border:1px solid var(--line);background:var(--chip);color:var(--fg);padding:10px 14px;cursor:pointer;min-height:44px}
+.btn.sm{font-size:12.5px;padding:8px 11px;font-weight:500}
+.btn[disabled]{opacity:.45;cursor:default}
+.stack{display:flex;flex-direction:column;gap:10px}
+.clock{font:700 34px 'Space Grotesk',Inter,sans-serif;font-variant-numeric:tabular-nums;text-align:center}
+.where{text-align:center}.where .now{font:700 26px/1.15 'Space Grotesk',Inter,sans-serif;text-wrap:balance}.where .next{color:var(--mut);font-size:13.5px;margin-top:2px}
+.bar{height:6px;border-radius:99px;background:var(--line);overflow:hidden;margin:10px 0 2px}.bar i{display:block;height:100%;background:var(--acc)}
+.grid4{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.act{font:700 16px Inter,sans-serif;border:2px solid var(--line);background:var(--chip);color:var(--fg);border-radius:16px;padding:26px 8px;cursor:pointer;line-height:1.2;touch-action:manipulation}
+.act small{display:block;font:500 11.5px Inter,sans-serif;color:var(--mut);margin-top:4px;font-variant-numeric:tabular-nums}
+.act.next{background:var(--acc);border-color:var(--acc);color:var(--accfg)}.act.next small{color:var(--accfg);opacity:.85}
+.act:active{transform:scale(.98)}
+.row3{display:flex;gap:8px;flex-wrap:wrap;justify-content:center}
+.msg{font-size:14px;min-height:20px;text-align:center}.late{color:var(--warn)}.early{color:var(--ok)}
+.tbl{overflow-x:auto}table{border-collapse:collapse;width:100%;font-size:12.5px}th,td{text-align:left;padding:6px 7px;border-bottom:1px solid var(--line);white-space:nowrap;font-variant-numeric:tabular-nums}th{color:var(--mut);font-weight:500}
+.grid{display:grid;grid-template-columns:1fr;gap:10px}
+[hidden]{display:none!important}
+/* honest upload status */
+.status{display:flex;align-items:center;gap:8px;font-size:13px;line-height:1.35;padding:9px 12px;border-radius:12px;background:var(--chip);border:1px solid var(--line)}
+.status i{flex:none;width:9px;height:9px;border-radius:50%;background:var(--mut)}
+.status[data-s="online"] i{background:var(--ok)}.status[data-s="saving"] i,.status[data-s="phone"] i{background:#e0a100}
+.status[data-s="offline"] i,.status[data-s="blocked"] i{background:var(--warn)}.status[data-s="error"]{border-color:var(--warn);color:var(--warn)}.status[data-s="error"] i{background:var(--warn)}
+.top{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-top:6px}
+.top a{display:inline-flex;align-items:center;min-height:44px;font-size:13.5px;text-decoration:none}
+.pill{font-size:12px;color:var(--mut);border:1px solid var(--line);border-radius:99px;padding:3px 10px;white-space:nowrap}
+.pill.ok{color:var(--ok);border-color:var(--ok)}
+.rideRow{display:flex;justify-content:space-between;align-items:center;gap:8px;padding:8px 0;border-bottom:1px solid var(--line);font-size:13.5px}
+.rideRow:last-child{border:0}.rideRow .b{display:flex;gap:6px;flex-wrap:wrap;justify-content:flex-end}
+/* footer, after houseofgeosmin.com */
+.foot{border-top:1px solid var(--line);margin-top:12px;padding:24px 0 8px;text-align:center;font-family:"Century Gothic",CenturyGothic,AppleGothic,Questrial,"Avant Garde","URW Gothic",sans-serif;--fq:linear-gradient(90deg,#b4200c,#e0401a)}
+.foot .fmark{width:26px;height:26px;display:block;margin:0 auto 10px}
+.foot .fquote{font-size:clamp(1rem,3vw,1.3rem);line-height:1.35;max-width:26em;margin:0 auto;background-image:var(--fq);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;color:transparent}
+.foot .fmeta{margin-top:12px;text-transform:uppercase;letter-spacing:.22em;font-size:.62rem;color:var(--mut);display:flex;flex-wrap:wrap;justify-content:center;gap:6px 20px}
+.foot .fmeta a{color:var(--mut);text-decoration:none}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .foot{--fq:linear-gradient(90deg,#e0401a,#ff8a4c)}}
+:root[data-theme="dark"] .foot{--fq:linear-gradient(90deg,#e0401a,#ff8a4c)}
+</style></head><body><main>
+<div class="top"><a href="/">&larr; Train simulator</a><span class="pill" id="offlinePill">Checking offline mode&hellip;</span></div>
+<header><h1>Timely Ride Log</h1><p class="mut">Ride any train, any time. Tap a button at each moment and the exact time is taken from your phone's clock. Nothing to type. Works underground with no signal: taps are kept on your phone and upload when you are back online.</p></header>
+
+<div class="status" id="status" data-s="idle" role="status" aria-live="polite"><i></i><span id="statusTxt">Ready.</span></div>
+
+<section class="card" id="codeCard" hidden>
+  <h2>Access code needed to upload</h2>
+  <p class="mut">You can log rides now and they stay on this phone. To upload them, open the ride log link you were sent (it carries the access code) once while you have signal.</p>
+</section>
+
+<section class="card" id="start">
+  <h2>Start a ride</h2>
+  <div class="grid">
+    <div><label for="lineDir">Line and direction</label><select id="lineDir"></select></div>
+    <div><label for="stSel">Station where you are</label><select id="stSel"></select></div>
+    <div><label for="nick">Your first name (optional)</label><input type="text" id="nick" maxlength="24" autocomplete="given-name" placeholder="e.g. Rohit"></div>
+  </div>
+  <div style="margin-top:12px"><button class="btn" id="go" style="width:100%;padding:14px;background:var(--acc);color:var(--accfg);border:0;font-size:16px">Start riding</button></div>
+  <p class="mut" style="margin-top:8px" id="startMsg"></p>
+</section>
+
+<section class="card" id="live" hidden>
+  <div class="clock" id="clock">--:--:--</div>
+  <p class="mut" style="text-align:center">India Standard Time, from this phone's clock</p>
+  <div class="where" style="margin-top:8px"><div class="now" id="now">-</div><div class="next" id="nextSt"></div></div>
+  <div class="bar"><i id="prog" style="width:0"></i></div>
+  <p class="mut" id="progTxt" style="text-align:center;margin-bottom:12px"></p>
+  <div class="grid4">
+    <button class="act" data-k="stop">Train stopped<small id="s_stop"></small></button>
+    <button class="act" data-k="open">Doors opened<small id="s_open"></small></button>
+    <button class="act" data-k="close">Doors closed<small id="s_close"></small></button>
+    <button class="act" data-k="move">Train moving<small id="s_move"></small></button>
+  </div>
+  <div class="msg" id="msg" style="margin-top:12px"></div>
+  <div class="row3" style="margin-top:6px">
+    <button class="btn sm" id="board">I got on the train</button>
+    <button class="btn sm" id="undo">Undo last tap</button>
+    <button class="btn sm" id="skip">Missed this station</button>
+    <button class="btn sm" id="finish">Finish ride</button>
+  </div>
+  <p class="mut" style="margin-top:10px;text-align:center">Tap when it is safe to look at your phone. A tap within a couple of seconds is good enough. The next suggested button is green, but you can tap any.</p>
+</section>
+
+<section class="card" id="logCard" hidden>
+  <h2>This ride</h2>
+  <div class="tbl" id="logTbl"></div>
+  <div class="row3" style="margin-top:10px"><button class="btn sm" id="backup">Backup: download CSV</button><button class="btn sm" id="copy">Copy CSV</button></div>
+  <p class="mut" style="margin-top:6px;text-align:center" id="copyMsg"></p>
+</section>
+
+<section class="card">
+  <h2>My rides on this phone</h2><div id="rides"><p class="mut">Your finished rides will appear here.</p></div>
+</section>
+
+<section class="card" id="installCard" hidden>
+  <h2>Add it to your home screen</h2>
+  <p class="mut" id="installTxt">Open it from your home screen like an app. It then opens instantly, even underground.</p>
+  <div class="row3" style="margin-top:10px;justify-content:flex-start"><button class="btn" id="installBtn" hidden>Install</button></div>
+</section>
+
+<p class="mut">Stored online: your first name (if you give one), the stations and the tap times. Nothing else. Rider-reported times, not a BMRCL service.</p>
+<footer class="foot">
+  <svg class="fmark" viewBox="0 300 1240 1180" aria-hidden="true"><defs>
+    <linearGradient id="hgOuter" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#780403"/><stop offset=".6" stop-color="#7f0805"/><stop offset="1" stop-color="#8c1007"/></linearGradient>
+    <linearGradient id="hgPetal" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#780403"/><stop offset=".35" stop-color="#830906"/><stop offset=".7" stop-color="#ab1b0a"/><stop offset="1" stop-color="#d93a14"/></linearGradient>
+    <linearGradient id="hgBase" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#c52c0e"/><stop offset="1" stop-color="#ea461a"/></linearGradient>
+    <g id="hgHalf"><path fill="url(#hgOuter)" d="M592 312 C 520 430 410 600 340 740 C 295 830 285 900 285 965 C 285 1110 190 1310 28 1405 Q 0 1425 8 1450 L 22 1470 L 617 1470 L 617 1000 Z"/><path fill="url(#hgPetal)" d="M596 312 C 500 470 292 720 286 950 C 284 1160 470 1370 617 1470 L 617 1000 C 612 800 604 520 596 312 Z"/><path fill="url(#hgBase)" d="M10 1450 Q 0 1430 30 1410 C 190 1370 420 1370 617 1470 L 22 1470 Q 8 1462 10 1450 Z"/></g></defs>
+    <use href="#hgHalf"/><use href="#hgHalf" transform="translate(1234 0) scale(-1 1)"/></svg>
+  <p class="fquote">Leave People and Places better than you found them.</p>
+  <div class="fmeta"><span>&copy; <span class="fyr">2026</span> House of Geosmin</span><span>HSR Layout &middot; Bengaluru</span><a href="https://houseofgeosmin.com" target="_blank" rel="noopener">houseofgeosmin.com</a></div>
+</footer>
+</main>
+<script src="/ride-log/queue.js"></script>
+<script>
+const D=__DATA__;
+const Q=window.RideLogQueue;
+const IST=19800000,LCN={G:'Green',P:'Purple',Y:'Yellow'};
+const $=id=>document.getElementById(id),p2=n=>String(n).padStart(2,'0');
+const sName=i=>D.stations[i].n.replace('Nadaprabhu Kempegowda Station, Majestic','Majestic').replace('Delta Electronics Bommasandra','Bommasandra').replace('Rashtreeya Vidyalaya Road','RV Road');
+const nowSec=()=>((Date.now()+IST)%86400000)/1000;
+const sfmt=s=>{s=((Math.floor(s)%86400)+86400)%86400;return p2(Math.floor(s/3600))+':'+p2(Math.floor(s%3600/60))+':'+p2(s%60)};
+const ymd=ms=>{const d=new Date(ms+IST);return d.getUTCFullYear()+'-'+p2(d.getUTCMonth()+1)+'-'+p2(d.getUTCDate())};
+const HOL=new Set(D.hol);
+function svcFor(ms){const d=new Date(ms+IST),k=''+d.getUTCFullYear()+p2(d.getUTCMonth()+1)+p2(d.getUTCDate());if(HOL.has(k))return'holiday';const w=d.getUTCDay();return w===0?'sunday':w===1?'monday':'weekday'}
+const lsGet=k=>{try{return JSON.parse(localStorage.getItem(k))}catch(e){return null}},lsSet=(k,v)=>{try{localStorage.setItem(k,JSON.stringify(v))}catch(e){}};
+const dl=x=>{const m=Math.round(Math.abs(x)/6)/10;return x>=30?`<span class="late">${m} min late</span>`:x<=-30?`<span class="early">${m} min early</span>`:'<span class="early">on time</span>'};
+const dlt=(sec,sa)=>{let d=sec-(sa%86400);if(d>43200)d-=86400;if(d<-43200)d+=86400;return d};
+const DAYN=['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
+
+/* line and direction options: unique (line, dir, terminal) */
+const OPT=[];D.patterns.forEach((p,i)=>{const last=p.s[p.s.length-1],key=p.l+'|'+p.dr+'|'+last;let o=OPT.find(x=>x.key===key);if(!o)OPT.push(o={key,l:p.l,dr:p.dr,last,pats:[]});o.pats.push(i)});
+OPT.sort((a,b)=>(LCN[a.l]+a.last).localeCompare(LCN[b.l]+b.last));
+OPT.forEach((o,i)=>$('lineDir').add(new Option(LCN[o.l]+' line towards '+sName(o.last),i)));
+function bestPat(o,st){let b=null;o.pats.forEach(i=>{const k=D.patterns[i].s.indexOf(st);if(k>=0&&(!b||D.patterns[i].s.length-k>D.patterns[b].s.length-D.patterns[b].s.indexOf(st)))b=i});return b}
+function fillStations(){const o=OPT[+$('lineDir').value],all=new Set();o.pats.forEach(i=>D.patterns[i].s.forEach((s,k,a)=>{if(k<a.length-1)all.add(s)}));
+  const ref=D.patterns[o.pats.slice().sort((a,b)=>D.patterns[b].s.length-D.patterns[a].s.length)[0]].s,ordered=ref.filter(s=>all.has(s));
+  $('stSel').innerHTML='';ordered.forEach(s=>$('stSel').add(new Option(sName(s),s)))}
+$('lineDir').onchange=fillStations;fillStations();
+
+/* ride state. ride.events holds the live (not undone) events in tap order; every event is also its own IndexedDB row */
+let ride=null,allEv=[];
+const ORDER=['stop','open','close','move'],LBL={stop:'Train stopped',open:'Doors opened',close:'Doors closed',move:'Train moving',board:'Got on',skip:'Missed',alight:'Got off'};
+const seq=()=>{const s=D.patterns[ride.pat].s;return s.slice(Math.max(0,s.indexOf(ride.from)))};
+function stateNow(){const ev=ride.events.filter(e=>ORDER.includes(e.k)||e.k==='skip');let idx=0,next='stop';
+  if(ev.length){const l=ev[ev.length-1];const li=seq().indexOf(l.st);
+    if(l.k==='move'||l.k==='skip'){idx=Math.min(li+1,seq().length-1);next='stop';if(li>=seq().length-1){idx=li;next='done'}}
+    else{idx=li;next=ORDER[ORDER.indexOf(l.k)+1]}}
+  return{idx,next}}
+function matchRun(sec,stIdx){let best=null;const pats=OPT[ride.opt].pats;
+  for(const add of[0,86400,-86400])for(const r of D.runs[ride.svc]){const pr=D.profiles[r[0]];if(!pats.includes(pr.p))continue;const k=D.patterns[pr.p].s.indexOf(stIdx);if(k<0)continue;
+    const arr=r[1]+pr.a[k]+add,d=sec-arr;if(!best||Math.abs(d)<Math.abs(best.d))best={d,prof:r[0],start:r[1]+add}}
+  return best&&Math.abs(best.d)<=1200?best:null}
+function schedAt(st,what){if(!ride.matched)return null;const pr=D.profiles[ride.matched.prof],k=D.patterns[pr.p].s.indexOf(st);if(k<0)return null;return ride.matched.start+(what==='d'?pr.d[k]:pr.a[k])}
+
+/* ---------- saving: IndexedDB first (plus a localStorage mirror of the ride in progress), then upload ---------- */
+const rideRec=r=>{const c=Object.assign({},r);delete c.events;return c};
+function mirror(){if(ride)lsSet('trl-current',{ride:rideRec(ride),events:allEv});else lsSet('trl-current',null)}
+let phoneOk=true,lastFlush=null,uploading=false,tapGen=0;
+function setStatus(s,t){const el=$('status');el.dataset.s=s;$('statusTxt').textContent=t}
+const plural=n=>n+' unsent tap'+(n===1?'':'s');
+/* called after each tap: show "Saving...", then the truth once the phone write and the upload have answered */
+function save(evs,rideChanged){
+  if(rideChanged)ride.rev++;
+  mirror();setStatus('saving','Saving...');
+  const gen=++tapGen;
+  Q.put(rideRec(ride),evs).then(()=>{phoneOk=true;
+    if(gen!==tapGen)return;
+    setStatus('phone','Saved on this phone. Uploading...');
+    const t=setTimeout(()=>{if(gen===tapGen&&!(lastFlush&&lastFlush.gen>=gen&&lastFlush.ok&&lastFlush.remaining===0))showQueueStatus(true)},3000);
+    kick(gen).then(()=>{if(gen===tapGen&&lastFlush&&lastFlush.ok&&lastFlush.remaining===0)clearTimeout(t)})
+  }).catch(err=>{phoneOk=false;setStatus('error','Could not save on this phone ('+(err&&err.name||'storage error')+'). Tap "Backup: download CSV" now.')})}
+
+/* upload with retry: after each tap, when the phone comes back online, when the page is shown again, and on a backoff timer */
+let backoff=0,retryT=null;
+async function kick(gen){clearTimeout(retryT);uploading=true;let r;
+  try{r=await Q.flush()}catch(e){r={ok:false,remaining:-1,error:'storage'}}
+  uploading=false;lastFlush=Object.assign({gen:gen||tapGen},r);
+  if(r.ok&&r.remaining===0){backoff=0}
+  else if(r.error!=='no-code'&&r.error!=='bad-code'){backoff=Math.min(backoff?backoff*2:2000,60000);retryT=setTimeout(()=>kick(),backoff+Math.random()*1000);
+    try{const reg=await navigator.serviceWorker.ready;if(reg.sync)await reg.sync.register('ride-log-sync')}catch(e){}}
+  showQueueStatus(false);listRides();return r}
+async function showQueueStatus(timedOut){const r=lastFlush||{};let u;try{u=await Q.unsentCount()}catch(e){u={events:0,rides:0}}
+  if(!phoneOk)return;
+  const n=u.events,left=u.events+u.rides;$('codeCard').hidden=r.error!=='no-code';
+  if(!timedOut&&(!lastFlush||uploading)){if(left)setStatus('phone','Saved on this phone. Uploading '+plural(n)+'...');return}
+  if(r.ok&&left===0){setStatus('online',ride?'Saved online. Every tap of this ride is on the server.':'Saved online. Nothing waiting to upload.');return}
+  if(left===0&&!ride){setStatus('idle','Ready.');return}
+  const tail=' '+plural(n)+' waiting.';
+  if(r.error==='no-code')setStatus('blocked','Saved on this phone. No access code on this phone yet, so it cannot upload.'+tail);
+  else if(r.error==='bad-code')setStatus('blocked','Saved on this phone. The access code was not accepted: open the link you were sent again.'+tail);
+  else if(r.error==='rate-limited')setStatus('offline','Saved on this phone. The server asked us to slow down, retrying soon.'+tail);
+  else if(r.error==='offline'||timedOut)setStatus('offline','No signal. Saved on this phone, will upload when online.'+tail);
+  else setStatus('offline','Saved on this phone. Upload failed ('+r.error+'), retrying.'+tail)}
+window.addEventListener('online',()=>kick());
+document.addEventListener('visibilitychange',()=>{if(document.visibilityState==='visible')kick()});
+
+function newEvent(k,st){return{id:Q.uuid(),ride_id:ride.id,k,st,sec:Math.round(nowSec()*10)/10,ts:Date.now(),undone:false,ver:1,sentVer:0}}
+function tap(k){if(!ride)return;try{navigator.vibrate&&navigator.vibrate(25)}catch(e){}
+  const {idx}=stateNow();let st=seq()[idx];if(k==='board')st=seq()[Math.max(0,idx)];
+  const ev=newEvent(k,st),sec=ev.sec;ride.events.push(ev);allEv.push(ev);let changed=false;
+  if(k==='stop'&&!ride.matched){const m=matchRun(sec,st);if(m){ride.matched={prof:m.prof,start:m.start};changed=true}}
+  let m='';if(k==='stop'){const sa=schedAt(st,'a');m=sa!=null?`Stopped at ${sName(st)}: ${dl(dlt(sec,sa))} vs timetable.`:`Stopped at ${sName(st)}.`}
+  else if(k==='close'||k==='move'){const e=ride.events,stp=[...e].reverse().find(x=>x.st===st&&x.k==='stop'),opn=[...e].reverse().find(x=>x.st===st&&x.k==='open');
+    if(k==='move'&&stp)m=`Halted ${Math.round(sec-stp.sec)} s at ${sName(st)}.`;if(k==='close'&&opn)m=`Doors were open ${Math.round(sec-opn.sec)} s.`}
+  $('msg').innerHTML=m||LBL[k]+' logged at '+sfmt(sec)+'.';
+  render();save([ev],changed)}
+document.querySelectorAll('.act').forEach(b=>b.onclick=()=>tap(b.dataset.k));
+$('board').onclick=()=>tap('board');
+$('skip').onclick=()=>{if(!ride)return;const {idx}=stateNow(),ev=newEvent('skip',seq()[idx]);ride.events.push(ev);allEv.push(ev);$('msg').textContent='Skipped '+sName(seq()[idx])+'.';render();save([ev],false)};
+$('undo').onclick=()=>{if(ride&&ride.events.length){const e=ride.events.pop();e.undone=true;e.ver++;$('msg').textContent='Removed: '+LBL[e.k]+' at '+sfmt(e.sec)+'.';render();save([e],false)}};
+$('finish').onclick=()=>{if(!ride)return;const ev=newEvent('alight',seq()[stateNow().idx]);ride.events.push(ev);allEv.push(ev);ride.done=true;ride.endTs=Date.now();
+  save([ev],true);lastRide=JSON.parse(JSON.stringify(ride));$('msg').textContent='';$('copyMsg').textContent='Ride finished and saved on this phone.';
+  ride=null;allEv=[];Q.kvSet('current',null).catch(()=>{});mirror();$('live').hidden=true;$('start').hidden=false;listRides()};
+$('go').onclick=()=>{const oi=+$('lineDir').value,o=OPT[oi],st=+$('stSel').value,pat=bestPat(o,st);if(pat==null){$('startMsg').textContent='Pick a station on this line.';return}
+  const nick=($('nick').value||'').trim().slice(0,24);lsSet('nick',nick);Q.kvSet('nick',nick).catch(()=>{});const now=Date.now();
+  ride={id:Q.uuid(),nick:nick||'Rider',date:ymd(now),dow:DAYN[new Date(now+IST).getUTCDay()],svc:svcFor(now),opt:oi,from:st,fromName:sName(st),line:o.l,dir:o.dr,towards:sName(o.last),pat,startTs:now,endTs:null,matched:null,done:false,rev:1,sentRev:0,events:[]};
+  allEv=[];lastRide=null;$('startMsg').textContent='';$('start').hidden=true;$('live').hidden=false;$('msg').textContent='Tap "Train stopped" when your train halts at the platform.';
+  Q.kvSet('current',ride.id).catch(()=>{});render();save([],false)};
+
+function render(){if(!ride){return}$('live').hidden=false;$('start').hidden=true;$('logCard').hidden=false;
+  const {idx,next}=stateNow(),s=seq();$('now').textContent=sName(s[idx]);$('nextSt').textContent=idx<s.length-1?'Next: '+sName(s[idx+1]):'Last station of this train';
+  $('prog').style.width=Math.round(idx/Math.max(1,s.length-1)*100)+'%';$('progTxt').textContent=`Station ${idx+1} of ${s.length}`;
+  document.querySelectorAll('.act').forEach(b=>{const k=b.dataset.k;b.classList.toggle('next',k===next);const e=[...ride.events].reverse().find(x=>x.st===s[idx]&&x.k===k);$('s_'+k).textContent=e?'logged '+sfmt(e.sec):''});
+  $('board').hidden=ride.events.some(e=>e.k==='board');
+  renderTable(ride)}
+function renderTable(r){const cur=ride;ride=r;const sts=[];r.events.forEach(e=>{if(!sts.includes(e.st))sts.push(e.st)});
+  const rows=sts.map(st=>{const g=k=>{const e=r.events.find(x=>x.st===st&&x.k===k);return e?e.sec:null};const a=g('stop'),o=g('open'),c=g('close'),m=g('move'),sa=schedAt(st,'a');
+    const f=v=>v==null?'-':sfmt(v);const halt=a!=null&&m!=null?Math.round(m-a)+' s':'-';const dd=a!=null&&sa!=null?Math.round(dlt(a,sa))+' s':'-';
+    return `<tr><td>${sName(st)}</td><td>${f(a)}</td><td>${f(o)}</td><td>${f(c)}</td><td>${f(m)}</td><td>${halt}</td><td>${dd}</td></tr>`}).join('');
+  ride=cur;$('logTbl').innerHTML='<table><tr><th>Station</th><th>Stopped</th><th>Open</th><th>Closed</th><th>Moving</th><th>Halt</th><th>vs timetable</th></tr>'+rows+'</table>'}
+function toCsv(r){const h='ride_id,date,weekday,service,line,towards,station,event,time_ist,seconds_since_midnight,scheduled_arrival_sec,event_id';const L=[h];
+  r.events.forEach(e=>{const pr=r.matched?D.profiles[r.matched.prof]:null;let sa='';if(pr&&e.k==='stop'){const k=D.patterns[pr.p].s.indexOf(e.st);if(k>=0)sa=Math.round((r.matched.start+pr.a[k])%86400)}
+    L.push([r.id,r.date,r.dow,r.svc,LCN[r.line],r.towards,sName(e.st),e.k,sfmt(e.sec),e.sec,sa,e.id].map(v=>/[,"\n]/.test(String(v))?'"'+String(v).replace(/"/g,'""')+'"':v).join(','))});return L.join('\n')+'\n'}
+function download(name,txt){try{const b=new Blob([txt],{type:'text/csv'}),a=document.createElement('a');a.href=URL.createObjectURL(b);a.download=name;document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(a.href),5000);return true}catch(e){return false}}
+const csvName=r=>'ride-'+r.date+'-'+LCN[r.line].toLowerCase()+'-'+r.id.slice(0,8)+'.csv';
+let lastRide=null;
+$('backup').onclick=()=>{const r=ride||lastRide;if(!r)return;$('copyMsg').textContent=download(csvName(r),toCsv(r))?'Downloaded. Keep the file until the ride shows "on the server".':'Download blocked here. Use Copy CSV.'};
+$('copy').onclick=async()=>{const r=ride||lastRide;if(!r)return;try{await navigator.clipboard.writeText(toCsv(r));$('copyMsg').textContent='Copied. Paste it into a note or message.'}catch(e){$('copyMsg').textContent='Copy was blocked. Use the download button.'}};
+
+/* finished rides on this phone, with an honest upload state each */
+async function loadRide(id){const r=await Q.getRide(id);if(!r)return null;const evs=(await Q.eventsOf(id)).sort((a,b)=>a.ts-b.ts);r.events=evs.filter(e=>!e.undone);r._all=evs;return r}
+async function listRides(){let rs=[];try{rs=(await Q.allRides()).filter(r=>r.done).sort((a,b)=>b.startTs-a.startTs).slice(0,30)}catch(e){return}
+  if(!rs.length){$('rides').innerHTML='<p class="mut">Your finished rides will appear here.</p>';return}
+  const full=await Promise.all(rs.map(r=>loadRide(r.id)));
+  $('rides').innerHTML=full.map((r,i)=>{const un=r._all.filter(Q.evUnsent).length+(Q.rideUnsent(r)?1:0);
+    return `<div class="rideRow"><span>${r.date} &middot; ${LCN[r.line]} towards ${r.towards}<br><span class="mut">${r.events.length} taps &middot; ${un?un+' waiting to upload':'on the server'}</span></span><span class="b"><button class="btn sm" data-a="dl" data-i="${i}">CSV</button><button class="btn sm" data-a="cp" data-i="${i}">Copy</button></span></div>`}).join('');
+  $('rides').querySelectorAll('button').forEach(b=>b.onclick=async()=>{const r=full[+b.dataset.i];if(b.dataset.a==='dl'){b.textContent=download(csvName(r),toCsv(r))?'Saved':'Blocked'}else{try{await navigator.clipboard.writeText(toCsv(r));b.textContent='Copied'}catch(e){b.textContent='Blocked'}}})}
+
+/* ---------- start-up: access code from the link, resume an unfinished ride, offline support ---------- */
+setInterval(()=>{$('clock').textContent=sfmt(nowSec())},250);
+document.querySelectorAll('.fyr').forEach(e=>e.textContent=new Date(Date.now()+IST).getUTCFullYear());
+(async()=>{
+  $('nick').value=lsGet('nick')||'';
+  const m=(location.hash+'&'+location.search).match(/[#?&]code=([^&#]+)/);
+  if(m){try{await Q.kvSet('code',decodeURIComponent(m[1]).trim())}catch(e){}history.replaceState(null,'',location.pathname)}
+  /* resume: IndexedDB first, then merge anything newer from the localStorage mirror */
+  let id=null;try{id=await Q.kvGet('current')}catch(e){phoneOk=false;setStatus('error','This browser is not letting the page store data (private mode?). Rides cannot be kept offline here.')}
+  const mir=lsGet('trl-current');
+  if(mir&&mir.ride&&!mir.ride.done){try{const have=await Q.getRide(mir.ride.id),evs=await Q.eventsOf(mir.ride.id),byId=new Map(evs.map(e=>[e.id,e]));
+      const newer=mir.events.filter(e=>!byId.has(e.id)||byId.get(e.id).ver<e.ver);
+      if(!have||have.rev<mir.ride.rev||newer.length)await Q.put(!have||have.rev<mir.ride.rev?mir.ride:null,newer);
+      if(!id){id=mir.ride.id;await Q.kvSet('current',id)}}catch(e){}}
+  if(id){const r=await loadRide(id).catch(()=>null);if(r&&!r.done){allEv=r._all;delete r._all;ride=r;render();$('msg').textContent='Ride resumed. Carry on tapping.';mirror()}}
+  if(!ride){$('logCard').hidden=true}
+  listRides();
+  if(!(await Q.kvGet('code').catch(()=>null)))$('codeCard').hidden=false;
+  kick();
+})();
+setInterval(()=>{Q.unsentCount().then(u=>{if(u.events+u.rides&&!uploading&&!retryT)kick()}).catch(()=>{})},30000);
+
+/* service worker: caches the page, fonts, icons and data so it opens with no signal; also uploads in the background */
+if('serviceWorker' in navigator){
+  navigator.serviceWorker.register('/ride-log-sw.js',{scope:'/ride-log'}).then(reg=>{
+    const ready=()=>{$('offlinePill').textContent='Works offline';$('offlinePill').classList.add('ok')};
+    if(navigator.serviceWorker.controller)ready();else navigator.serviceWorker.addEventListener('controllerchange',ready,{once:true});
+    /* a new version waits until no ride is in progress, so an update never interrupts a ride */
+    const upd=()=>{if(reg.waiting&&!ride)reg.waiting.postMessage({type:'skipWaiting'})};
+    reg.addEventListener('updatefound',()=>{const w=reg.installing;w&&w.addEventListener('statechange',()=>{if(w.state==='installed')upd()})});upd();setInterval(upd,60000);
+  }).catch(()=>{$('offlinePill').textContent='Offline mode unavailable'});
+  navigator.serviceWorker.addEventListener('message',e=>{if(e.data&&e.data.type==='flushed')showQueueStatus(false).then(listRides)});
+}else $('offlinePill').textContent='Offline mode unavailable';
+/* install prompt (Android/desktop Chrome); iPhone users get the Share menu hint */
+let deferred=null;
+window.addEventListener('beforeinstallprompt',e=>{e.preventDefault();deferred=e;$('installCard').hidden=false;$('installBtn').hidden=false});
+$('installBtn').onclick=async()=>{if(!deferred)return;deferred.prompt();await deferred.userChoice.catch(()=>{});deferred=null;$('installBtn').hidden=true};
+if(/iphone|ipad|ipod/i.test(navigator.userAgent)&&!navigator.standalone){$('installCard').hidden=false;$('installTxt').textContent='On iPhone: tap the Share button, then "Add to Home Screen". It then opens like an app, even underground.'}
+</script></body></html>

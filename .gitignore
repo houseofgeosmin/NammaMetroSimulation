@@ -1,6 +1,12 @@
 __pycache__/
 *.pyc
-# screenshots written by the Playwright tests
+# screenshots written by the Playwright tests (app icons are kept)
 *.png
+!ride-log/icons/*.png
+!site/ride-log/icons/*.png
 .vercel/
+# secrets: Supabase keys, access code
 .env*
+# ride exports contain riders' first names
+exports/
+node_modules/

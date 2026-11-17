@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="claude:viewport-fit-sides" content="cover">
+<title>Namma Metro Ride Log</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@600;700&display=swap">
+<style>
+:root{--bg:#f4f7fa;--card:#fff;--fg:#0f1b26;--mut:#5b6b7a;--line:#dbe3ea;--acc:#0e8f5a;--accfg:#fff;--warn:#c2410c;--ok:#0e8f5a;--chip:#eef3f7;color-scheme:light}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0b141c;--card:#121f2a;--fg:#e8f0f7;--mut:#93a6b8;--line:#25384a;--acc:#19c37d;--accfg:#04140c;--warn:#ff8a65;--ok:#6ee7a8;--chip:#182836;color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#0b141c;--card:#121f2a;--fg:#e8f0f7;--mut:#93a6b8;--line:#25384a;--acc:#19c37d;--accfg:#04140c;--warn:#ff8a65;--ok:#6ee7a8;--chip:#182836;color-scheme:dark}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--fg);font:15px/1.5 Inter,system-ui,sans-serif;padding-block:8px 40px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+main{max-width:640px;margin:0 auto;display:flex;flex-direction:column;gap:14px}
+h1{font:700 25px/1.15 'Space Grotesk',Inter,sans-serif;margin:14px 0 2px}
+h2{font:600 17px 'Space Grotesk',Inter,sans-serif;margin:0 0 10px}
+p{margin:0}.mut{color:var(--mut);font-size:13.5px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:16px;min-width:0}
+label{display:block;font-size:12.5px;color:var(--mut);margin:0 0 4px}
+select,input[type=text]{width:100%;min-width:0;font:inherit;color:var(--fg);background:var(--bg);border:1px solid var(--line);border-radius:10px;padding:10px 11px}
+.btn{font:600 14px Inter,sans-serif;border-radius:12px;border:1px solid var(--line);background:var(--chip);color:var(--fg);padding:10px 14px;cursor:pointer}
+.btn.sm{font-size:12.5px;padding:8px 11px;font-weight:500}
+.stack{display:flex;flex-direction:column;gap:10px}
+.clock{font:700 34px 'Space Grotesk',Inter,sans-serif;font-variant-numeric:tabular-nums;text-align:center}
+.where{text-align:center}.where .now{font:700 26px/1.15 'Space Grotesk',Inter,sans-serif;text-wrap:balance}.where .next{color:var(--mut);font-size:13.5px;margin-top:2px}
+.bar{height:6px;border-radius:99px;background:var(--line);overflow:hidden;margin:10px 0 2px}.bar i{display:block;height:100%;background:var(--acc)}
+.grid4{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.act{font:700 16px Inter,sans-serif;border:2px solid var(--line);background:var(--chip);color:var(--fg);border-radius:16px;padding:26px 8px;cursor:pointer;line-height:1.2}
+.act small{display:block;font:500 11.5px Inter,sans-serif;color:var(--mut);margin-top:4px;font-variant-numeric:tabular-nums}
+.act.next{background:var(--acc);border-color:var(--acc);color:var(--accfg)}.act.next small{color:var(--accfg);opacity:.85}
+.act:active{transform:scale(.98)}
+.row3{display:flex;gap:8px;flex-wrap:wrap;justify-content:center}
+.msg{font-size:14px;min-height:20px;text-align:center}.late{color:var(--warn)}.early{color:var(--ok)}
+.tbl{overflow-x:auto}table{border-collapse:collapse;width:100%;font-size:12.5px}th,td{text-align:left;padding:6px 7px;border-bottom:1px solid var(--line);white-space:nowrap;font-variant-numeric:tabular-nums}th{color:var(--mut);font-weight:500}
+.grid{display:grid;grid-template-columns:1fr;gap:10px}
+[hidden]{display:none!important}
+</style></head><body><main>
+<header><h1>Namma Metro Ride Log</h1><p class="mut">Ride any train, any time. Tap a button at each moment and the exact time is recorded for you. Nothing to type.</p></header>
+
+<section class="card" id="start">
+  <h2>Start a ride</h2>
+  <div class="grid">
+    <div><label for="lineDir">Line and direction</label><select id="lineDir"></select></div>
+    <div><label for="stSel">Station where you are</label><select id="stSel"></select></div>
+    <div><label for="nick">Your name (optional)</label><input type="text" id="nick" maxlength="24" placeholder="e.g. Rohit"></div>
+  </div>
+  <div style="margin-top:12px"><button class="btn" id="go" style="width:100%;padding:14px;background:var(--acc);color:var(--accfg);border:0;font-size:16px">Start riding</button></div>
+  <p class="mut" style="margin-top:8px" id="startMsg"></p>
+</section>
+
+<section class="card" id="live" hidden>
+  <div class="clock" id="clock">--:--:--</div>
+  <p class="mut" style="text-align:center">India Standard Time</p>
+  <div class="where" style="margin-top:8px"><div class="now" id="now">-</div><div class="next" id="nextSt"></div></div>
+  <div class="bar"><i id="prog" style="width:0"></i></div>
+  <p class="mut" id="progTxt" style="text-align:center;margin-bottom:12px"></p>
+  <div class="grid4">
+    <button class="act" data-k="stop">Train stopped<small id="s_stop"></small></button>
+    <button class="act" data-k="open">Doors opened<small id="s_open"></small></button>
+    <button class="act" data-k="close">Doors closed<small id="s_close"></small></button>
+    <button class="act" data-k="move">Train moving<small id="s_move"></small></button>
+  </div>
+  <div class="msg" id="msg" role="status" style="margin-top:12px"></div>
+  <div class="row3" style="margin-top:6px">
+    <button class="btn sm" id="board">I got on the train</button>
+    <button class="btn sm" id="undo">Undo last tap</button>
+    <button class="btn sm" id="skip">Missed this station</button>
+    <button class="btn sm" id="finish">Finish ride</button>
+  </div>
+  <p class="mut" style="margin-top:10px;text-align:center">Tap when it is safe to look at your phone. A tap within a couple of seconds is good enough. The next suggested button is green, but you can tap any.</p>
+</section>
+
+<section class="card" id="logCard" hidden>
+  <h2>This ride</h2>
+  <div class="tbl" id="logTbl"></div>
+  <div class="row3" style="margin-top:10px"><button class="btn sm" id="copy">Copy this ride as CSV</button><span class="mut" id="copyMsg"></span></div>
+  <p class="mut" style="margin-top:8px" id="saveNote"></p>
+</section>
+
+<section class="card">
+  <h2>My rides</h2><div id="rides"><p class="mut">Your finished rides will appear here.</p></div>
+</section>
+<p class="mut">Rider-reported times, not a BMRCL service. Stored with a first name, stations and times.</p>
+</main>
+<script>
+const D=__DATA__;
+const IST=19800000,LCN={G:'Green',P:'Purple',Y:'Yellow'};
+const $=id=>document.getElementById(id),p2=n=>String(n).padStart(2,'0');
+const sName=i=>D.stations[i].n.replace('Nadaprabhu Kempegowda Station, Majestic','Majestic').replace('Delta Electronics Bommasandra','Bommasandra').replace('Rashtreeya Vidyalaya Road','RV Road');
+const nowSec=()=>((Date.now()+IST)%86400000)/1000;
+const sfmt=s=>{s=((Math.floor(s)%86400)+86400)%86400;return p2(Math.floor(s/3600))+':'+p2(Math.floor(s%3600/60))+':'+p2(s%60)};
+const ymd=ms=>{const d=new Date(ms+IST);return d.getUTCFullYear()+'-'+p2(d.getUTCMonth()+1)+'-'+p2(d.getUTCDate())};
+const HOL=new Set(D.hol);
+function svcFor(ms){const d=new Date(ms+IST),k=''+d.getUTCFullYear()+p2(d.getUTCMonth()+1)+p2(d.getUTCDate());if(HOL.has(k))return'holiday';const w=d.getUTCDay();return w===0?'sunday':w===1?'monday':'weekday'}
+const lsGet=k=>{try{return JSON.parse(localStorage.getItem(k))}catch(e){return null}},lsSet=(k,v)=>{try{localStorage.setItem(k,JSON.stringify(v))}catch(e){}};
+const dl=x=>{const m=Math.round(Math.abs(x)/6)/10;return x>=30?`<span class="late">${m} min late</span>`:x<=-30?`<span class="early">${m} min early</span>`:'<span class="early">on time</span>'};
+const dlt=(sec,sa)=>{let d=sec-(sa%86400);if(d>43200)d-=86400;if(d<-43200)d+=86400;return d};
+const DAYN=['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
+
+/* line and direction options: unique (line, dir, terminal) */
+const OPT=[];D.patterns.forEach((p,i)=>{const last=p.s[p.s.length-1],key=p.l+'|'+p.dr+'|'+last;let o=OPT.find(x=>x.key===key);if(!o)OPT.push(o={key,l:p.l,dr:p.dr,last,pats:[]});o.pats.push(i)});
+OPT.sort((a,b)=>(LCN[a.l]+a.last).localeCompare(LCN[b.l]+b.last));
+OPT.forEach((o,i)=>$('lineDir').add(new Option(LCN[o.l]+' line towards '+sName(o.last),i)));
+const longest=o=>o.pats.map(i=>D.patterns[i].s.length).reduce((a,b)=>Math.max(a,b),0);
+function bestPat(o,st){let b=null;o.pats.forEach(i=>{const k=D.patterns[i].s.indexOf(st);if(k>=0&&(!b||D.patterns[i].s.length-k>D.patterns[b].s.length-D.patterns[b].s.indexOf(st)))b=i});return b}
+function fillStations(){const o=OPT[+$('lineDir').value],all=new Set();o.pats.forEach(i=>D.patterns[i].s.forEach((s,k,a)=>{if(k<a.length-1)all.add(s)}));
+  const ref=D.patterns[o.pats.sort((a,b)=>D.patterns[b].s.length-D.patterns[a].s.length)[0]].s,ordered=ref.filter(s=>all.has(s));
+  $('stSel').innerHTML='';ordered.forEach(s=>$('stSel').add(new Option(sName(s),s)))}
+$('lineDir').onchange=fillStations;fillStations();
+$('nick').value=lsGet('nick')||'';
+
+/* ride state */
+let ride=lsGet('ride')||null,db=null,uid=null,ref=null,chain=Promise.resolve();
+const ORDER=['stop','open','close','move'],LBL={stop:'Train stopped',open:'Doors opened',close:'Doors closed',move:'Train moving',board:'Got on',skip:'Missed',alight:'Got off'};
+const seq=()=>{const s=D.patterns[ride.pat].s;return s.slice(Math.max(0,s.indexOf(ride.from)))};
+function stateNow(){const ev=ride.events.filter(e=>ORDER.includes(e.k)||e.k==='skip');let idx=0,next='stop';
+  if(ev.length){const l=ev[ev.length-1];const li=seq().indexOf(l.st);
+    if(l.k==='move'||l.k==='skip'){idx=Math.min(li+1,seq().length-1);next='stop';if(li>=seq().length-1){idx=li;next='done'}}
+    else{idx=li;next=ORDER[ORDER.indexOf(l.k)+1]}}
+  return{idx,next}}
+function matchRun(sec,stIdx){let best=null;const pats=OPT[ride.opt].pats;
+  for(const add of[0,86400,-86400])for(const r of D.runs[ride.svc]){const pr=D.profiles[r[0]];if(!pats.includes(pr.p))continue;const k=D.patterns[pr.p].s.indexOf(stIdx);if(k<0)continue;
+    const arr=r[1]+pr.a[k]+add,d=sec-arr;if(!best||Math.abs(d)<Math.abs(best.d))best={d,prof:r[0],start:r[1]+add}}
+  return best&&Math.abs(best.d)<=1200?best:null}
+function schedAt(st,what){if(!ride.matched)return null;const pr=D.profiles[ride.matched.prof],k=D.patterns[pr.p].s.indexOf(st);if(k<0)return null;return ride.matched.start+(what==='d'?pr.d[k]:pr.a[k])}
+function sync(){lsSet('ride',ride);const snap=JSON.parse(JSON.stringify(ride));
+  setSave('Saving...');const tm=setTimeout(()=>setSave('No signal yet. Saved on this phone, it will upload when you are online.'),3000);
+  chain=chain.then(async()=>{if(!db){clearTimeout(tm);setSave('Saved on this phone only. Sign in to the artifact to save it online.');return}
+    try{if(!ref){ref=snap.docId?db.collection('rides').doc(snap.docId):db.collection('rides').doc();ride.docId=ref.id;snap.docId=ref.id;lsSet('ride',ride)}
+      await ref.set(snap);clearTimeout(tm);setSave('Saved online.')}catch(e){clearTimeout(tm);setSave('Saved on this phone. Online save failed ('+(e&&e.code||'error')+'), it will retry on the next tap.')}})}
+const setSave=t=>{const el=$('saveNote');if(el)el.textContent=t};
+function tap(k){if(!ride)return;try{navigator.vibrate&&navigator.vibrate(25)}catch(e){}
+  const {idx}=stateNow();let st=seq()[idx];const sec=Math.round(nowSec()*10)/10;
+  if(k==='board'){st=seq()[Math.max(0,idx)]}
+  ride.events.push({k,st,sec,ts:Date.now()});
+  if(k==='stop'&&!ride.matched){const m=matchRun(sec,st);if(m)ride.matched={prof:m.prof,start:m.start}}
+  let m='';if(k==='stop'){const sa=schedAt(st,'a');m=sa!=null?`Stopped at ${sName(st)}: ${dl(dlt(sec,sa))} vs timetable.`:`Stopped at ${sName(st)}.`}
+  else if(k==='close'||k==='move'){const e=ride.events,stp=[...e].reverse().find(x=>x.st===st&&x.k==='stop'),opn=[...e].reverse().find(x=>x.st===st&&x.k==='open');
+    if(k==='move'&&stp)m=`Halted ${Math.round(sec-stp.sec)} s at ${sName(st)}.`;if(k==='close'&&opn)m=`Doors were open ${Math.round(sec-opn.sec)} s.`}
+  $('msg').innerHTML=m||LBL[k]+' logged at '+sfmt(sec)+'.';
+  if(k==='move'&&stateNow().next==='done'){}
+  render();sync()}
+document.querySelectorAll('.act').forEach(b=>b.onclick=()=>tap(b.dataset.k));
+$('board').onclick=()=>tap('board');
+$('skip').onclick=()=>{const {idx}=stateNow();ride.events.push({k:'skip',st:seq()[idx],sec:Math.round(nowSec()*10)/10,ts:Date.now()});$('msg').textContent='Skipped '+sName(seq()[idx])+'.';render();sync()};
+$('undo').onclick=()=>{if(ride&&ride.events.length){const e=ride.events.pop();$('msg').textContent='Removed: '+LBL[e.k]+' at '+sfmt(e.sec)+'.';render();sync()}};
+$('finish').onclick=()=>{if(!ride)return;ride.events.push({k:'alight',st:seq()[stateNow().idx],sec:Math.round(nowSec()*10)/10,ts:Date.now()});ride.done=true;ride.endTs=Date.now();sync();
+  const rs=lsGet('rides')||[];rs.unshift({id:ride.docId||null,date:ride.date,label:LCN[OPT[ride.opt].l]+' towards '+sName(OPT[ride.opt].last),n:ride.events.length,csv:toCsv(ride)});lsSet('rides',rs.slice(0,30));
+  $('copyMsg').textContent='';showFinished();ride=null;lsSet('ride',null);ref=null;$('live').hidden=true;$('start').hidden=false;listRides()};
+$('go').onclick=()=>{const oi=+$('lineDir').value,o=OPT[oi],st=+$('stSel').value,pat=bestPat(o,st);if(pat==null){$('startMsg').textContent='Pick a station on this line.';return}
+  const nick=($('nick').value||'').trim()||'Rider';lsSet('nick',nick===('Rider')?'':nick);const now=Date.now();
+  ride={kind:'ride',uid:uid||'anon',nick,date:ymd(now),dow:DAYN[new Date(now+IST).getUTCDay()],svc:svcFor(now),opt:oi,from:st,fromName:sName(st),line:o.l,dir:o.dr,towards:sName(o.last),pat,startTs:now,events:[],matched:null,done:false,docId:null};
+  ref=null;$('startMsg').textContent='';$('start').hidden=true;$('live').hidden=false;$('msg').textContent='Tap "Train stopped" when your train halts at the platform.';render();sync()};
+
+function render(){if(!ride){return}$('live').hidden=false;$('start').hidden=true;$('logCard').hidden=false;
+  const {idx,next}=stateNow(),s=seq();$('now').textContent=sName(s[idx]);$('nextSt').textContent=idx<s.length-1?'Next: '+sName(s[idx+1]):'Last station of this train';
+  $('prog').style.width=Math.round(idx/(s.length-1)*100)+'%';$('progTxt').textContent=`Station ${idx+1} of ${s.length}`;
+  document.querySelectorAll('.act').forEach(b=>{const k=b.dataset.k;b.classList.toggle('next',k===next);const e=[...ride.events].reverse().find(x=>x.st===s[idx]&&x.k===k);$('s_'+k).textContent=e?'logged '+sfmt(e.sec):''});
+  $('board').hidden=ride.events.some(e=>e.k==='board');
+  renderTable()}
+function renderTable(){const sts=[];ride.events.forEach(e=>{if(!sts.includes(e.st))sts.push(e.st)});
+  const rows=sts.map(st=>{const g=k=>{const e=ride.events.find(x=>x.st===st&&x.k===k);return e?e.sec:null};const a=g('stop'),o=g('open'),c=g('close'),m=g('move'),sa=schedAt(st,'a');
+    const f=v=>v==null?'-':sfmt(v);const halt=a!=null&&m!=null?Math.round(m-a)+' s':'-';const dd=a!=null&&sa!=null?Math.round(dlt(a,sa))+' s':'-';
+    return `<tr><td>${sName(st)}</td><td>${f(a)}</td><td>${f(o)}</td><td>${f(c)}</td><td>${f(m)}</td><td>${halt}</td><td>${dd}</td></tr>`}).join('');
+  $('logTbl').innerHTML='<table><tr><th>Station</th><th>Stopped</th><th>Open</th><th>Closed</th><th>Moving</th><th>Halt</th><th>vs timetable</th></tr>'+rows+'</table>'}
+function toCsv(r){const h='ride_id,date,weekday,service,line,towards,station,event,time_ist,seconds_since_midnight,scheduled_arrival_sec';const L=[h];
+  r.events.forEach(e=>{const pr=r.matched?D.profiles[r.matched.prof]:null;let sa='';if(pr&&e.k==='stop'){const k=D.patterns[pr.p].s.indexOf(e.st);if(k>=0)sa=Math.round((r.matched.start+pr.a[k])%86400)}
+    L.push([r.docId||'',r.date,r.dow,r.svc,LCN[r.line],r.towards,sName(e.st),e.k,sfmt(e.sec),e.sec,sa].map(v=>/[,"]/.test(String(v))?'"'+v+'"':v).join(','))});return L.join('\n')}
+$('copy').onclick=async()=>{const txt=toCsv(ride||lastRide);try{await navigator.clipboard.writeText(txt);$('copyMsg').textContent='Copied. Paste it into a note or message.'}catch(e){$('copyMsg').textContent='Copy was blocked. Your ride is saved online anyway.'}};
+let lastRide=null;function showFinished(){lastRide=JSON.parse(JSON.stringify(ride));$('msg').textContent=''}
+function listRides(){const rs=lsGet('rides')||[];$('rides').innerHTML=rs.length?rs.map((r,i)=>`<div style="display:flex;justify-content:space-between;gap:8px;padding:7px 0;border-bottom:1px solid var(--line);font-size:13.5px"><span>${r.date} &middot; ${r.label}<br><span class="mut">${r.n} taps</span></span><button class="btn sm" data-i="${i}">Copy CSV</button></div>`).join(''):'<p class="mut">Your finished rides will appear here.</p>';
+  $('rides').querySelectorAll('button').forEach(b=>b.onclick=async()=>{try{await navigator.clipboard.writeText(rs[+b.dataset.i].csv);b.textContent='Copied'}catch(e){b.textContent='Blocked'}})}
+setInterval(()=>{$('clock').textContent=sfmt(nowSec())},250);
+(async()=>{try{db=await claude.use('db');const u=await claude.use('user');if(u&&u.id)uid=await u.id()}catch(e){}
+  if(ride){if(uid&&ride.uid==='anon')ride.uid=uid;render();sync()}else{$('logCard').hidden=true}listRides()})();
+if(ride){render()}else{$('logCard').hidden=true;listRides()}
+</script></body></html>
