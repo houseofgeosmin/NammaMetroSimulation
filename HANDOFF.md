@@ -9,6 +9,7 @@ Prepared Tue 17 Nov 2026. Owner: Rohit.
 | Project plan doc | Done | https://claude.ai/artifact/78Vhi3r7sGEti9bWwCi9mj |
 | Simulator (Green, Purple, Yellow) | Done and published, owner-only. Autostart at 10x, 3D look, underground/elevated stations, tunnel tint and portals, train stops with "STOP" tag, station display mode, planned-lines overlay | https://claude.ai/artifact/T4qxrn7FDqTpKQEdYQovPN, source `simulator/` |
 | Crowd timing panel in the simulator | Done. Station + direction + "Train arrived just now" button. Saves to the artifact database (`reports`) | same artifact |
+| Public site (Vercel, from GitHub) | Live since 17 Nov 2026. Simulator at `/`, rider log at `/rider-log` (cannot save there: no database off claude.ai, so the crowd panel is hidden and the rider log shows a notice). Every push to `main` redeploys | https://live-nammametro-simulation.vercel.app/, repo https://github.com/houseofgeosmin/NammaMetroSimulation (private) |
 | Rider log (friends' trip logger) | Done and published, owner-only until shared. One big button: arrived, doors closing, reached my stop. Times taken automatically. Optional Google Calendar reminder | https://claude.ai/artifact/U3CcTFg2vXWFFCgPpGUH7a, source `rider-log/` |
 | Data collection plan (spreadsheet) | Done | https://claude.ai/artifact/23cwHNr5xf2NKqZgp1HkDu |
 | Figma design file | Partly done, some fixes pending | https://www.figma.com/design/QaJeHBNT2uGI6VX2KtlhdC |
@@ -52,6 +53,7 @@ add your own backend (section 5) or export from chat.
 5. **Analyse in Claude chat.** After a few days, ask Claude in chat: "read the trips and reports and give me the median halt and timetable error per station". Save the result as `simulator/corrections.json`.
 6. **Apply corrections in Claude Code.** Add a correction step to `stateOf`/timetable setup using `corrections.json`, rebuild, test.
 7. **Decide on hosting.** Option A: keep publishing through Claude chat as an artifact (private or shared, simplest, database works). Option B: host the static files on GitHub Pages, Netlify or Cloudflare Pages; then the rider log needs its own backend (Supabase or Firebase) because the artifact database only works inside claude.ai. Choose B when you want a public app.
+   **Decided 17 Nov 2026:** B on Vercel, simulator first. The repo is private; Vercel serves the committed `site/` folder (see `vercel.json`, no build on Vercel). To update: edit a template, run `python build_site.py`, commit including `site/`, push. Friends keep logging on the claude.ai rider log until a database (Supabase) is added.
 8. **Station displays and BMRCL.** Once the app is stable, send the optional data-request letter and use station display mode (`#display-<station>`) as the demo.
 9. **Back up to GitHub later** (as you planned): `git init`, commit, push. Large files: `data/bmrcl_full_timetable.csv` is 7.7 MB, fine for GitHub.
 
