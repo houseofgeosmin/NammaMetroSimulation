@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="claude:viewport-fit-sides" content="cover">
+<title>Namma Metro Rider Log</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@600;700&display=swap">
+<style>
+:root{--bg:#f4f7fa;--card:#fff;--fg:#0f1b26;--mut:#5b6b7a;--line:#dbe3ea;--acc:#0e8f5a;--accfg:#fff;--warn:#c2410c;--ok:#0e8f5a;--chip:#eef3f7;color-scheme:light}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0b141c;--card:#121f2a;--fg:#e8f0f7;--mut:#93a6b8;--line:#25384a;--acc:#19c37d;--accfg:#04140c;--warn:#ff8a65;--ok:#6ee7a8;--chip:#182836;color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#0b141c;--card:#121f2a;--fg:#e8f0f7;--mut:#93a6b8;--line:#25384a;--acc:#19c37d;--accfg:#04140c;--warn:#ff8a65;--ok:#6ee7a8;--chip:#182836;color-scheme:dark}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--fg);font:15px/1.5 Inter,system-ui,sans-serif;padding-block:8px 40px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+main{max-width:640px;margin:0 auto;display:flex;flex-direction:column;gap:16px}
+h1{font:700 26px/1.15 'Space Grotesk',Inter,sans-serif;margin:14px 0 2px;text-wrap:balance}
+h2{font:600 17px 'Space Grotesk',Inter,sans-serif;margin:0 0 10px}
+p{margin:0}.mut{color:var(--mut);font-size:13.5px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:16px;min-width:0}
+label{display:block;font-size:12.5px;color:var(--mut);margin:0 0 4px;letter-spacing:.02em}
+select,input[type=text],input[type=time]{width:100%;min-width:0;font:inherit;color:var(--fg);background:var(--bg);border:1px solid var(--line);border-radius:10px;padding:10px 11px}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}@media(max-width:420px){.grid{grid-template-columns:1fr}}
+.btn{font:600 14px Inter,sans-serif;border-radius:12px;border:1px solid var(--line);background:var(--chip);color:var(--fg);padding:10px 14px;cursor:pointer;text-decoration:none;display:inline-block}
+.go{background:var(--acc);color:var(--accfg);border:0;width:100%;padding:16px;font-size:16px;border-radius:14px}
+.go[disabled]{opacity:.45;cursor:default}
+.steps{display:flex;flex-direction:column;gap:10px}
+.step{display:flex;gap:10px;align-items:center}.step .t{min-width:92px;text-align:right;font:600 15px 'Space Grotesk',Inter,sans-serif;font-variant-numeric:tabular-nums}
+.msg{font-size:14px;min-height:20px}.late{color:var(--warn)}.early{color:var(--ok)}
+.days{display:flex;flex-wrap:wrap;gap:6px 12px;font-size:14px}.days label{display:flex;gap:5px;align-items:center;margin:0;color:var(--fg);font-size:14px}
+.sum{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:8px;margin-bottom:10px}
+.sum div{background:var(--chip);border-radius:12px;padding:10px 12px;font-size:12.5px;color:var(--mut)}.sum b{display:block;font-size:19px;color:var(--fg)}
+.tbl{overflow-x:auto}table{border-collapse:collapse;width:100%;font-size:13px}th,td{text-align:left;padding:7px 8px;border-bottom:1px solid var(--line);white-space:nowrap}th{color:var(--mut);font-weight:500}
+.row{display:flex;justify-content:space-between;gap:10px;padding:7px 0;border-bottom:1px solid var(--line);font-size:13.5px}.row:last-child{border:0}
+.tag{display:inline-block;font-size:11.5px;padding:2px 8px;border-radius:99px;background:var(--chip);color:var(--mut)}
+[hidden]{display:none!important}
+.go{font-size:18px;padding:22px 16px;border-radius:16px}
+.dots{display:flex;gap:8px;justify-content:center}.dots i{width:34px;height:6px;border-radius:99px;background:var(--line)}.dots i.on{background:var(--acc)}
+.mini{display:flex;justify-content:space-between;align-items:center;gap:8px;margin-top:10px;min-height:30px}
+.btn.sm{font-size:12.5px;padding:7px 11px;font-weight:500}
+summary{font:600 16px 'Space Grotesk',Inter,sans-serif;cursor:pointer}
+details.card[open] summary{margin-bottom:2px}
+.seg{display:flex;background:var(--chip);border-radius:12px;padding:4px;gap:4px}
+.seg button{flex:1;font:600 14px Inter,sans-serif;border:0;border-radius:9px;padding:10px;background:transparent;color:var(--mut);cursor:pointer}
+.seg button[aria-pressed="true"]{background:var(--card);color:var(--fg);box-shadow:0 1px 3px rgba(0,0,0,.14)}
+.go.close{background:var(--warn)}
+</style></head><body><main>
+<header><h1>Namma Metro Rider Log</h1><p class="mut">Tap a button as your train arrives, leaves and reaches your stop. The time is recorded for you, so there is nothing to type. Your taps help make the metro simulator more accurate. A community project, not a BMRCL service.</p></header>
+
+<p class="card mut" id="offline" hidden style="border-color:var(--warn)">This copy cannot share trips yet: taps are kept on this phone only. To log for the group, use the rider log link you were sent on claude.ai.</p>
+<script>if(typeof window.claude==='undefined')document.getElementById('offline').hidden=false</script>
+
+<div class="seg" role="group" aria-label="Logging mode"><button id="mTrip" aria-pressed="true">One trip</button><button id="mRide" aria-pressed="false">Ride mode</button></div>
+
+<section class="card" id="ride" hidden>
+  <div id="rSetup">
+    <p class="mut" style="margin:0 0 10px">Log a whole ride: tap when the doors open and again when they close, at every station. The next station comes up by itself.</p>
+    <div class="grid"><div><label for="rLine">Line</label><select id="rLine"></select></div><div><label for="rDir">Direction</label><select id="rDir"></select></div></div>
+    <div style="margin-top:10px"><label for="rFrom">Starting station</label><select id="rFrom"></select></div>
+  </div>
+  <p class="mut" id="rHead" style="margin:12px 0;text-align:center"></p>
+  <button class="btn go" id="rMain">Doors open</button>
+  <div class="mini"><span id="rNext" class="mut"></span></div>
+  <div class="msg" id="rMsg" role="status" style="margin-top:6px;text-align:center"></div>
+  <div id="rCtl" style="margin-top:10px;display:flex;gap:8px;flex-wrap:wrap;justify-content:center" hidden><button class="btn sm" id="rSkip">Skip this tap</button><button class="btn sm" id="rUndo">Undo last tap</button><button class="btn sm" id="rEnd">End ride here</button></div>
+  <div class="tbl" id="rLog" style="margin-top:12px"></div>
+</section>
+
+<section class="card" id="today">
+  <div class="dots" aria-hidden="true"><i id="d1"></i><i id="d2"></i><i id="d3"></i></div>
+  <p class="mut" id="tripLine" style="margin:6px 0 12px;text-align:center">Pick your trip below to begin.</p>
+  <button class="btn go" id="main" disabled>Pick your trip first</button>
+  <div class="mini"><span id="times" class="mut"></span><button class="btn sm" id="skip2" hidden>Skip this tap</button></div>
+  <div class="msg" id="tripMsg" role="status" style="margin-top:10px;text-align:center"></div>
+  <div style="margin-top:10px;display:flex;gap:8px;flex-wrap:wrap;justify-content:center"><button class="btn sm" id="swap">Heading back? Swap stations</button><button class="btn sm" id="reset" hidden>Start again</button></div>
+</section>
+
+<details class="card" id="setupBox"><summary>Your trip</summary>
+  <div class="grid" style="margin-top:12px"><div><label for="fromSt">Boarding station</label><select id="fromSt"></select></div>
+  <div><label for="toSt">Getting off at</label><select id="toSt"></select></div></div>
+  <div style="margin-top:10px"><label for="nick">Your first name (optional)</label><input type="text" id="nick" maxlength="24" placeholder="e.g. Asha"></div>
+  <div style="margin-top:12px;display:flex;gap:10px;align-items:center;flex-wrap:wrap"><button class="btn" id="saveSetup">Save my trip</button><span class="mut" id="setupMsg"></span></div>
+</details>
+
+<details class="card"><summary>Daily reminder (optional)</summary>
+  <p class="mut" style="margin:10px 0">The button opens Google Calendar with a repeating reminder 5 minutes before you board. Setting this is a one-time job.</p>
+  <label for="usualT">Time you usually board</label><input type="time" id="usualT" value="08:30">
+  <div class="days" id="days" style="margin-top:10px"></div>
+  <div style="margin-top:12px"><a class="btn" id="calLink" href="#" target="_blank" rel="noopener">Add repeating reminder to Google Calendar</a></div>
+  <p class="mut" style="margin-top:8px">Not on Google Calendar? Set a repeating alarm on your phone: "Log my metro trip".</p>
+</details>
+
+<section class="card">
+  <h2>Thank you, here is what we have so far</h2>
+  <div class="sum" id="sum"></div>
+  <div class="msg mut" id="dbMsg" role="status"></div>
+  <h2 style="margin-top:12px;font-size:15px">How long trains halt at each station</h2>
+  <div class="tbl" id="dwellTbl"></div>
+  <h2 style="margin-top:14px;font-size:15px">My recent trips</h2>
+  <div id="mine"></div>
+</section>
+<p class="mut">Times are Indian Standard Time. Reports are rider-reported and unchecked. Only your nickname, stations and times are shared with the group.</p>
+</main>
+<script>
+const D=__DATA__;
+const IST=19800000,PAGE_URL='__PAGE_URL__';
+const LCN={G:'Green',P:'Purple',Y:'Yellow'};
+const ST=D.stations;
+const sName=i=>ST[i].n.replace('Nadaprabhu Kempegowda Station, Majestic','Majestic').replace('Delta Electronics Bommasandra','Bommasandra').replace('Rashtreeya Vidyalaya Road','RV Road');
+const $=id=>document.getElementById(id);
+const p2=n=>String(n).padStart(2,'0');
+const sfmt=s=>{s=((Math.floor(s)%86400)+86400)%86400;return p2(Math.floor(s/3600))+':'+p2(Math.floor(s%3600/60))+':'+p2(s%60)};
+const nowSec=()=>((Date.now()+IST)%86400000)/1000;
+const ymd=ms=>{const d=new Date(ms+IST);return d.getUTCFullYear()+'-'+p2(d.getUTCMonth()+1)+'-'+p2(d.getUTCDate())};
+const HOL=new Set(D.hol);
+function svcFor(ms){const d=new Date(ms+IST),k=''+d.getUTCFullYear()+p2(d.getUTCMonth()+1)+p2(d.getUTCDate());if(HOL.has(k))return'holiday';const w=d.getUTCDay();return w===0?'sunday':w===1?'monday':'weekday'}
+const med=a=>{if(!a.length)return null;const b=[...a].sort((x,y)=>x-y);return b[Math.floor(b.length/2)]};
+const dl=x=>{const m=Math.round(Math.abs(x)/6)/10;return x>=30?`<span class="late">${m} min late</span>`:x<=-30?`<span class="early">${m} min early</span>`:'<span class="early">on time</span>'};
+const lsGet=k=>{try{return JSON.parse(localStorage.getItem(k))}catch(e){return null}},lsSet=(k,v)=>{try{localStorage.setItem(k,JSON.stringify(v))}catch(e){}};
+
+/* stations */
+const order=ST.map((s,i)=>[sName(i)+' ('+s.l.map(l=>LCN[l]||l).join(', ')+')',i]).sort((a,b)=>a[0].localeCompare(b[0]));
+['fromSt','toSt'].forEach(id=>{const el=$(id);el.add(new Option('Choose station',''));order.forEach(([n,i])=>el.add(new Option(n,i)))});
+
+/* state */
+let db=null,uid=null,profile=lsGet('profile')||null,trip=lsGet('trip')||{},trips=[],ref=null;
+const DAYS=[['MO','Mon'],['TU','Tue'],['WE','Wed'],['TH','Thu'],['FR','Fri'],['SA','Sat'],['SU','Sun']];
+const defDays=(profile&&profile.days)||['MO','TU','WE','TH','FR'];
+$('days').innerHTML=DAYS.map(([c,n])=>`<label><input type="checkbox" value="${c}" ${defDays.includes(c)?'checked':''}>${n}</label>`).join('');
+function cands(f,t){const r=[];D.patterns.forEach((p,i)=>{const a=p.s.indexOf(f),b=p.s.indexOf(t);if(a>=0&&b>a)r.push({i,a,b})});return r}
+function applyProfile(){if(!profile){$('setupBox').open=true;return}
+  $('fromSt').value=profile.from;$('toSt').value=profile.to;$('nick').value=profile.nick&&profile.nick!=='Rider'?profile.nick:'';$('usualT').value=profile.time||'08:30';
+  $('tripLine').innerHTML=`<b>${sName(profile.from)}</b> to <b>${sName(profile.to)}</b>`;refreshSteps();calLink()}
+async function saveProfile(msg){const f=+$('fromSt').value,t=+$('toSt').value;
+  if($('fromSt').value===''||$('toSt').value===''||f===t){$('setupMsg').textContent='Pick two different stations.';return false}
+  if(!cands(f,t).length){$('setupMsg').textContent='These two stations are not on one line. Pick a trip without a change of line for now.';return false}
+  profile={from:f,to:t,nick:($('nick').value||'').trim()||'Rider',time:$('usualT').value||'08:30',days:[...document.querySelectorAll('#days input:checked')].map(x=>x.value)};
+  lsSet('profile',profile);trip={};lsSet('trip',trip);ref=null;$('setupMsg').textContent=msg||'Saved.';applyProfile();
+  if(db&&uid){try{await db.doc('data/users/'+uid+'/profile').set(profile)}catch(e){}}return true}
+$('saveSetup').onclick=async()=>{if(await saveProfile()){$('setupBox').open=false;$('tripMsg').textContent=''}};
+$('swap').onclick=async()=>{if(!profile){$('setupBox').open=true;return}const f=profile.from;$('fromSt').value=profile.to;$('toSt').value=f;await saveProfile('Swapped.');$('setupBox').open=false;$('tripMsg').textContent='Stations swapped for your return trip.'};
+$('days').addEventListener('change',()=>{if(profile){profile.days=[...document.querySelectorAll('#days input:checked')].map(x=>x.value);lsSet('profile',profile)}calLink()});
+$('usualT').addEventListener('input',()=>{if(profile){profile.time=$('usualT').value;lsSet('profile',profile)}calLink()});
+function calLink(){const t=($('usualT').value||'08:30').split(':').map(Number),days=[...document.querySelectorAll('#days input:checked')].map(x=>x.value);
+  let start=Date.now()+IST;const sd=new Date(start);const m=t[0]*60+t[1]-5;
+  const nowMin=sd.getUTCHours()*60+sd.getUTCMinutes();if(m<=nowMin)start+=86400000;
+  const d=new Date(start),ds=''+d.getUTCFullYear()+p2(d.getUTCMonth()+1)+p2(d.getUTCDate());
+  const mm0=(m+1440)%1440,m2=(m+10+1440)%1440,trp=profile?`${sName(profile.from)} to ${sName(profile.to)}`:'my metro trip';
+  $('calLink').href='https://calendar.google.com/calendar/render?action=TEMPLATE&text='+encodeURIComponent('Log my metro trip')+
+   '&details='+encodeURIComponent('Three quick taps while you travel: '+trp+'. Open: '+PAGE_URL)+
+   '&dates='+ds+'T'+p2(Math.floor(mm0/60))+p2(mm0%60)+'00/'+ds+'T'+p2(Math.floor(m2/60))+p2(m2%60)+'00&ctz=Asia/Kolkata'+(days.length?'&recur='+encodeURIComponent('RRULE:FREQ=WEEKLY;BYDAY='+days.join(',')):'')}
+calLink();
+
+/* trip: one big button */
+const buzz=()=>{try{navigator.vibrate&&navigator.vibrate(30)}catch(e){}};
+function step(){return trip.t1==null?0:(trip.t2==null&&!trip.skip)?1:trip.t3==null?2:3}
+function refreshSteps(){const s=step(),has=!!profile,b=$('main');
+  ['d1','d2','d3'].forEach((id,i)=>$(id).className=(s>i||(s===3))?'on':'');
+  if(!has){b.textContent='Pick your trip first';b.disabled=true}
+  else if(s===0){b.textContent='Train has arrived at '+sName(profile.from);b.disabled=false}
+  else if(s===1){b.textContent='Doors closing, train leaving';b.disabled=false}
+  else if(s===2){b.textContent='I have reached '+sName(profile.to);b.disabled=false}
+  else{b.textContent='Trip saved. Thank you!';b.disabled=true}
+  $('skip2').hidden=s!==1;$('reset').hidden=!(s>0&&s<3);
+  $('times').textContent=trip.t1!=null?'Arrived '+sfmt(trip.t1)+(trip.t2!=null?'  \u00b7  Left '+sfmt(trip.t2):'')+(trip.t3!=null?'  \u00b7  Reached '+sfmt(trip.t3):''):''}
+function match(f,t,sec,svc){let best=null;const cs=cands(f,t);
+  for(const add of[0,86400,-86400]){for(const r of D.runs[svc]){const pr=D.profiles[r[0]];const c=cs.find(x=>x.i===pr.p);if(!c)continue;
+    const arr=r[1]+pr.a[c.a]+add,d=sec-arr;if(best===null||Math.abs(d)<Math.abs(best.d))best={d,arr:arr%86400,sd:pr.d[c.a]-pr.a[c.a],srun:pr.a[c.b]-pr.d[c.a],pat:D.patterns[pr.p]}}}
+  return best}
+async function save(op,data){if(!db){$('tripMsg').textContent='Saved on your phone only. Sign in to the artifact to share it.';return}
+  try{if(op==='set'){ref=db.collection('trips').doc();trip.id=ref.id;lsSet('trip',trip);await ref.set(data)}
+    else{if(!ref&&trip.id)ref=db.collection('trips').doc(trip.id);if(ref)await ref.update(data)}}
+  catch(e){$('tripMsg').textContent='Could not save ('+(e&&e.code||'error')+'). Your tap is kept on this phone.'}}
+$('main').onclick=async()=>{const s=step();buzz();if(!profile)return;const f=profile.from,t=profile.to;
+  if(s===0){trip={t1:Math.round(nowSec()),day:ymd(Date.now())};lsSet('trip',trip);refreshSteps();
+    const svc=svcFor(Date.now()),m=match(f,t,trip.t1,svc),ok=m&&Math.abs(m.d)<=1200;trip.m=ok?{d:Math.round(m.d),sd:Math.round(m.sd),sr:Math.round(m.srun)}:null;lsSet('trip',trip);
+    $('tripMsg').innerHTML=ok?`Arrival logged: ${dl(m.d)}. Tap again when the doors start closing.`:'Arrival logged. Tap again when the doors start closing.';
+    await save('set',{kind:'trip',uid:uid||'anon',nick:profile.nick,date:trip.day,svc,fromId:f,fromName:sName(f),toId:t,toName:sName(t),line:ok?m.pat.l:null,dir:ok?m.pat.dr:null,
+      arrSec:trip.t1,depSec:null,destSec:null,dwellSec:null,runSec:null,schedArrSec:ok?Math.round(m.arr):null,delayArrSec:ok?Math.round(m.d):null,schedDwellSec:ok?Math.round(m.sd):null,schedRunSec:ok?Math.round(m.srun):null,ts:Date.now()})}
+  else if(s===1){trip.t2=Math.round(nowSec());lsSet('trip',trip);refreshSteps();const dw=trip.t2-trip.t1;
+    $('tripMsg').innerHTML=`The train halted for <b>${dw} seconds</b>${trip.m?` (timetable ${trip.m.sd} s)`:''}. Tap again at your stop.`;
+    await save('update',{depSec:trip.t2,dwellSec:dw})}
+  else if(s===2){trip.t3=Math.round(nowSec());lsSet('trip',trip);refreshSteps();const run=trip.t3-(trip.t2!=null?trip.t2:trip.t1);
+    $('tripMsg').innerHTML=`Thank you! Your ride took ${Math.floor(run/60)} min ${run%60} s${trip.m?` (timetable ${Math.floor(trip.m.sr/60)} min ${trip.m.sr%60} s)`:''}. See you on the next trip.`;
+    await save('update',{destSec:trip.t3,runSec:run,runIncludesDwell:trip.t2==null});
+    setTimeout(()=>{trip={};ref=null;lsSet('trip',trip);refreshSteps()},4000)}};
+$('skip2').onclick=()=>{trip.skip=true;lsSet('trip',trip);$('tripMsg').textContent='No problem. Tap again when you reach your stop.';refreshSteps()};
+$('reset').onclick=()=>{trip={};ref=null;lsSet('trip',trip);$('tripMsg').textContent='';refreshSteps()};
+/* an old unfinished trip is kept as saved and the page starts fresh */
+if(trip.t1!=null&&(trip.day!==ymd(Date.now())||nowSec()-trip.t1>10800||nowSec()<trip.t1)){trip={};lsSet('trip',trip)}
+if(trip.id&&db===null)ref=null;
+
+/* ride mode: one button for every door event; the station advances by itself.
+   A ride is one document in `trips` with kind "ride" and a stops array, created on the first tap and updated on each tap. */
+const ROUTES={};D.patterns.forEach((p,i)=>{const k=p.l+p.dr;if(ROUTES[k]==null||p.s.length>D.patterns[ROUTES[k]].s.length)ROUTES[k]=i});
+const routeOf=(l,dr)=>D.patterns[ROUTES[l+dr]];
+let mode=lsGet('mode')==='ride'?'ride':'trip',ride=lsGet('ride'),rref=null;
+/* a ride left open from another day or idle for 4 hours is kept as saved, and the page starts fresh */
+if(ride&&(ride.day!==ymd(Date.now())||nowSec()-ride.last>14400||nowSec()<ride.last-60)){ride=null;lsSet('ride',null)}
+function setMode(m){mode=m;lsSet('mode',m);$('mTrip').setAttribute('aria-pressed',m==='trip');$('mRide').setAttribute('aria-pressed',m==='ride');
+  $('today').hidden=m!=='trip';$('setupBox').hidden=m!=='trip';$('ride').hidden=m!=='ride';if(m==='ride')rDraw()}
+$('mTrip').onclick=()=>setMode('trip');$('mRide').onclick=()=>setMode('ride');
+['G','P','Y'].forEach(l=>$('rLine').add(new Option(LCN[l]+' line',l)));
+function rFillDir(){const l=$('rLine').value;$('rDir').innerHTML='';[0,1].forEach(dr=>{const p=routeOf(l,dr);if(p)$('rDir').add(new Option('towards '+sName(p.s[p.s.length-1]),dr))});rFillFrom()}
+function rFillFrom(){const p=routeOf($('rLine').value,+$('rDir').value);$('rFrom').innerHTML='';p.s.slice(0,-1).forEach(si=>$('rFrom').add(new Option(sName(si),si)));rDraw()}
+const rRemember=()=>lsSet('rideSetup',{l:$('rLine').value,dr:+$('rDir').value,from:+$('rFrom').value});
+$('rLine').onchange=()=>{rFillDir();rRemember()};$('rDir').onchange=()=>{rFillFrom();rRemember()};$('rFrom').onchange=()=>{rRemember();rDraw()};
+function rMatch(){const s0=ride.stops[0];let best=null;
+  for(const add of[0,86400,-86400])for(const r of D.runs[ride.svc]){const pr=D.profiles[r[0]],p=D.patterns[pr.p];if(p.l!==ride.l||p.dr!==ride.dr)continue;
+    const k=p.s.indexOf(s0.id);if(k<0||k===p.s.length-1)continue;const d=s0.arrSec-(r[1]+pr.a[k]+add);if(!best||Math.abs(d)<Math.abs(best.d))best={d,prof:r[0],start:r[1]+add}}
+  ride.m=best&&Math.abs(best.d)<=1200?{prof:best.prof,start:best.start}:null}
+const day=x=>((Math.round(x)%86400)+86400)%86400;
+function rSched(){const pr=ride.m&&D.profiles[ride.m.prof],p=pr&&D.patterns[pr.p];
+  ride.stops.forEach(s=>{const k=p?p.s.indexOf(s.id):-1;if(k<0){s.schedArrSec=s.schedDepSec=s.schedDwellSec=s.delayArrSec=null;return}
+    s.schedArrSec=day(ride.m.start+pr.a[k]);s.schedDepSec=day(ride.m.start+pr.d[k]);s.schedDwellSec=pr.d[k]-pr.a[k];
+    s.delayArrSec=s.arrSec==null?null:Math.round(s.arrSec-(ride.m.start+pr.a[k]))})}
+const rCur=()=>ride.stops[ride.stops.length-1];
+function rDoc(){const route=routeOf(ride.l,ride.dr),st=ride.stops,a=st[0],z=st[st.length-1];
+  return{kind:'ride',uid:uid||'anon',nick:(profile&&profile.nick)||'Rider',date:ride.day,svc:ride.svc,line:ride.l,dir:ride.dr,towards:sName(route.s[route.s.length-1]),
+    fromId:a.id,fromName:a.name,toId:z.id,toName:z.name,nStops:st.length,done:!!ride.done,matched:!!ride.m,
+    stops:st.map(s=>({id:s.id,name:s.name,arrSec:s.arrSec,depSec:s.depSec,dwellSec:s.dwellSec,schedArrSec:s.schedArrSec,schedDepSec:s.schedDepSec,schedDwellSec:s.schedDwellSec,delayArrSec:s.delayArrSec})),
+    ts:ride.ts,updatedTs:Date.now()}}
+async function rSave(){if(!db){$('rMsg').innerHTML+=' Saved on your phone only. Sign in to the artifact to share it.';return}
+  try{if(!ride.id){rref=db.collection('trips').doc();ride.id=rref.id;lsSet('ride',ride);await rref.set(rDoc())}
+    else{if(!rref)rref=db.collection('trips').doc(ride.id);await rref.update(rDoc())}}
+  catch(e){$('rMsg').textContent='Could not save ('+(e&&e.code||'error')+'). Your taps are kept on this phone.'}}
+function rPush(){const c=JSON.parse(JSON.stringify(ride));delete c.hist;ride.hist=(ride.hist||[]).concat([c]).slice(-30)}
+function rCommit(msg){ride.last=Math.round(nowSec());rSched();lsSet('ride',ride);$('rMsg').innerHTML=msg;rDraw();return rSave()}
+$('rMain').onclick=async()=>{buzz();const now=Math.round(nowSec());
+  if(ride&&ride.done){ride=null;rref=null;lsSet('ride',null);$('rMsg').textContent='';rDraw();return}
+  if(!ride){const l=$('rLine').value,dr=+$('rDir').value,from=+$('rFrom').value,route=routeOf(l,dr);
+    ride={l,dr,k:route.s.indexOf(from),phase:'close',stops:[{id:from,name:sName(from),arrSec:now,depSec:null,dwellSec:null}],day:ymd(Date.now()),svc:svcFor(Date.now()),last:now,ts:Date.now(),hist:[]};
+    rMatch();rSched();const s=ride.stops[0],pr=ride.m&&D.profiles[ride.m.prof],end=pr&&D.patterns[pr.p].s.slice(-1)[0];
+    return rCommit(`Doors open at ${s.name} logged${s.delayArrSec!=null?': '+dl(s.delayArrSec):''}.`+(end!=null&&end!==route.s[route.s.length-1]?` The timetable says this train ends at <b>${sName(end)}</b>.`:'')+' Tap again when the doors close.')}
+  if(now-ride.last<3){$('rMsg').textContent='Tap ignored: that was less than 3 seconds after the last one. Use Undo if a tap was wrong.';return}
+  const route=routeOf(ride.l,ride.dr);rPush();
+  if(ride.phase==='close'){const c=rCur();c.depSec=now;c.dwellSec=c.arrSec!=null?now-c.arrSec:null;ride.k++;ride.phase='open';
+    return rCommit(c.dwellSec!=null?`Halted at ${c.name} for <b>${c.dwellSec} s</b>${c.schedDwellSec!=null?` (timetable ${c.schedDwellSec} s)`:''}.`:`Left ${c.name}.`)}
+  const si=route.s[ride.k];ride.stops.push({id:si,name:sName(si),arrSec:now,depSec:null,dwellSec:null});ride.phase='close';
+  if(ride.k===route.s.length-1){ride.done=true;return rCommit(`End of the line at ${sName(si)}. Ride saved with ${ride.stops.length} stations. Thank you!`)}
+  rSched();const c=rCur();return rCommit(`Doors open at ${c.name}${c.delayArrSec!=null?': '+dl(c.delayArrSec):''}.`)};
+$('rSkip').onclick=()=>{if(!ride||ride.done)return;const route=routeOf(ride.l,ride.dr);rPush();
+  if(ride.phase==='close'){const c=rCur();ride.k++;ride.phase='open';return rCommit(`Skipped doors closing at ${c.name}.`)}
+  const si=route.s[ride.k];ride.stops.push({id:si,name:sName(si),arrSec:null,depSec:null,dwellSec:null});ride.k++;
+  if(ride.k>=route.s.length){ride.done=true;return rCommit('Ride saved. Thank you!')}
+  return rCommit(`Skipped ${sName(si)}.`)};
+$('rUndo').onclick=()=>{if(!ride||!(ride.hist||[]).length)return;const h=ride.hist,prev=h.pop(),id=ride.id;ride=prev;ride.hist=h;ride.id=id;return rCommit('Last tap undone.')};
+$('rEnd').onclick=()=>{if(!ride||ride.done)return;rPush();ride.done=true;return rCommit(`Ride ended at ${rCur().name}. Saved with ${ride.stops.length} stations. Thank you!`)};
+function rDraw(){const b=$('rMain');$('rSetup').hidden=!!ride;$('rCtl').hidden=!ride||!!ride.done;b.classList.remove('close');
+  if(!ride){const l=$('rLine').value,p=routeOf(l,+$('rDir').value);
+    $('rHead').innerHTML=p?`<b>${LCN[l]} line</b> towards ${sName(p.s[p.s.length-1])}`:'';b.textContent='Doors open at '+($('rFrom').value!==''?sName(+$('rFrom').value):'...');b.disabled=$('rFrom').value==='';$('rNext').textContent='';$('rLog').innerHTML='';return}
+  const route=routeOf(ride.l,ride.dr),n=route.s.length,at=Math.min(ride.k,n-1);
+  $('rHead').innerHTML=`<b>${LCN[ride.l]} line</b> towards ${sName(route.s[n-1])} &middot; station ${at+1} of ${n}`;
+  if(ride.done){b.textContent='Start a new ride';$('rNext').textContent=''}
+  else if(ride.phase==='close'){b.textContent='Doors closing at '+rCur().name;b.classList.add('close');$('rNext').textContent='Next: '+sName(route.s[ride.k+1]);$('rSkip').textContent='Missed doors closing'}
+  else{b.textContent='Doors open at '+sName(route.s[ride.k]);$('rNext').textContent=ride.k+1<n?'Then: '+sName(route.s[ride.k+1]):'Last station';$('rSkip').textContent='Missed this station'}
+  b.disabled=false;$('rUndo').disabled=!(ride.hist||[]).length;
+  $('rLog').innerHTML='<table><tr><th>Station</th><th>Doors open</th><th>Doors close</th><th>Halt</th><th>vs timetable</th></tr>'+ride.stops.slice().reverse().map(s=>`<tr><td>${s.name}</td><td>${s.arrSec!=null?sfmt(s.arrSec):'-'}</td><td>${s.depSec!=null?sfmt(s.depSec):'-'}</td><td>${s.dwellSec!=null?s.dwellSec+' s':'-'}</td><td>${s.delayArrSec!=null?dl(s.delayArrSec):'-'}</td></tr>`).join('')+'</table>'}
+{const s=lsGet('rideSetup');if(s&&routeOf(s.l,s.dr)){$('rLine').value=s.l;rFillDir();$('rDir').value=s.dr;rFillFrom();$('rFrom').value=s.from;if($('rFrom').value==='')$('rFrom').selectedIndex=0}else rFillDir()}
+
+/* results: single trips and the stations of rides both count towards halts and timetable error */
+function draw(){const all=trips.filter(r=>r.kind==='trip'),rides=trips.filter(r=>r.kind==='ride'),mineT=trips.filter(r=>uid&&r.uid===uid&&(r.kind==='trip'||r.kind==='ride'));
+  const rs=[];rides.forEach(r=>(r.stops||[]).forEach(s=>rs.push(s)));
+  const dw=all.filter(r=>r.dwellSec!=null).map(r=>r.dwellSec).concat(rs.filter(s=>s.dwellSec!=null).map(s=>s.dwellSec)),dly=all.filter(r=>r.delayArrSec!=null).map(r=>r.delayArrSec).concat(rs.filter(s=>s.delayArrSec!=null).map(s=>s.delayArrSec));
+  const riders=new Set(all.concat(rides).map(r=>r.uid)).size,md=med(dw),mx=med(dly);
+  $('sum').innerHTML=`<div><b>${all.length}</b>trips logged</div><div><b>${rides.length}</b>full rides</div><div><b>${riders}</b>riders</div><div><b>${md==null?'-':md+' s'}</b>typical halt</div><div><b>${mx==null?'-':dl(mx)}</b>typical arrival vs timetable</div>`;
+  const g={},addG=(n,d,s)=>{(g[n]=g[n]||{d:[],s:[]});g[n].d.push(d);if(s!=null)g[n].s.push(s)};
+  all.filter(r=>r.dwellSec!=null).forEach(r=>addG(r.fromName,r.dwellSec,r.schedDwellSec));rs.filter(s=>s.dwellSec!=null).forEach(s=>addG(s.name,s.dwellSec,s.schedDwellSec));
+  const ks=Object.keys(g).sort((a,b)=>g[b].d.length-g[a].d.length);
+  $('dwellTbl').innerHTML=ks.length?'<table><tr><th>Station</th><th>Trips</th><th>Halt (median)</th><th>Timetable</th></tr>'+ks.map(k=>`<tr><td>${k}</td><td>${g[k].d.length}</td><td>${med(g[k].d)} s</td><td>${g[k].s.length?med(g[k].s)+' s':'-'}</td></tr>`).join('')+'</table>':'<p class="mut">No halt times yet. Log your first trip.</p>';
+  $('mine').innerHTML=mineT.length?mineT.slice(0,6).map(r=>r.kind==='ride'?`<div class="row"><span>${r.date} &middot; ride ${r.fromName} to ${r.toName}</span><span><span class="tag">${r.nStops} stations</span></span></div>`:`<div class="row"><span>${r.date} &middot; ${r.fromName} to ${r.toName}</span><span>${r.dwellSec!=null?r.dwellSec+' s halt':''} ${r.delayArrSec!=null?dl(r.delayArrSec):''}</span></div>`).join(''):'<p class="mut">Your trips will appear here.</p>'}
+applyProfile();refreshSteps();draw();setMode(mode);
+(async()=>{try{db=await claude.use('db');const u=await claude.use('user');if(u&&u.id)uid=await u.id()}catch(e){}
+  if(!db){$('dbMsg').textContent='Sign in to the artifact to save trips and see group results.';return}
+  if(uid&&!profile){try{const s=await db.doc('data/users/'+uid+'/profile').get();if(s.exists){profile=s.data();lsSet('profile',profile);applyProfile()}}catch(e){}}
+  const timer=setTimeout(()=>{$('dbMsg').textContent='Group results cannot be reached yet.'},10000);
+  db.collection('trips').orderBy('ts','desc').limit(500).onSnapshot(s=>{clearTimeout(timer);$('dbMsg').textContent='';trips=s.docs.map(d=>d.data());draw()},e=>{clearTimeout(timer);$('dbMsg').textContent='Results unavailable ('+(e&&e.code)+').'})})();
+</script></body></html>

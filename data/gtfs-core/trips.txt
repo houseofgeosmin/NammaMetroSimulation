@@ -1,0 +1,1074 @@
+route_id,service_id,trip_headsign,direction_id,shape_id,trip_id,wheelchair_accessible
+GREEN,holiday,Madavara,1,s1915,t1083,1
+GREEN,holiday,Madavara,1,s1915,t1083_2,1
+GREEN,holiday,Madavara,1,s1915,t1089,1
+GREEN,holiday,Madavara,1,s1915,t1091,1
+GREEN,holiday,Madavara,1,s1915,t1093,1
+GREEN,holiday,Madavara,1,s1915,t1095,1
+GREEN,holiday,Madavara,1,s1915,t1097,1
+GREEN,holiday,Madavara,1,s1915,t1099,1
+GREEN,holiday,Madavara,1,s1915,t1101,1
+GREEN,holiday,Madavara,1,s1915,t1103,1
+GREEN,holiday,Madavara,1,s1915,t1105,1
+GREEN,holiday,Madavara,1,s1915,t1107,1
+GREEN,holiday,Madavara,1,s1915,t1109,1
+GREEN,holiday,Madavara,1,s1915,t1111,1
+GREEN,holiday,Madavara,1,s1915,t1113,1
+GREEN,holiday,Madavara,1,s1915,t1115,1
+GREEN,holiday,Madavara,1,s1915,t1117,1
+GREEN,holiday,Madavara,1,s1915,t1119,1
+GREEN,holiday,Madavara,1,s1915,t1121,1
+GREEN,holiday,Madavara,1,s1915,t1123,1
+GREEN,holiday,Madavara,1,s1915,t1125,1
+GREEN,holiday,Madavara,1,s1915,t1127,1
+GREEN,holiday,Madavara,1,s1915,t1129,1
+GREEN,holiday,Madavara,1,s1915,t1154,1
+GREEN,holiday,Madavara,1,s1915,t1154_2,1
+GREEN,holiday,Madavara,1,s1915,t1174,1
+GREEN,holiday,Madavara,1,s1915,t1176,1
+GREEN,holiday,Madavara,1,s1915,t1178,1
+GREEN,holiday,Madavara,1,s1915,t1180,1
+GREEN,holiday,Madavara,1,s1915,t1182,1
+GREEN,holiday,Madavara,1,s1915,t1184,1
+GREEN,holiday,Madavara,1,s1915,t1186,1
+GREEN,holiday,Madavara,1,s1915,t1188,1
+GREEN,holiday,Madavara,1,s1915,t1190,1
+GREEN,holiday,Madavara,1,s1915,t1192,1
+GREEN,holiday,Madavara,1,s1915,t1194,1
+GREEN,holiday,Madavara,1,s1915,t1196,1
+GREEN,holiday,Madavara,1,s1915,t1198,1
+GREEN,holiday,Madavara,1,s1915,t1200,1
+GREEN,holiday,Madavara,1,s1915,t1202,1
+GREEN,holiday,Madavara,1,s1915,t1204,1
+GREEN,holiday,Madavara,1,s1915,t1206,1
+GREEN,holiday,Madavara,1,s1915,t1208,1
+GREEN,holiday,Madavara,1,s1915,t1210,1
+GREEN,holiday,Madavara,1,s1915,t1218,1
+GREEN,holiday,Peenya Industry,1,s2655,t1088,1
+GREEN,holiday,Peenya Industry,1,s2655,t1090,1
+GREEN,holiday,Peenya Industry,1,s2655,t1092,1
+GREEN,holiday,Peenya Industry,1,s2655,t1094,1
+GREEN,holiday,Peenya Industry,1,s2655,t1096,1
+GREEN,holiday,Peenya Industry,1,s2655,t1098,1
+GREEN,holiday,Peenya Industry,1,s2655,t1100,1
+GREEN,holiday,Peenya Industry,1,s2655,t1102,1
+GREEN,holiday,Peenya Industry,1,s2655,t1104,1
+GREEN,holiday,Peenya Industry,1,s2655,t1106,1
+GREEN,holiday,Peenya Industry,1,s2655,t1108,1
+GREEN,holiday,Peenya Industry,1,s2655,t1110,1
+GREEN,holiday,Peenya Industry,1,s2655,t1112,1
+GREEN,holiday,Peenya Industry,1,s2655,t1114,1
+GREEN,holiday,Peenya Industry,1,s2655,t1116,1
+GREEN,holiday,Peenya Industry,1,s2655,t1118,1
+GREEN,holiday,Peenya Industry,1,s2655,t1120,1
+GREEN,holiday,Peenya Industry,1,s2655,t1122,1
+GREEN,holiday,Peenya Industry,1,s2655,t1124,1
+GREEN,holiday,Peenya Industry,1,s2655,t1126,1
+GREEN,holiday,Peenya Industry,1,s2655,t1128,1
+GREEN,holiday,Peenya Industry,1,s2655,t1130,1
+GREEN,holiday,Peenya Industry,1,s2655,t1173,1
+GREEN,holiday,Peenya Industry,1,s2655,t1175,1
+GREEN,holiday,Peenya Industry,1,s2655,t1177,1
+GREEN,holiday,Peenya Industry,1,s2655,t1179,1
+GREEN,holiday,Peenya Industry,1,s2655,t1181,1
+GREEN,holiday,Peenya Industry,1,s2655,t1183,1
+GREEN,holiday,Peenya Industry,1,s2655,t1185,1
+GREEN,holiday,Peenya Industry,1,s2655,t1187,1
+GREEN,holiday,Peenya Industry,1,s2655,t1189,1
+GREEN,holiday,Peenya Industry,1,s2655,t1191,1
+GREEN,holiday,Peenya Industry,1,s2655,t1193,1
+GREEN,holiday,Peenya Industry,1,s2655,t1195,1
+GREEN,holiday,Peenya Industry,1,s2655,t1197,1
+GREEN,holiday,Peenya Industry,1,s2655,t1199,1
+GREEN,holiday,Peenya Industry,1,s2655,t1201,1
+GREEN,holiday,Peenya Industry,1,s2655,t1203,1
+GREEN,holiday,Peenya Industry,1,s2655,t1205,1
+GREEN,holiday,Peenya Industry,1,s2655,t1207,1
+GREEN,holiday,Peenya Industry,1,s2655,t1209,1
+GREEN,holiday,Peenya Industry,1,s2655,t1211,1
+GREEN,holiday,Silk Institute,0,s1871,t1002,1
+GREEN,holiday,Silk Institute,0,s1871,t1026,1
+GREEN,holiday,Silk Institute,0,s1871,t1028,1
+GREEN,holiday,Silk Institute,0,s1871,t1030,1
+GREEN,holiday,Silk Institute,0,s1871,t1032,1
+GREEN,holiday,Silk Institute,0,s1871,t1034,1
+GREEN,holiday,Silk Institute,0,s1871,t1036,1
+GREEN,holiday,Silk Institute,0,s1871,t1038,1
+GREEN,holiday,Silk Institute,0,s1871,t1040,1
+GREEN,holiday,Silk Institute,0,s1871,t1042,1
+GREEN,holiday,Silk Institute,0,s1871,t1044,1
+GREEN,holiday,Silk Institute,0,s1871,t1046,1
+GREEN,holiday,Silk Institute,0,s1871,t1048,1
+GREEN,holiday,Silk Institute,0,s1871,t1050,1
+GREEN,holiday,Silk Institute,0,s1871,t1052,1
+GREEN,holiday,Silk Institute,0,s1871,t1054,1
+GREEN,holiday,Silk Institute,0,s1871,t1056,1
+GREEN,holiday,Silk Institute,0,s1871,t1076,1
+GREEN,holiday,Silk Institute,0,s1871,t931,1
+GREEN,holiday,Silk Institute,0,s1871,t931_2,1
+GREEN,holiday,Silk Institute,0,s1871,t936,1
+GREEN,holiday,Silk Institute,0,s1871,t938,1
+GREEN,holiday,Silk Institute,0,s1871,t940,1
+GREEN,holiday,Silk Institute,0,s1871,t942,1
+GREEN,holiday,Silk Institute,0,s1871,t944,1
+GREEN,holiday,Silk Institute,0,s1871,t946,1
+GREEN,holiday,Silk Institute,0,s1871,t948,1
+GREEN,holiday,Silk Institute,0,s1871,t950,1
+GREEN,holiday,Silk Institute,0,s1871,t952,1
+GREEN,holiday,Silk Institute,0,s1871,t954,1
+GREEN,holiday,Silk Institute,0,s1871,t956,1
+GREEN,holiday,Silk Institute,0,s1871,t958,1
+GREEN,holiday,Silk Institute,0,s1871,t960,1
+GREEN,holiday,Silk Institute,0,s1871,t962,1
+GREEN,holiday,Silk Institute,0,s1871,t964,1
+GREEN,holiday,Silk Institute,0,s1871,t966,1
+GREEN,holiday,Silk Institute,0,s1871,t968,1
+GREEN,holiday,Silk Institute,0,s1871,t970,1
+GREEN,holiday,Silk Institute,0,s1871,t972,1
+GREEN,holiday,Silk Institute,0,s1871,t974,1
+GREEN,holiday,Silk Institute,0,s1871,t976,1
+GREEN,holiday,Yelachenahalli,0,s133,t1025,1
+GREEN,holiday,Yelachenahalli,0,s133,t1027,1
+GREEN,holiday,Yelachenahalli,0,s133,t1029,1
+GREEN,holiday,Yelachenahalli,0,s133,t1031,1
+GREEN,holiday,Yelachenahalli,0,s133,t1033,1
+GREEN,holiday,Yelachenahalli,0,s133,t1035,1
+GREEN,holiday,Yelachenahalli,0,s133,t1037,1
+GREEN,holiday,Yelachenahalli,0,s133,t1039,1
+GREEN,holiday,Yelachenahalli,0,s133,t1041,1
+GREEN,holiday,Yelachenahalli,0,s133,t1043,1
+GREEN,holiday,Yelachenahalli,0,s133,t1045,1
+GREEN,holiday,Yelachenahalli,0,s133,t1047,1
+GREEN,holiday,Yelachenahalli,0,s133,t1049,1
+GREEN,holiday,Yelachenahalli,0,s133,t1051,1
+GREEN,holiday,Yelachenahalli,0,s133,t1053,1
+GREEN,holiday,Yelachenahalli,0,s133,t1055,1
+GREEN,holiday,Yelachenahalli,0,s133,t1057,1
+GREEN,holiday,Yelachenahalli,0,s133,t935,1
+GREEN,holiday,Yelachenahalli,0,s133,t937,1
+GREEN,holiday,Yelachenahalli,0,s133,t939,1
+GREEN,holiday,Yelachenahalli,0,s133,t941,1
+GREEN,holiday,Yelachenahalli,0,s133,t943,1
+GREEN,holiday,Yelachenahalli,0,s133,t945,1
+GREEN,holiday,Yelachenahalli,0,s133,t947,1
+GREEN,holiday,Yelachenahalli,0,s133,t949,1
+GREEN,holiday,Yelachenahalli,0,s133,t951,1
+GREEN,holiday,Yelachenahalli,0,s133,t953,1
+GREEN,holiday,Yelachenahalli,0,s133,t955,1
+GREEN,holiday,Yelachenahalli,0,s133,t957,1
+GREEN,holiday,Yelachenahalli,0,s133,t959,1
+GREEN,holiday,Yelachenahalli,0,s133,t961,1
+GREEN,holiday,Yelachenahalli,0,s133,t963,1
+GREEN,holiday,Yelachenahalli,0,s133,t965,1
+GREEN,holiday,Yelachenahalli,0,s133,t967,1
+GREEN,holiday,Yelachenahalli,0,s133,t969,1
+GREEN,holiday,Yelachenahalli,0,s133,t971,1
+GREEN,holiday,Yelachenahalli,0,s133,t973,1
+GREEN,holiday,Yelachenahalli,0,s133,t975,1
+GREEN,holiday,Yelachenahalli,0,s133,t977,1
+GREEN,monday,Madavara,1,s1915,t159,1
+GREEN,monday,Madavara,1,s1915,t159_2,1
+GREEN,monday,Madavara,1,s1915,t173,1
+GREEN,monday,Madavara,1,s1915,t175,1
+GREEN,monday,Madavara,1,s1915,t177,1
+GREEN,monday,Madavara,1,s1915,t179,1
+GREEN,monday,Madavara,1,s1915,t181,1
+GREEN,monday,Madavara,1,s1915,t183,1
+GREEN,monday,Madavara,1,s1915,t185,1
+GREEN,monday,Madavara,1,s1915,t187,1
+GREEN,monday,Madavara,1,s1915,t189,1
+GREEN,monday,Madavara,1,s1915,t191,1
+GREEN,monday,Madavara,1,s1915,t193,1
+GREEN,monday,Madavara,1,s1915,t195,1
+GREEN,monday,Madavara,1,s1915,t197,1
+GREEN,monday,Madavara,1,s1915,t199,1
+GREEN,monday,Madavara,1,s1915,t201,1
+GREEN,monday,Madavara,1,s1915,t203,1
+GREEN,monday,Madavara,1,s1915,t205,1
+GREEN,monday,Madavara,1,s1915,t207,1
+GREEN,monday,Madavara,1,s1915,t209,1
+GREEN,monday,Madavara,1,s1915,t211,1
+GREEN,monday,Madavara,1,s1915,t238,1
+GREEN,monday,Madavara,1,s1915,t238_2,1
+GREEN,monday,Madavara,1,s1915,t261,1
+GREEN,monday,Madavara,1,s1915,t263,1
+GREEN,monday,Madavara,1,s1915,t265,1
+GREEN,monday,Madavara,1,s1915,t267,1
+GREEN,monday,Madavara,1,s1915,t269,1
+GREEN,monday,Madavara,1,s1915,t271,1
+GREEN,monday,Madavara,1,s1915,t273,1
+GREEN,monday,Madavara,1,s1915,t275,1
+GREEN,monday,Madavara,1,s1915,t277,1
+GREEN,monday,Madavara,1,s1915,t279,1
+GREEN,monday,Madavara,1,s1915,t281,1
+GREEN,monday,Madavara,1,s1915,t283,1
+GREEN,monday,Madavara,1,s1915,t285,1
+GREEN,monday,Madavara,1,s1915,t287,1
+GREEN,monday,Madavara,1,s1915,t289,1
+GREEN,monday,Madavara,1,s1915,t291,1
+GREEN,monday,Madavara,1,s1915,t293,1
+GREEN,monday,Madavara,1,s1915,t295,1
+GREEN,monday,Madavara,1,s1915,t297,1
+GREEN,monday,Madavara,1,s1915,t303,1
+GREEN,monday,Peenya Industry,1,s2655,t172,1
+GREEN,monday,Peenya Industry,1,s2655,t174,1
+GREEN,monday,Peenya Industry,1,s2655,t176,1
+GREEN,monday,Peenya Industry,1,s2655,t178,1
+GREEN,monday,Peenya Industry,1,s2655,t180,1
+GREEN,monday,Peenya Industry,1,s2655,t182,1
+GREEN,monday,Peenya Industry,1,s2655,t184,1
+GREEN,monday,Peenya Industry,1,s2655,t186,1
+GREEN,monday,Peenya Industry,1,s2655,t188,1
+GREEN,monday,Peenya Industry,1,s2655,t190,1
+GREEN,monday,Peenya Industry,1,s2655,t192,1
+GREEN,monday,Peenya Industry,1,s2655,t194,1
+GREEN,monday,Peenya Industry,1,s2655,t196,1
+GREEN,monday,Peenya Industry,1,s2655,t198,1
+GREEN,monday,Peenya Industry,1,s2655,t200,1
+GREEN,monday,Peenya Industry,1,s2655,t202,1
+GREEN,monday,Peenya Industry,1,s2655,t204,1
+GREEN,monday,Peenya Industry,1,s2655,t206,1
+GREEN,monday,Peenya Industry,1,s2655,t208,1
+GREEN,monday,Peenya Industry,1,s2655,t210,1
+GREEN,monday,Peenya Industry,1,s2655,t212,1
+GREEN,monday,Peenya Industry,1,s2655,t260,1
+GREEN,monday,Peenya Industry,1,s2655,t262,1
+GREEN,monday,Peenya Industry,1,s2655,t264,1
+GREEN,monday,Peenya Industry,1,s2655,t266,1
+GREEN,monday,Peenya Industry,1,s2655,t268,1
+GREEN,monday,Peenya Industry,1,s2655,t270,1
+GREEN,monday,Peenya Industry,1,s2655,t272,1
+GREEN,monday,Peenya Industry,1,s2655,t274,1
+GREEN,monday,Peenya Industry,1,s2655,t276,1
+GREEN,monday,Peenya Industry,1,s2655,t278,1
+GREEN,monday,Peenya Industry,1,s2655,t280,1
+GREEN,monday,Peenya Industry,1,s2655,t282,1
+GREEN,monday,Peenya Industry,1,s2655,t284,1
+GREEN,monday,Peenya Industry,1,s2655,t286,1
+GREEN,monday,Peenya Industry,1,s2655,t288,1
+GREEN,monday,Peenya Industry,1,s2655,t290,1
+GREEN,monday,Peenya Industry,1,s2655,t292,1
+GREEN,monday,Peenya Industry,1,s2655,t294,1
+GREEN,monday,Peenya Industry,1,s2655,t296,1
+GREEN,monday,Peenya Industry,1,s2655,t298,1
+GREEN,monday,Silk Institute,0,s1871,t102,1
+GREEN,monday,Silk Institute,0,s1871,t104,1
+GREEN,monday,Silk Institute,0,s1871,t106,1
+GREEN,monday,Silk Institute,0,s1871,t108,1
+GREEN,monday,Silk Institute,0,s1871,t11,1
+GREEN,monday,Silk Institute,0,s1871,t110,1
+GREEN,monday,Silk Institute,0,s1871,t112,1
+GREEN,monday,Silk Institute,0,s1871,t114,1
+GREEN,monday,Silk Institute,0,s1871,t116,1
+GREEN,monday,Silk Institute,0,s1871,t118,1
+GREEN,monday,Silk Institute,0,s1871,t120,1
+GREEN,monday,Silk Institute,0,s1871,t122,1
+GREEN,monday,Silk Institute,0,s1871,t124,1
+GREEN,monday,Silk Institute,0,s1871,t126,1
+GREEN,monday,Silk Institute,0,s1871,t128,1
+GREEN,monday,Silk Institute,0,s1871,t13,1
+GREEN,monday,Silk Institute,0,s1871,t130,1
+GREEN,monday,Silk Institute,0,s1871,t132,1
+GREEN,monday,Silk Institute,0,s1871,t134,1
+GREEN,monday,Silk Institute,0,s1871,t15,1
+GREEN,monday,Silk Institute,0,s1871,t157,1
+GREEN,monday,Silk Institute,0,s1871,t17,1
+GREEN,monday,Silk Institute,0,s1871,t19,1
+GREEN,monday,Silk Institute,0,s1871,t21,1
+GREEN,monday,Silk Institute,0,s1871,t23,1
+GREEN,monday,Silk Institute,0,s1871,t25,1
+GREEN,monday,Silk Institute,0,s1871,t27,1
+GREEN,monday,Silk Institute,0,s1871,t29,1
+GREEN,monday,Silk Institute,0,s1871,t31,1
+GREEN,monday,Silk Institute,0,s1871,t33,1
+GREEN,monday,Silk Institute,0,s1871,t35,1
+GREEN,monday,Silk Institute,0,s1871,t37,1
+GREEN,monday,Silk Institute,0,s1871,t39,1
+GREEN,monday,Silk Institute,0,s1871,t4,1
+GREEN,monday,Silk Institute,0,s1871,t41,1
+GREEN,monday,Silk Institute,0,s1871,t43,1
+GREEN,monday,Silk Institute,0,s1871,t45,1
+GREEN,monday,Silk Institute,0,s1871,t47,1
+GREEN,monday,Silk Institute,0,s1871,t49,1
+GREEN,monday,Silk Institute,0,s1871,t4_2,1
+GREEN,monday,Silk Institute,0,s1871,t51,1
+GREEN,monday,Silk Institute,0,s1871,t53,1
+GREEN,monday,Yelachenahalli,0,s133,t0,1
+GREEN,monday,Yelachenahalli,0,s133,t10,1
+GREEN,monday,Yelachenahalli,0,s133,t101,1
+GREEN,monday,Yelachenahalli,0,s133,t103,1
+GREEN,monday,Yelachenahalli,0,s133,t105,1
+GREEN,monday,Yelachenahalli,0,s133,t107,1
+GREEN,monday,Yelachenahalli,0,s133,t109,1
+GREEN,monday,Yelachenahalli,0,s133,t111,1
+GREEN,monday,Yelachenahalli,0,s133,t113,1
+GREEN,monday,Yelachenahalli,0,s133,t115,1
+GREEN,monday,Yelachenahalli,0,s133,t117,1
+GREEN,monday,Yelachenahalli,0,s133,t119,1
+GREEN,monday,Yelachenahalli,0,s133,t12,1
+GREEN,monday,Yelachenahalli,0,s133,t121,1
+GREEN,monday,Yelachenahalli,0,s133,t123,1
+GREEN,monday,Yelachenahalli,0,s133,t125,1
+GREEN,monday,Yelachenahalli,0,s133,t127,1
+GREEN,monday,Yelachenahalli,0,s133,t129,1
+GREEN,monday,Yelachenahalli,0,s133,t131,1
+GREEN,monday,Yelachenahalli,0,s133,t133,1
+GREEN,monday,Yelachenahalli,0,s133,t135,1
+GREEN,monday,Yelachenahalli,0,s133,t14,1
+GREEN,monday,Yelachenahalli,0,s133,t16,1
+GREEN,monday,Yelachenahalli,0,s133,t18,1
+GREEN,monday,Yelachenahalli,0,s133,t20,1
+GREEN,monday,Yelachenahalli,0,s133,t22,1
+GREEN,monday,Yelachenahalli,0,s133,t24,1
+GREEN,monday,Yelachenahalli,0,s133,t26,1
+GREEN,monday,Yelachenahalli,0,s133,t28,1
+GREEN,monday,Yelachenahalli,0,s133,t30,1
+GREEN,monday,Yelachenahalli,0,s133,t32,1
+GREEN,monday,Yelachenahalli,0,s133,t34,1
+GREEN,monday,Yelachenahalli,0,s133,t36,1
+GREEN,monday,Yelachenahalli,0,s133,t38,1
+GREEN,monday,Yelachenahalli,0,s133,t40,1
+GREEN,monday,Yelachenahalli,0,s133,t42,1
+GREEN,monday,Yelachenahalli,0,s133,t44,1
+GREEN,monday,Yelachenahalli,0,s133,t46,1
+GREEN,monday,Yelachenahalli,0,s133,t48,1
+GREEN,monday,Yelachenahalli,0,s133,t50,1
+GREEN,monday,Yelachenahalli,0,s133,t52,1
+GREEN,sunday,Madavara,1,s1915,t1961,1
+GREEN,sunday,Madavara,1,s1915,t1961_2,1
+GREEN,sunday,Silk Institute,0,s1871,t1864,1
+GREEN,weekday,Madavara,1,s1915,t2535,1
+GREEN,weekday,Madavara,1,s1915,t2535_2,1
+GREEN,weekday,Madavara,1,s1915,t2542,1
+GREEN,weekday,Madavara,1,s1915,t2544,1
+GREEN,weekday,Madavara,1,s1915,t2546,1
+GREEN,weekday,Madavara,1,s1915,t2548,1
+GREEN,weekday,Madavara,1,s1915,t2550,1
+GREEN,weekday,Madavara,1,s1915,t2552,1
+GREEN,weekday,Madavara,1,s1915,t2554,1
+GREEN,weekday,Madavara,1,s1915,t2556,1
+GREEN,weekday,Madavara,1,s1915,t2558,1
+GREEN,weekday,Madavara,1,s1915,t2560,1
+GREEN,weekday,Madavara,1,s1915,t2562,1
+GREEN,weekday,Madavara,1,s1915,t2564,1
+GREEN,weekday,Madavara,1,s1915,t2566,1
+GREEN,weekday,Madavara,1,s1915,t2568,1
+GREEN,weekday,Madavara,1,s1915,t2570,1
+GREEN,weekday,Madavara,1,s1915,t2572,1
+GREEN,weekday,Madavara,1,s1915,t2574,1
+GREEN,weekday,Madavara,1,s1915,t2576,1
+GREEN,weekday,Madavara,1,s1915,t2578,1
+GREEN,weekday,Madavara,1,s1915,t2580,1
+GREEN,weekday,Madavara,1,s1915,t2590,1
+GREEN,weekday,Madavara,1,s1915,t2590_2,1
+GREEN,weekday,Madavara,1,s1915,t2630,1
+GREEN,weekday,Madavara,1,s1915,t2632,1
+GREEN,weekday,Madavara,1,s1915,t2634,1
+GREEN,weekday,Madavara,1,s1915,t2636,1
+GREEN,weekday,Madavara,1,s1915,t2638,1
+GREEN,weekday,Madavara,1,s1915,t2640,1
+GREEN,weekday,Madavara,1,s1915,t2642,1
+GREEN,weekday,Madavara,1,s1915,t2644,1
+GREEN,weekday,Madavara,1,s1915,t2646,1
+GREEN,weekday,Madavara,1,s1915,t2648,1
+GREEN,weekday,Madavara,1,s1915,t2650,1
+GREEN,weekday,Madavara,1,s1915,t2652,1
+GREEN,weekday,Madavara,1,s1915,t2654,1
+GREEN,weekday,Madavara,1,s1915,t2656,1
+GREEN,weekday,Madavara,1,s1915,t2658,1
+GREEN,weekday,Madavara,1,s1915,t2660,1
+GREEN,weekday,Madavara,1,s1915,t2662,1
+GREEN,weekday,Madavara,1,s1915,t2664,1
+GREEN,weekday,Madavara,1,s1915,t2666,1
+GREEN,weekday,Madavara,1,s1915,t2669,1
+GREEN,weekday,Peenya Industry,1,s2655,t2541,1
+GREEN,weekday,Peenya Industry,1,s2655,t2543,1
+GREEN,weekday,Peenya Industry,1,s2655,t2545,1
+GREEN,weekday,Peenya Industry,1,s2655,t2547,1
+GREEN,weekday,Peenya Industry,1,s2655,t2549,1
+GREEN,weekday,Peenya Industry,1,s2655,t2551,1
+GREEN,weekday,Peenya Industry,1,s2655,t2553,1
+GREEN,weekday,Peenya Industry,1,s2655,t2555,1
+GREEN,weekday,Peenya Industry,1,s2655,t2557,1
+GREEN,weekday,Peenya Industry,1,s2655,t2559,1
+GREEN,weekday,Peenya Industry,1,s2655,t2561,1
+GREEN,weekday,Peenya Industry,1,s2655,t2563,1
+GREEN,weekday,Peenya Industry,1,s2655,t2565,1
+GREEN,weekday,Peenya Industry,1,s2655,t2567,1
+GREEN,weekday,Peenya Industry,1,s2655,t2569,1
+GREEN,weekday,Peenya Industry,1,s2655,t2571,1
+GREEN,weekday,Peenya Industry,1,s2655,t2573,1
+GREEN,weekday,Peenya Industry,1,s2655,t2575,1
+GREEN,weekday,Peenya Industry,1,s2655,t2577,1
+GREEN,weekday,Peenya Industry,1,s2655,t2579,1
+GREEN,weekday,Peenya Industry,1,s2655,t2581,1
+GREEN,weekday,Peenya Industry,1,s2655,t2629,1
+GREEN,weekday,Peenya Industry,1,s2655,t2631,1
+GREEN,weekday,Peenya Industry,1,s2655,t2633,1
+GREEN,weekday,Peenya Industry,1,s2655,t2635,1
+GREEN,weekday,Peenya Industry,1,s2655,t2637,1
+GREEN,weekday,Peenya Industry,1,s2655,t2639,1
+GREEN,weekday,Peenya Industry,1,s2655,t2641,1
+GREEN,weekday,Peenya Industry,1,s2655,t2643,1
+GREEN,weekday,Peenya Industry,1,s2655,t2645,1
+GREEN,weekday,Peenya Industry,1,s2655,t2647,1
+GREEN,weekday,Peenya Industry,1,s2655,t2649,1
+GREEN,weekday,Peenya Industry,1,s2655,t2651,1
+GREEN,weekday,Peenya Industry,1,s2655,t2653,1
+GREEN,weekday,Peenya Industry,1,s2655,t2655,1
+GREEN,weekday,Peenya Industry,1,s2655,t2657,1
+GREEN,weekday,Peenya Industry,1,s2655,t2659,1
+GREEN,weekday,Peenya Industry,1,s2655,t2661,1
+GREEN,weekday,Peenya Industry,1,s2655,t2663,1
+GREEN,weekday,Peenya Industry,1,s2655,t2665,1
+GREEN,weekday,Peenya Industry,1,s2655,t2667,1
+GREEN,weekday,Silk Institute,0,s1871,t2381,1
+GREEN,weekday,Silk Institute,0,s1871,t2381_2,1
+GREEN,weekday,Silk Institute,0,s1871,t2387,1
+GREEN,weekday,Silk Institute,0,s1871,t2389,1
+GREEN,weekday,Silk Institute,0,s1871,t2391,1
+GREEN,weekday,Silk Institute,0,s1871,t2393,1
+GREEN,weekday,Silk Institute,0,s1871,t2395,1
+GREEN,weekday,Silk Institute,0,s1871,t2397,1
+GREEN,weekday,Silk Institute,0,s1871,t2399,1
+GREEN,weekday,Silk Institute,0,s1871,t2401,1
+GREEN,weekday,Silk Institute,0,s1871,t2403,1
+GREEN,weekday,Silk Institute,0,s1871,t2405,1
+GREEN,weekday,Silk Institute,0,s1871,t2407,1
+GREEN,weekday,Silk Institute,0,s1871,t2409,1
+GREEN,weekday,Silk Institute,0,s1871,t2411,1
+GREEN,weekday,Silk Institute,0,s1871,t2413,1
+GREEN,weekday,Silk Institute,0,s1871,t2415,1
+GREEN,weekday,Silk Institute,0,s1871,t2417,1
+GREEN,weekday,Silk Institute,0,s1871,t2419,1
+GREEN,weekday,Silk Institute,0,s1871,t2421,1
+GREEN,weekday,Silk Institute,0,s1871,t2423,1
+GREEN,weekday,Silk Institute,0,s1871,t2456,1
+GREEN,weekday,Silk Institute,0,s1871,t2474,1
+GREEN,weekday,Silk Institute,0,s1871,t2476,1
+GREEN,weekday,Silk Institute,0,s1871,t2478,1
+GREEN,weekday,Silk Institute,0,s1871,t2480,1
+GREEN,weekday,Silk Institute,0,s1871,t2482,1
+GREEN,weekday,Silk Institute,0,s1871,t2484,1
+GREEN,weekday,Silk Institute,0,s1871,t2486,1
+GREEN,weekday,Silk Institute,0,s1871,t2488,1
+GREEN,weekday,Silk Institute,0,s1871,t2490,1
+GREEN,weekday,Silk Institute,0,s1871,t2492,1
+GREEN,weekday,Silk Institute,0,s1871,t2494,1
+GREEN,weekday,Silk Institute,0,s1871,t2496,1
+GREEN,weekday,Silk Institute,0,s1871,t2498,1
+GREEN,weekday,Silk Institute,0,s1871,t2500,1
+GREEN,weekday,Silk Institute,0,s1871,t2502,1
+GREEN,weekday,Silk Institute,0,s1871,t2504,1
+GREEN,weekday,Silk Institute,0,s1871,t2506,1
+GREEN,weekday,Silk Institute,0,s1871,t2508,1
+GREEN,weekday,Yelachenahalli,0,s133,t2378,1
+GREEN,weekday,Yelachenahalli,0,s133,t2386,1
+GREEN,weekday,Yelachenahalli,0,s133,t2388,1
+GREEN,weekday,Yelachenahalli,0,s133,t2390,1
+GREEN,weekday,Yelachenahalli,0,s133,t2392,1
+GREEN,weekday,Yelachenahalli,0,s133,t2394,1
+GREEN,weekday,Yelachenahalli,0,s133,t2396,1
+GREEN,weekday,Yelachenahalli,0,s133,t2398,1
+GREEN,weekday,Yelachenahalli,0,s133,t2400,1
+GREEN,weekday,Yelachenahalli,0,s133,t2402,1
+GREEN,weekday,Yelachenahalli,0,s133,t2404,1
+GREEN,weekday,Yelachenahalli,0,s133,t2406,1
+GREEN,weekday,Yelachenahalli,0,s133,t2408,1
+GREEN,weekday,Yelachenahalli,0,s133,t2410,1
+GREEN,weekday,Yelachenahalli,0,s133,t2412,1
+GREEN,weekday,Yelachenahalli,0,s133,t2414,1
+GREEN,weekday,Yelachenahalli,0,s133,t2416,1
+GREEN,weekday,Yelachenahalli,0,s133,t2418,1
+GREEN,weekday,Yelachenahalli,0,s133,t2420,1
+GREEN,weekday,Yelachenahalli,0,s133,t2422,1
+GREEN,weekday,Yelachenahalli,0,s133,t2424,1
+GREEN,weekday,Yelachenahalli,0,s133,t2473,1
+GREEN,weekday,Yelachenahalli,0,s133,t2475,1
+GREEN,weekday,Yelachenahalli,0,s133,t2477,1
+GREEN,weekday,Yelachenahalli,0,s133,t2479,1
+GREEN,weekday,Yelachenahalli,0,s133,t2481,1
+GREEN,weekday,Yelachenahalli,0,s133,t2483,1
+GREEN,weekday,Yelachenahalli,0,s133,t2485,1
+GREEN,weekday,Yelachenahalli,0,s133,t2487,1
+GREEN,weekday,Yelachenahalli,0,s133,t2489,1
+GREEN,weekday,Yelachenahalli,0,s133,t2491,1
+GREEN,weekday,Yelachenahalli,0,s133,t2493,1
+GREEN,weekday,Yelachenahalli,0,s133,t2495,1
+GREEN,weekday,Yelachenahalli,0,s133,t2497,1
+GREEN,weekday,Yelachenahalli,0,s133,t2499,1
+GREEN,weekday,Yelachenahalli,0,s133,t2501,1
+GREEN,weekday,Yelachenahalli,0,s133,t2503,1
+GREEN,weekday,Yelachenahalli,0,s133,t2505,1
+GREEN,weekday,Yelachenahalli,0,s133,t2507,1
+PURPLE,holiday,Baiyappanahalli,1,s2855,t1388,1
+PURPLE,holiday,Challaghatta,0,s2740,t1236,1
+PURPLE,holiday,Challaghatta,0,s2740,t1242,1
+PURPLE,holiday,Challaghatta,0,s2740,t1244,1
+PURPLE,holiday,Challaghatta,0,s2740,t1246,1
+PURPLE,holiday,Challaghatta,0,s2740,t1248,1
+PURPLE,holiday,Challaghatta,0,s2740,t1250,1
+PURPLE,holiday,Challaghatta,0,s2740,t1252,1
+PURPLE,holiday,Challaghatta,0,s2740,t1254,1
+PURPLE,holiday,Challaghatta,0,s2740,t1256,1
+PURPLE,holiday,Challaghatta,0,s2740,t1258,1
+PURPLE,holiday,Challaghatta,0,s2740,t1260,1
+PURPLE,holiday,Challaghatta,0,s2740,t1262,1
+PURPLE,holiday,Challaghatta,0,s2740,t1264,1
+PURPLE,holiday,Challaghatta,0,s2740,t1266,1
+PURPLE,holiday,Challaghatta,0,s2740,t1268,1
+PURPLE,holiday,Challaghatta,0,s2740,t1270,1
+PURPLE,holiday,Challaghatta,0,s2740,t1272,1
+PURPLE,holiday,Challaghatta,0,s2740,t1274,1
+PURPLE,holiday,Challaghatta,0,s2740,t1276,1
+PURPLE,holiday,Challaghatta,0,s2740,t1278,1
+PURPLE,holiday,Challaghatta,0,s2740,t1280,1
+PURPLE,holiday,Challaghatta,0,s2740,t1282,1
+PURPLE,holiday,Challaghatta,0,s2740,t1284,1
+PURPLE,holiday,Challaghatta,0,s2740,t1299,1
+PURPLE,holiday,Challaghatta,0,s2740,t1327,1
+PURPLE,holiday,Challaghatta,0,s2740,t1329,1
+PURPLE,holiday,Challaghatta,0,s2740,t1331,1
+PURPLE,holiday,Challaghatta,0,s2740,t1333,1
+PURPLE,holiday,Challaghatta,0,s2740,t1335,1
+PURPLE,holiday,Challaghatta,0,s2740,t1337,1
+PURPLE,holiday,Challaghatta,0,s2740,t1339,1
+PURPLE,holiday,Challaghatta,0,s2740,t1341,1
+PURPLE,holiday,Challaghatta,0,s2740,t1343,1
+PURPLE,holiday,Challaghatta,0,s2740,t1345,1
+PURPLE,holiday,Challaghatta,0,s2740,t1347,1
+PURPLE,holiday,Challaghatta,0,s2740,t1350,1
+PURPLE,holiday,Challaghatta,0,s2740,t1352,1
+PURPLE,holiday,Challaghatta,0,s2740,t1354,1
+PURPLE,holiday,Challaghatta,0,s2740,t1356,1
+PURPLE,holiday,Challaghatta,0,s2740,t1358,1
+PURPLE,holiday,Challaghatta,0,s2740,t1360,1
+PURPLE,holiday,Challaghatta,0,s2740,t1362,1
+PURPLE,holiday,Challaghatta,0,s2740,t1364,1
+PURPLE,holiday,Challaghatta,0,s2740,t1366,1
+PURPLE,holiday,Challaghatta,0,s2740,t1368,1
+PURPLE,holiday,Challaghatta,0,s2740,t1370,1
+PURPLE,holiday,Challaghatta,0,s2740,t1376,1
+PURPLE,holiday,Garudacharpalya,1,s1432,t1414,1
+PURPLE,holiday,Garudacharpalya,1,s1432,t1416,1
+PURPLE,holiday,Garudacharpalya,1,s1432,t1418,1
+PURPLE,holiday,Garudacharpalya,1,s1432,t1420,1
+PURPLE,holiday,Garudacharpalya,1,s1432,t1422,1
+PURPLE,holiday,Garudacharpalya,1,s1432,t1424,1
+PURPLE,holiday,Garudacharpalya,1,s1432,t1426,1
+PURPLE,holiday,Garudacharpalya,1,s1432,t1429,1
+PURPLE,holiday,Garudacharpalya,1,s1432,t1432,1
+PURPLE,holiday,Garudacharpalya,1,s1432,t1435,1
+PURPLE,holiday,Garudacharpalya,1,s1432,t1439,1
+PURPLE,holiday,Garudacharpalya,1,s1432,t1442,1
+PURPLE,holiday,Garudacharpalya,1,s1432,t1445,1
+PURPLE,holiday,Garudacharpalya,1,s1432,t1449,1
+PURPLE,holiday,Garudacharpalya,1,s1432,t1458,1
+PURPLE,holiday,Garudacharpalya,1,s1432,t1507,1
+PURPLE,holiday,Garudacharpalya,1,s1432,t1509,1
+PURPLE,holiday,Garudacharpalya,1,s1432,t1511,1
+PURPLE,holiday,Garudacharpalya,1,s1432,t1513,1
+PURPLE,holiday,Garudacharpalya,1,s1432,t1515,1
+PURPLE,holiday,Garudacharpalya,1,s1432,t1517,1
+PURPLE,holiday,Garudacharpalya,1,s1432,t1519,1
+PURPLE,holiday,Garudacharpalya,1,s1432,t1521,1
+PURPLE,holiday,Garudacharpalya,1,s1432,t1523,1
+PURPLE,holiday,Garudacharpalya,1,s1432,t1525,1
+PURPLE,holiday,Garudacharpalya,1,s1432,t1527,1
+PURPLE,holiday,Garudacharpalya,1,s1432,t1529,1
+PURPLE,holiday,Garudacharpalya,1,s1432,t1531,1
+PURPLE,holiday,Garudacharpalya,1,s1432,t1533,1
+PURPLE,holiday,Garudacharpalya,1,s1432,t1535,1
+PURPLE,holiday,Garudacharpalya,1,s1432,t1537,1
+PURPLE,holiday,Garudacharpalya,1,s1432,t1539,1
+PURPLE,holiday,Garudacharpalya,1,s1432,t1541,1
+PURPLE,holiday,Garudacharpalya,1,s1432,t1543,1
+PURPLE,holiday,Garudacharpalya,1,s1432,t1545,1
+PURPLE,holiday,Garudacharpalya,1,s1432,t1547,1
+PURPLE,holiday,Garudacharpalya,1,s1432,t1549,1
+PURPLE,holiday,Garudacharpalya,1,s1432,t1551,1
+PURPLE,holiday,Garudacharpalya,1,s1432,t1553,1
+PURPLE,holiday,Mysore Road,0,s1351,t1229,1
+PURPLE,holiday,Mysore Road,0,s1351,t1349,1
+PURPLE,holiday,Mysore Road,0,s1351,t1351,1
+PURPLE,holiday,Mysore Road,0,s1351,t1353,1
+PURPLE,holiday,Mysore Road,0,s1351,t1355,1
+PURPLE,holiday,Mysore Road,0,s1351,t1357,1
+PURPLE,holiday,Mysore Road,0,s1351,t1359,1
+PURPLE,holiday,Mysore Road,0,s1351,t1361,1
+PURPLE,holiday,Mysore Road,0,s1351,t1363,1
+PURPLE,holiday,Mysore Road,0,s1351,t1365,1
+PURPLE,holiday,Mysore Road,0,s1351,t1367,1
+PURPLE,holiday,Mysore Road,0,s1351,t1369,1
+PURPLE,holiday,Mysore Road,0,s2723,t1230,1
+PURPLE,holiday,Mysore Road,0,s2723,t1241,1
+PURPLE,holiday,Mysore Road,0,s2723,t1243,1
+PURPLE,holiday,Mysore Road,0,s2723,t1245,1
+PURPLE,holiday,Mysore Road,0,s2723,t1247,1
+PURPLE,holiday,Mysore Road,0,s2723,t1249,1
+PURPLE,holiday,Mysore Road,0,s2723,t1251,1
+PURPLE,holiday,Mysore Road,0,s2723,t1253,1
+PURPLE,holiday,Mysore Road,0,s2723,t1255,1
+PURPLE,holiday,Mysore Road,0,s2723,t1257,1
+PURPLE,holiday,Mysore Road,0,s2723,t1259,1
+PURPLE,holiday,Mysore Road,0,s2723,t1261,1
+PURPLE,holiday,Mysore Road,0,s2723,t1263,1
+PURPLE,holiday,Mysore Road,0,s2723,t1265,1
+PURPLE,holiday,Mysore Road,0,s2723,t1267,1
+PURPLE,holiday,Mysore Road,0,s2723,t1269,1
+PURPLE,holiday,Mysore Road,0,s2723,t1271,1
+PURPLE,holiday,Mysore Road,0,s2723,t1273,1
+PURPLE,holiday,Mysore Road,0,s2723,t1275,1
+PURPLE,holiday,Mysore Road,0,s2723,t1277,1
+PURPLE,holiday,Mysore Road,0,s2723,t1279,1
+PURPLE,holiday,Mysore Road,0,s2723,t1281,1
+PURPLE,holiday,Mysore Road,0,s2723,t1283,1
+PURPLE,holiday,Mysore Road,0,s2723,t1285,1
+PURPLE,holiday,Mysore Road,0,s2723,t1326,1
+PURPLE,holiday,Mysore Road,0,s2723,t1328,1
+PURPLE,holiday,Mysore Road,0,s2723,t1330,1
+PURPLE,holiday,Mysore Road,0,s2723,t1332,1
+PURPLE,holiday,Mysore Road,0,s2723,t1334,1
+PURPLE,holiday,Mysore Road,0,s2723,t1336,1
+PURPLE,holiday,Mysore Road,0,s2723,t1338,1
+PURPLE,holiday,Mysore Road,0,s2723,t1340,1
+PURPLE,holiday,Mysore Road,0,s2723,t1342,1
+PURPLE,holiday,Mysore Road,0,s2723,t1344,1
+PURPLE,holiday,Mysore Road,0,s2723,t1346,1
+PURPLE,holiday,Mysore Road,0,s2723,t1371,1
+PURPLE,holiday,Pattandur Agrahara,1,s1389,t1394,1
+PURPLE,holiday,Pattandur Agrahara,1,s1389,t1394_2,1
+PURPLE,holiday,Whitefield (Kadugodi),1,s1450,t1399,1
+PURPLE,holiday,Whitefield (Kadugodi),1,s1450,t1399_2,1
+PURPLE,holiday,Whitefield (Kadugodi),1,s1450,t1428,1
+PURPLE,holiday,Whitefield (Kadugodi),1,s1450,t1430,1
+PURPLE,holiday,Whitefield (Kadugodi),1,s1450,t1433,1
+PURPLE,holiday,Whitefield (Kadugodi),1,s1450,t1436,1
+PURPLE,holiday,Whitefield (Kadugodi),1,s1450,t1440,1
+PURPLE,holiday,Whitefield (Kadugodi),1,s1450,t1443,1
+PURPLE,holiday,Whitefield (Kadugodi),1,s1450,t1446,1
+PURPLE,holiday,Whitefield (Kadugodi),1,s1450,t1450,1
+PURPLE,holiday,Whitefield (Kadugodi),1,s1450,t1450_2,1
+PURPLE,holiday,Whitefield (Kadugodi),1,s2895,t1411,1
+PURPLE,holiday,Whitefield (Kadugodi),1,s2895,t1415,1
+PURPLE,holiday,Whitefield (Kadugodi),1,s2895,t1417,1
+PURPLE,holiday,Whitefield (Kadugodi),1,s2895,t1419,1
+PURPLE,holiday,Whitefield (Kadugodi),1,s2895,t1421,1
+PURPLE,holiday,Whitefield (Kadugodi),1,s2895,t1423,1
+PURPLE,holiday,Whitefield (Kadugodi),1,s2895,t1425,1
+PURPLE,holiday,Whitefield (Kadugodi),1,s2895,t1427,1
+PURPLE,holiday,Whitefield (Kadugodi),1,s2895,t1431,1
+PURPLE,holiday,Whitefield (Kadugodi),1,s2895,t1434,1
+PURPLE,holiday,Whitefield (Kadugodi),1,s2895,t1437,1
+PURPLE,holiday,Whitefield (Kadugodi),1,s2895,t1441,1
+PURPLE,holiday,Whitefield (Kadugodi),1,s2895,t1444,1
+PURPLE,holiday,Whitefield (Kadugodi),1,s2895,t1447,1
+PURPLE,holiday,Whitefield (Kadugodi),1,s2895,t1451,1
+PURPLE,holiday,Whitefield (Kadugodi),1,s2895,t1476,1
+PURPLE,holiday,Whitefield (Kadugodi),1,s2895,t1508,1
+PURPLE,holiday,Whitefield (Kadugodi),1,s2895,t1510,1
+PURPLE,holiday,Whitefield (Kadugodi),1,s2895,t1512,1
+PURPLE,holiday,Whitefield (Kadugodi),1,s2895,t1514,1
+PURPLE,holiday,Whitefield (Kadugodi),1,s2895,t1516,1
+PURPLE,holiday,Whitefield (Kadugodi),1,s2895,t1518,1
+PURPLE,holiday,Whitefield (Kadugodi),1,s2895,t1520,1
+PURPLE,holiday,Whitefield (Kadugodi),1,s2895,t1522,1
+PURPLE,holiday,Whitefield (Kadugodi),1,s2895,t1524,1
+PURPLE,holiday,Whitefield (Kadugodi),1,s2895,t1526,1
+PURPLE,holiday,Whitefield (Kadugodi),1,s2895,t1528,1
+PURPLE,holiday,Whitefield (Kadugodi),1,s2895,t1530,1
+PURPLE,holiday,Whitefield (Kadugodi),1,s2895,t1532,1
+PURPLE,holiday,Whitefield (Kadugodi),1,s2895,t1534,1
+PURPLE,holiday,Whitefield (Kadugodi),1,s2895,t1536,1
+PURPLE,holiday,Whitefield (Kadugodi),1,s2895,t1538,1
+PURPLE,holiday,Whitefield (Kadugodi),1,s2895,t1540,1
+PURPLE,holiday,Whitefield (Kadugodi),1,s2895,t1542,1
+PURPLE,holiday,Whitefield (Kadugodi),1,s2895,t1544,1
+PURPLE,holiday,Whitefield (Kadugodi),1,s2895,t1546,1
+PURPLE,holiday,Whitefield (Kadugodi),1,s2895,t1548,1
+PURPLE,holiday,Whitefield (Kadugodi),1,s2895,t1550,1
+PURPLE,holiday,Whitefield (Kadugodi),1,s2895,t1552,1
+PURPLE,holiday,Whitefield (Kadugodi),1,s2895,t1563,1
+PURPLE,monday,Baiyappanahalli,1,s2855,t488,1
+PURPLE,monday,Baiyappanahalli,1,s2855,t508,1
+PURPLE,monday,Challaghatta,0,s2694,t324,1
+PURPLE,monday,Challaghatta,0,s2740,t334,1
+PURPLE,monday,Challaghatta,0,s2740,t343,1
+PURPLE,monday,Challaghatta,0,s2740,t345,1
+PURPLE,monday,Challaghatta,0,s2740,t347,1
+PURPLE,monday,Challaghatta,0,s2740,t349,1
+PURPLE,monday,Challaghatta,0,s2740,t351,1
+PURPLE,monday,Challaghatta,0,s2740,t353,1
+PURPLE,monday,Challaghatta,0,s2740,t355,1
+PURPLE,monday,Challaghatta,0,s2740,t357,1
+PURPLE,monday,Challaghatta,0,s2740,t359,1
+PURPLE,monday,Challaghatta,0,s2740,t361,1
+PURPLE,monday,Challaghatta,0,s2740,t363,1
+PURPLE,monday,Challaghatta,0,s2740,t365,1
+PURPLE,monday,Challaghatta,0,s2740,t367,1
+PURPLE,monday,Challaghatta,0,s2740,t369,1
+PURPLE,monday,Challaghatta,0,s2740,t371,1
+PURPLE,monday,Challaghatta,0,s2740,t373,1
+PURPLE,monday,Challaghatta,0,s2740,t375,1
+PURPLE,monday,Challaghatta,0,s2740,t377,1
+PURPLE,monday,Challaghatta,0,s2740,t379,1
+PURPLE,monday,Challaghatta,0,s2740,t381,1
+PURPLE,monday,Challaghatta,0,s2740,t383,1
+PURPLE,monday,Challaghatta,0,s2740,t385,1
+PURPLE,monday,Challaghatta,0,s2740,t405,1
+PURPLE,monday,Challaghatta,0,s2740,t428,1
+PURPLE,monday,Challaghatta,0,s2740,t430,1
+PURPLE,monday,Challaghatta,0,s2740,t432,1
+PURPLE,monday,Challaghatta,0,s2740,t434,1
+PURPLE,monday,Challaghatta,0,s2740,t436,1
+PURPLE,monday,Challaghatta,0,s2740,t438,1
+PURPLE,monday,Challaghatta,0,s2740,t441,1
+PURPLE,monday,Challaghatta,0,s2740,t444,1
+PURPLE,monday,Challaghatta,0,s2740,t446,1
+PURPLE,monday,Challaghatta,0,s2740,t448,1
+PURPLE,monday,Challaghatta,0,s2740,t450,1
+PURPLE,monday,Challaghatta,0,s2740,t452,1
+PURPLE,monday,Challaghatta,0,s2740,t454,1
+PURPLE,monday,Challaghatta,0,s2740,t456,1
+PURPLE,monday,Challaghatta,0,s2740,t458,1
+PURPLE,monday,Challaghatta,0,s2740,t460,1
+PURPLE,monday,Challaghatta,0,s2740,t462,1
+PURPLE,monday,Challaghatta,0,s2740,t464,1
+PURPLE,monday,Challaghatta,0,s2740,t466,1
+PURPLE,monday,Challaghatta,0,s2740,t468,1
+PURPLE,monday,Challaghatta,0,s2740,t470,1
+PURPLE,monday,Challaghatta,0,s2740,t476,1
+PURPLE,monday,Garudacharpalya,1,s1432,t527,1
+PURPLE,monday,Garudacharpalya,1,s1432,t529,1
+PURPLE,monday,Garudacharpalya,1,s1432,t533,1
+PURPLE,monday,Garudacharpalya,1,s1432,t535,1
+PURPLE,monday,Garudacharpalya,1,s1432,t537,1
+PURPLE,monday,Garudacharpalya,1,s1432,t539,1
+PURPLE,monday,Garudacharpalya,1,s1432,t542,1
+PURPLE,monday,Garudacharpalya,1,s1432,t545,1
+PURPLE,monday,Garudacharpalya,1,s1432,t548,1
+PURPLE,monday,Garudacharpalya,1,s1432,t551,1
+PURPLE,monday,Garudacharpalya,1,s1432,t554,1
+PURPLE,monday,Garudacharpalya,1,s1432,t557,1
+PURPLE,monday,Garudacharpalya,1,s1432,t566,1
+PURPLE,monday,Garudacharpalya,1,s1432,t614,1
+PURPLE,monday,Garudacharpalya,1,s1432,t616,1
+PURPLE,monday,Garudacharpalya,1,s1432,t618,1
+PURPLE,monday,Garudacharpalya,1,s1432,t620,1
+PURPLE,monday,Garudacharpalya,1,s1432,t622,1
+PURPLE,monday,Garudacharpalya,1,s1432,t624,1
+PURPLE,monday,Garudacharpalya,1,s1432,t626,1
+PURPLE,monday,Garudacharpalya,1,s1432,t628,1
+PURPLE,monday,Garudacharpalya,1,s1432,t630,1
+PURPLE,monday,Garudacharpalya,1,s1432,t632,1
+PURPLE,monday,Garudacharpalya,1,s1432,t634,1
+PURPLE,monday,Garudacharpalya,1,s1432,t636,1
+PURPLE,monday,Garudacharpalya,1,s1432,t638,1
+PURPLE,monday,Garudacharpalya,1,s1432,t640,1
+PURPLE,monday,Garudacharpalya,1,s1432,t642,1
+PURPLE,monday,Garudacharpalya,1,s1432,t644,1
+PURPLE,monday,Garudacharpalya,1,s1432,t646,1
+PURPLE,monday,Garudacharpalya,1,s1432,t648,1
+PURPLE,monday,Garudacharpalya,1,s1432,t650,1
+PURPLE,monday,Garudacharpalya,1,s1432,t652,1
+PURPLE,monday,Garudacharpalya,1,s1432,t654,1
+PURPLE,monday,Garudacharpalya,1,s1432,t656,1
+PURPLE,monday,Garudacharpalya,1,s1432,t658,1
+PURPLE,monday,Garudacharpalya,1,s1432,t660,1
+PURPLE,monday,Garudacharpalya,1,s1432,t662,1
+PURPLE,monday,Mahatma Gandhi Road,1,s509,t509,1
+PURPLE,monday,Mysore Road,0,s1351,t326,1
+PURPLE,monday,Mysore Road,0,s1351,t427,1
+PURPLE,monday,Mysore Road,0,s1351,t429,1
+PURPLE,monday,Mysore Road,0,s1351,t431,1
+PURPLE,monday,Mysore Road,0,s1351,t433,1
+PURPLE,monday,Mysore Road,0,s1351,t435,1
+PURPLE,monday,Mysore Road,0,s1351,t437,1
+PURPLE,monday,Mysore Road,0,s1351,t439,1
+PURPLE,monday,Mysore Road,0,s1351,t443,1
+PURPLE,monday,Mysore Road,0,s1351,t445,1
+PURPLE,monday,Mysore Road,0,s1351,t447,1
+PURPLE,monday,Mysore Road,0,s1351,t449,1
+PURPLE,monday,Mysore Road,0,s1351,t451,1
+PURPLE,monday,Mysore Road,0,s1351,t453,1
+PURPLE,monday,Mysore Road,0,s1351,t455,1
+PURPLE,monday,Mysore Road,0,s1351,t457,1
+PURPLE,monday,Mysore Road,0,s1351,t459,1
+PURPLE,monday,Mysore Road,0,s1351,t461,1
+PURPLE,monday,Mysore Road,0,s1351,t463,1
+PURPLE,monday,Mysore Road,0,s1351,t465,1
+PURPLE,monday,Mysore Road,0,s1351,t467,1
+PURPLE,monday,Mysore Road,0,s1351,t469,1
+PURPLE,monday,Mysore Road,0,s2688,t319,1
+PURPLE,monday,Mysore Road,0,s2723,t327,1
+PURPLE,monday,Mysore Road,0,s2723,t342,1
+PURPLE,monday,Mysore Road,0,s2723,t344,1
+PURPLE,monday,Mysore Road,0,s2723,t346,1
+PURPLE,monday,Mysore Road,0,s2723,t348,1
+PURPLE,monday,Mysore Road,0,s2723,t350,1
+PURPLE,monday,Mysore Road,0,s2723,t352,1
+PURPLE,monday,Mysore Road,0,s2723,t354,1
+PURPLE,monday,Mysore Road,0,s2723,t356,1
+PURPLE,monday,Mysore Road,0,s2723,t358,1
+PURPLE,monday,Mysore Road,0,s2723,t360,1
+PURPLE,monday,Mysore Road,0,s2723,t362,1
+PURPLE,monday,Mysore Road,0,s2723,t364,1
+PURPLE,monday,Mysore Road,0,s2723,t366,1
+PURPLE,monday,Mysore Road,0,s2723,t368,1
+PURPLE,monday,Mysore Road,0,s2723,t370,1
+PURPLE,monday,Mysore Road,0,s2723,t372,1
+PURPLE,monday,Mysore Road,0,s2723,t374,1
+PURPLE,monday,Mysore Road,0,s2723,t376,1
+PURPLE,monday,Mysore Road,0,s2723,t378,1
+PURPLE,monday,Mysore Road,0,s2723,t380,1
+PURPLE,monday,Mysore Road,0,s2723,t382,1
+PURPLE,monday,Mysore Road,0,s2723,t384,1
+PURPLE,monday,Mysore Road,0,s2723,t386,1
+PURPLE,monday,Mysore Road,0,s2723,t471,1
+PURPLE,monday,"Nadaprabhu Kempegowda Station, Majestic",0,s322,t321,1
+PURPLE,monday,Pattandur Agrahara,1,s1389,t499,1
+PURPLE,monday,Pattandur Agrahara,1,s1389,t499_2,1
+PURPLE,monday,Whitefield (Kadugodi),1,s1450,t506,1
+PURPLE,monday,Whitefield (Kadugodi),1,s1450,t506_2,1
+PURPLE,monday,Whitefield (Kadugodi),1,s1450,t511,1
+PURPLE,monday,Whitefield (Kadugodi),1,s1450,t540,1
+PURPLE,monday,Whitefield (Kadugodi),1,s1450,t543,1
+PURPLE,monday,Whitefield (Kadugodi),1,s1450,t546,1
+PURPLE,monday,Whitefield (Kadugodi),1,s1450,t549,1
+PURPLE,monday,Whitefield (Kadugodi),1,s1450,t552,1
+PURPLE,monday,Whitefield (Kadugodi),1,s1450,t555,1
+PURPLE,monday,Whitefield (Kadugodi),1,s1450,t562,1
+PURPLE,monday,Whitefield (Kadugodi),1,s1450,t562_2,1
+PURPLE,monday,Whitefield (Kadugodi),1,s2895,t526,1
+PURPLE,monday,Whitefield (Kadugodi),1,s2895,t526_2,1
+PURPLE,monday,Whitefield (Kadugodi),1,s2895,t528,1
+PURPLE,monday,Whitefield (Kadugodi),1,s2895,t532,1
+PURPLE,monday,Whitefield (Kadugodi),1,s2895,t534,1
+PURPLE,monday,Whitefield (Kadugodi),1,s2895,t536,1
+PURPLE,monday,Whitefield (Kadugodi),1,s2895,t538,1
+PURPLE,monday,Whitefield (Kadugodi),1,s2895,t541,1
+PURPLE,monday,Whitefield (Kadugodi),1,s2895,t544,1
+PURPLE,monday,Whitefield (Kadugodi),1,s2895,t547,1
+PURPLE,monday,Whitefield (Kadugodi),1,s2895,t550,1
+PURPLE,monday,Whitefield (Kadugodi),1,s2895,t553,1
+PURPLE,monday,Whitefield (Kadugodi),1,s2895,t556,1
+PURPLE,monday,Whitefield (Kadugodi),1,s2895,t559,1
+PURPLE,monday,Whitefield (Kadugodi),1,s2895,t574,1
+PURPLE,monday,Whitefield (Kadugodi),1,s2895,t615,1
+PURPLE,monday,Whitefield (Kadugodi),1,s2895,t617,1
+PURPLE,monday,Whitefield (Kadugodi),1,s2895,t619,1
+PURPLE,monday,Whitefield (Kadugodi),1,s2895,t621,1
+PURPLE,monday,Whitefield (Kadugodi),1,s2895,t623,1
+PURPLE,monday,Whitefield (Kadugodi),1,s2895,t625,1
+PURPLE,monday,Whitefield (Kadugodi),1,s2895,t627,1
+PURPLE,monday,Whitefield (Kadugodi),1,s2895,t629,1
+PURPLE,monday,Whitefield (Kadugodi),1,s2895,t631,1
+PURPLE,monday,Whitefield (Kadugodi),1,s2895,t633,1
+PURPLE,monday,Whitefield (Kadugodi),1,s2895,t635,1
+PURPLE,monday,Whitefield (Kadugodi),1,s2895,t637,1
+PURPLE,monday,Whitefield (Kadugodi),1,s2895,t639,1
+PURPLE,monday,Whitefield (Kadugodi),1,s2895,t641,1
+PURPLE,monday,Whitefield (Kadugodi),1,s2895,t643,1
+PURPLE,monday,Whitefield (Kadugodi),1,s2895,t645,1
+PURPLE,monday,Whitefield (Kadugodi),1,s2895,t647,1
+PURPLE,monday,Whitefield (Kadugodi),1,s2895,t649,1
+PURPLE,monday,Whitefield (Kadugodi),1,s2895,t651,1
+PURPLE,monday,Whitefield (Kadugodi),1,s2895,t653,1
+PURPLE,monday,Whitefield (Kadugodi),1,s2895,t655,1
+PURPLE,monday,Whitefield (Kadugodi),1,s2895,t657,1
+PURPLE,monday,Whitefield (Kadugodi),1,s2895,t659,1
+PURPLE,monday,Whitefield (Kadugodi),1,s2895,t661,1
+PURPLE,monday,Whitefield (Kadugodi),1,s2895,t668,1
+PURPLE,sunday,Challaghatta,0,s2740,t2015,1
+PURPLE,sunday,Challaghatta,0,s2740,t2015_2,1
+PURPLE,sunday,Whitefield (Kadugodi),1,s2895,t2130,1
+PURPLE,weekday,Baiyappanahalli,1,s2855,t2854,1
+PURPLE,weekday,Baiyappanahalli,1,s2855,t2874,1
+PURPLE,weekday,Challaghatta,0,s2694,t2693,1
+PURPLE,weekday,Challaghatta,0,s2696,t2696,1
+PURPLE,weekday,Challaghatta,0,s2740,t2708,1
+PURPLE,weekday,Challaghatta,0,s2740,t2710,1
+PURPLE,weekday,Challaghatta,0,s2740,t2712,1
+PURPLE,weekday,Challaghatta,0,s2740,t2714,1
+PURPLE,weekday,Challaghatta,0,s2740,t2716,1
+PURPLE,weekday,Challaghatta,0,s2740,t2718,1
+PURPLE,weekday,Challaghatta,0,s2740,t2720,1
+PURPLE,weekday,Challaghatta,0,s2740,t2722,1
+PURPLE,weekday,Challaghatta,0,s2740,t2724,1
+PURPLE,weekday,Challaghatta,0,s2740,t2726,1
+PURPLE,weekday,Challaghatta,0,s2740,t2728,1
+PURPLE,weekday,Challaghatta,0,s2740,t2730,1
+PURPLE,weekday,Challaghatta,0,s2740,t2732,1
+PURPLE,weekday,Challaghatta,0,s2740,t2734,1
+PURPLE,weekday,Challaghatta,0,s2740,t2736,1
+PURPLE,weekday,Challaghatta,0,s2740,t2738,1
+PURPLE,weekday,Challaghatta,0,s2740,t2740,1
+PURPLE,weekday,Challaghatta,0,s2740,t2742,1
+PURPLE,weekday,Challaghatta,0,s2740,t2744,1
+PURPLE,weekday,Challaghatta,0,s2740,t2746,1
+PURPLE,weekday,Challaghatta,0,s2740,t2748,1
+PURPLE,weekday,Challaghatta,0,s2740,t2751,1
+PURPLE,weekday,Challaghatta,0,s2740,t2787,1
+PURPLE,weekday,Challaghatta,0,s2740,t2794,1
+PURPLE,weekday,Challaghatta,0,s2740,t2796,1
+PURPLE,weekday,Challaghatta,0,s2740,t2798,1
+PURPLE,weekday,Challaghatta,0,s2740,t2800,1
+PURPLE,weekday,Challaghatta,0,s2740,t2802,1
+PURPLE,weekday,Challaghatta,0,s2740,t2804,1
+PURPLE,weekday,Challaghatta,0,s2740,t2807,1
+PURPLE,weekday,Challaghatta,0,s2740,t2810,1
+PURPLE,weekday,Challaghatta,0,s2740,t2812,1
+PURPLE,weekday,Challaghatta,0,s2740,t2814,1
+PURPLE,weekday,Challaghatta,0,s2740,t2816,1
+PURPLE,weekday,Challaghatta,0,s2740,t2818,1
+PURPLE,weekday,Challaghatta,0,s2740,t2820,1
+PURPLE,weekday,Challaghatta,0,s2740,t2822,1
+PURPLE,weekday,Challaghatta,0,s2740,t2824,1
+PURPLE,weekday,Challaghatta,0,s2740,t2826,1
+PURPLE,weekday,Challaghatta,0,s2740,t2828,1
+PURPLE,weekday,Challaghatta,0,s2740,t2830,1
+PURPLE,weekday,Challaghatta,0,s2740,t2832,1
+PURPLE,weekday,Challaghatta,0,s2740,t2834,1
+PURPLE,weekday,Challaghatta,0,s2740,t2836,1
+PURPLE,weekday,Challaghatta,0,s2740,t2840,1
+PURPLE,weekday,Garudacharpalya,1,s1432,t2877,1
+PURPLE,weekday,Garudacharpalya,1,s1432,t2890,1
+PURPLE,weekday,Garudacharpalya,1,s1432,t2893,1
+PURPLE,weekday,Garudacharpalya,1,s1432,t2896,1
+PURPLE,weekday,Garudacharpalya,1,s1432,t2898,1
+PURPLE,weekday,Garudacharpalya,1,s1432,t2900,1
+PURPLE,weekday,Garudacharpalya,1,s1432,t2902,1
+PURPLE,weekday,Garudacharpalya,1,s1432,t2905,1
+PURPLE,weekday,Garudacharpalya,1,s1432,t2907,1
+PURPLE,weekday,Garudacharpalya,1,s1432,t2910,1
+PURPLE,weekday,Garudacharpalya,1,s1432,t2913,1
+PURPLE,weekday,Garudacharpalya,1,s1432,t2916,1
+PURPLE,weekday,Garudacharpalya,1,s1432,t2919,1
+PURPLE,weekday,Garudacharpalya,1,s1432,t2928,1
+PURPLE,weekday,Garudacharpalya,1,s1432,t2976,1
+PURPLE,weekday,Garudacharpalya,1,s1432,t2978,1
+PURPLE,weekday,Garudacharpalya,1,s1432,t2980,1
+PURPLE,weekday,Garudacharpalya,1,s1432,t2982,1
+PURPLE,weekday,Garudacharpalya,1,s1432,t2986,1
+PURPLE,weekday,Garudacharpalya,1,s1432,t2988,1
+PURPLE,weekday,Garudacharpalya,1,s1432,t2990,1
+PURPLE,weekday,Garudacharpalya,1,s1432,t2992,1
+PURPLE,weekday,Garudacharpalya,1,s1432,t2996,1
+PURPLE,weekday,Garudacharpalya,1,s1432,t2998,1
+PURPLE,weekday,Garudacharpalya,1,s1432,t3000,1
+PURPLE,weekday,Garudacharpalya,1,s1432,t3002,1
+PURPLE,weekday,Garudacharpalya,1,s1432,t3004,1
+PURPLE,weekday,Garudacharpalya,1,s1432,t3006,1
+PURPLE,weekday,Garudacharpalya,1,s1432,t3008,1
+PURPLE,weekday,Garudacharpalya,1,s1432,t3010,1
+PURPLE,weekday,Garudacharpalya,1,s1432,t3012,1
+PURPLE,weekday,Garudacharpalya,1,s1432,t3014,1
+PURPLE,weekday,Garudacharpalya,1,s1432,t3016,1
+PURPLE,weekday,Garudacharpalya,1,s1432,t3018,1
+PURPLE,weekday,Mahatma Gandhi Road,1,s509,t2875,1
+PURPLE,weekday,Mysore Road,0,s1351,t2697,1
+PURPLE,weekday,Mysore Road,0,s1351,t2793,1
+PURPLE,weekday,Mysore Road,0,s1351,t2795,1
+PURPLE,weekday,Mysore Road,0,s1351,t2797,1
+PURPLE,weekday,Mysore Road,0,s1351,t2799,1
+PURPLE,weekday,Mysore Road,0,s1351,t2801,1
+PURPLE,weekday,Mysore Road,0,s1351,t2803,1
+PURPLE,weekday,Mysore Road,0,s1351,t2805,1
+PURPLE,weekday,Mysore Road,0,s1351,t2809,1
+PURPLE,weekday,Mysore Road,0,s1351,t2811,1
+PURPLE,weekday,Mysore Road,0,s1351,t2813,1
+PURPLE,weekday,Mysore Road,0,s1351,t2815,1
+PURPLE,weekday,Mysore Road,0,s1351,t2817,1
+PURPLE,weekday,Mysore Road,0,s1351,t2819,1
+PURPLE,weekday,Mysore Road,0,s1351,t2821,1
+PURPLE,weekday,Mysore Road,0,s1351,t2823,1
+PURPLE,weekday,Mysore Road,0,s1351,t2825,1
+PURPLE,weekday,Mysore Road,0,s1351,t2827,1
+PURPLE,weekday,Mysore Road,0,s1351,t2829,1
+PURPLE,weekday,Mysore Road,0,s1351,t2831,1
+PURPLE,weekday,Mysore Road,0,s1351,t2833,1
+PURPLE,weekday,Mysore Road,0,s1351,t2835,1
+PURPLE,weekday,Mysore Road,0,s2688,t2688,1
+PURPLE,weekday,Mysore Road,0,s2723,t2698,1
+PURPLE,weekday,Mysore Road,0,s2723,t2709,1
+PURPLE,weekday,Mysore Road,0,s2723,t2711,1
+PURPLE,weekday,Mysore Road,0,s2723,t2713,1
+PURPLE,weekday,Mysore Road,0,s2723,t2715,1
+PURPLE,weekday,Mysore Road,0,s2723,t2717,1
+PURPLE,weekday,Mysore Road,0,s2723,t2719,1
+PURPLE,weekday,Mysore Road,0,s2723,t2721,1
+PURPLE,weekday,Mysore Road,0,s2723,t2723,1
+PURPLE,weekday,Mysore Road,0,s2723,t2725,1
+PURPLE,weekday,Mysore Road,0,s2723,t2727,1
+PURPLE,weekday,Mysore Road,0,s2723,t2729,1
+PURPLE,weekday,Mysore Road,0,s2723,t2731,1
+PURPLE,weekday,Mysore Road,0,s2723,t2733,1
+PURPLE,weekday,Mysore Road,0,s2723,t2735,1
+PURPLE,weekday,Mysore Road,0,s2723,t2737,1
+PURPLE,weekday,Mysore Road,0,s2723,t2739,1
+PURPLE,weekday,Mysore Road,0,s2723,t2741,1
+PURPLE,weekday,Mysore Road,0,s2723,t2743,1
+PURPLE,weekday,Mysore Road,0,s2723,t2745,1
+PURPLE,weekday,Mysore Road,0,s2723,t2747,1
+PURPLE,weekday,Mysore Road,0,s2723,t2750,1
+PURPLE,weekday,Mysore Road,0,s2723,t2752,1
+PURPLE,weekday,Mysore Road,0,s2723,t2837,1
+PURPLE,weekday,"Nadaprabhu Kempegowda Station, Majestic",0,s322,t2691,1
+PURPLE,weekday,"Nadaprabhu Kempegowda Station, Majestic",0,s322,t2695,1
+PURPLE,weekday,Pattandur Agrahara,1,s1389,t2865,1
+PURPLE,weekday,Pattandur Agrahara,1,s1389,t2865_2,1
+PURPLE,weekday,Whitefield (Kadugodi),1,s1450,t2872,1
+PURPLE,weekday,Whitefield (Kadugodi),1,s1450,t2872_2,1
+PURPLE,weekday,Whitefield (Kadugodi),1,s1450,t2878,1
+PURPLE,weekday,Whitefield (Kadugodi),1,s1450,t2903,1
+PURPLE,weekday,Whitefield (Kadugodi),1,s1450,t2908,1
+PURPLE,weekday,Whitefield (Kadugodi),1,s1450,t2911,1
+PURPLE,weekday,Whitefield (Kadugodi),1,s1450,t2914,1
+PURPLE,weekday,Whitefield (Kadugodi),1,s1450,t2917,1
+PURPLE,weekday,Whitefield (Kadugodi),1,s1450,t2926,1
+PURPLE,weekday,Whitefield (Kadugodi),1,s1450,t2926_2,1
+PURPLE,weekday,Whitefield (Kadugodi),1,s2895,t2882,1
+PURPLE,weekday,Whitefield (Kadugodi),1,s2895,t2891,1
+PURPLE,weekday,Whitefield (Kadugodi),1,s2895,t2895,1
+PURPLE,weekday,Whitefield (Kadugodi),1,s2895,t2897,1
+PURPLE,weekday,Whitefield (Kadugodi),1,s2895,t2899,1
+PURPLE,weekday,Whitefield (Kadugodi),1,s2895,t2901,1
+PURPLE,weekday,Whitefield (Kadugodi),1,s2895,t2904,1
+PURPLE,weekday,Whitefield (Kadugodi),1,s2895,t2906,1
+PURPLE,weekday,Whitefield (Kadugodi),1,s2895,t2909,1
+PURPLE,weekday,Whitefield (Kadugodi),1,s2895,t2912,1
+PURPLE,weekday,Whitefield (Kadugodi),1,s2895,t2915,1
+PURPLE,weekday,Whitefield (Kadugodi),1,s2895,t2918,1
+PURPLE,weekday,Whitefield (Kadugodi),1,s2895,t2927,1
+PURPLE,weekday,Whitefield (Kadugodi),1,s2895,t2961,1
+PURPLE,weekday,Whitefield (Kadugodi),1,s2895,t2977,1
+PURPLE,weekday,Whitefield (Kadugodi),1,s2895,t2979,1
+PURPLE,weekday,Whitefield (Kadugodi),1,s2895,t2981,1
+PURPLE,weekday,Whitefield (Kadugodi),1,s2895,t2983,1
+PURPLE,weekday,Whitefield (Kadugodi),1,s2895,t2987,1
+PURPLE,weekday,Whitefield (Kadugodi),1,s2895,t2989,1
+PURPLE,weekday,Whitefield (Kadugodi),1,s2895,t2991,1
+PURPLE,weekday,Whitefield (Kadugodi),1,s2895,t2995,1
+PURPLE,weekday,Whitefield (Kadugodi),1,s2895,t2997,1
+PURPLE,weekday,Whitefield (Kadugodi),1,s2895,t2999,1
+PURPLE,weekday,Whitefield (Kadugodi),1,s2895,t3001,1
+PURPLE,weekday,Whitefield (Kadugodi),1,s2895,t3003,1
+PURPLE,weekday,Whitefield (Kadugodi),1,s2895,t3005,1
+PURPLE,weekday,Whitefield (Kadugodi),1,s2895,t3007,1
+PURPLE,weekday,Whitefield (Kadugodi),1,s2895,t3009,1
+PURPLE,weekday,Whitefield (Kadugodi),1,s2895,t3011,1
+PURPLE,weekday,Whitefield (Kadugodi),1,s2895,t3013,1
+PURPLE,weekday,Whitefield (Kadugodi),1,s2895,t3015,1
+PURPLE,weekday,Whitefield (Kadugodi),1,s2895,t3017,1
+PURPLE,weekday,Whitefield (Kadugodi),1,s2895,t3027,1
+YELLOW,holiday,Delta Electronics Bommasandra,1,s1593,t1639,1
+YELLOW,holiday,Rashtreeya Vidyalaya Road,0,s1714,t1735,1
+YELLOW,holiday,Rashtreeya Vidyalaya Road,0,s1714,t1735_2,1
+YELLOW,monday,Delta Electronics Bommasandra,1,s1593,t693,1
+YELLOW,monday,Rashtreeya Vidyalaya Road,0,s1714,t821,1
+YELLOW,sunday,Delta Electronics Bommasandra,1,s1593,t2212,1
+YELLOW,sunday,Delta Electronics Bommasandra,1,s1593,t2212_2,1
+YELLOW,sunday,Rashtreeya Vidyalaya Road,0,s1714,t2376,1
+YELLOW,sunday,Rashtreeya Vidyalaya Road,0,s1714,t2376_2,1
+YELLOW,weekday,Delta Electronics Bommasandra,1,s1593,t3055,1
+YELLOW,weekday,Rashtreeya Vidyalaya Road,0,s1714,t3174,1

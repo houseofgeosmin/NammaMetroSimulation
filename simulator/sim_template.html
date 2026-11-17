@@ -1,0 +1,687 @@
+<title>Namma Metro Simulator</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500;600&family=Space+Grotesk:wght@500;600;700&display=swap">
+<style>
+:root{
+  /* Layout: control-room page. Brand bar, glass line cards, the tilted 3D map as the stage with HUD overlays, time controls, departures. One committed dark look. */
+  --bg:#070b10; --surface:rgba(18,28,40,.72); --surface2:rgba(30,44,60,.7); --fg:#e9f0f7; --muted:#8fa3b8; --line:rgba(120,160,200,.18);
+  --accent:#4fd8ff; --accent-fg:#04131c; --pill-bg:rgba(255,196,60,.14); --pill-fg:#ffd36b; --glow:rgba(79,216,255,.35);
+  --font:Inter,system-ui,-apple-system,"Segoe UI",Arial,sans-serif;
+  --head:"Space Grotesk",Inter,system-ui,sans-serif;
+  --mono:"JetBrains Mono",ui-monospace,"SF Mono",Menlo,Consolas,monospace;
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+body{background-color:var(--bg);background-image:radial-gradient(1100px 520px at 78% -8%,rgba(40,100,170,.28),transparent 62%),radial-gradient(800px 480px at -5% 30%,rgba(120,50,190,.16),transparent 60%);background-attachment:fixed;color:var(--fg);font-family:var(--font);font-size:14px;line-height:1.45;
+  padding-block:20px 30px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+body::before{content:"";position:fixed;inset:0;pointer-events:none;background-image:linear-gradient(rgba(120,170,220,.045) 1px,transparent 1px),linear-gradient(90deg,rgba(120,170,220,.045) 1px,transparent 1px);background-size:44px 44px;mask-image:linear-gradient(180deg,#000,transparent 70%);-webkit-mask-image:linear-gradient(180deg,#000,transparent 70%);z-index:0}
+.wrap{position:relative;z-index:1;max-width:1120px;margin:0 auto;display:flex;flex-direction:column;gap:16px}
+h1{font-family:var(--head);margin:0}
+.glass{background:linear-gradient(180deg,rgba(26,40,56,.74),rgba(14,22,32,.74));border:1px solid var(--line);box-shadow:inset 0 1px 0 rgba(255,255,255,.05),0 14px 34px rgba(0,0,0,.4);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px)}
+/* header */
+.top{display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap}
+.brand{display:flex;align-items:center;gap:14px;min-width:0}
+.mark{flex:none;width:48px;height:48px;border-radius:13px;display:block;box-shadow:0 0 0 1px rgba(120,170,220,.25),0 0 22px rgba(79,216,255,.25)}
+.brand h1{font-size:26px;letter-spacing:-.02em;line-height:1.05}
+.brand p{margin:4px 0 0;color:var(--muted);font-size:13px}
+.badge{display:inline-flex;align-items:center;gap:8px;background:var(--pill-bg);color:var(--pill-fg);padding:3px 11px;border-radius:999px;font-size:11.5px;font-weight:600;letter-spacing:.04em;text-transform:uppercase;border:1px solid rgba(255,196,60,.28)}
+.badge::before{content:"";width:7px;height:7px;border-radius:50%;background:#ffc43c;box-shadow:0 0 8px #ffc43c;animation:led 1.8s ease-in-out infinite}
+@keyframes led{50%{opacity:.35}}
+.when{text-align:right}
+#clock{font-family:var(--mono);font-size:34px;font-weight:500;letter-spacing:-.03em;font-variant-numeric:tabular-nums;line-height:1;color:#eaf8ff;text-shadow:0 0 18px var(--glow)}
+.meta{display:flex;gap:8px;justify-content:flex-end;align-items:center;flex-wrap:wrap;margin-top:7px;color:var(--muted);font-size:12.5px}
+.pill{border:1px solid var(--line);border-radius:999px;padding:1px 10px;color:var(--accent);font-size:12px;font-family:var(--mono);background:rgba(79,216,255,.07)}
+/* line cards */
+.lines{display:grid;grid-template-columns:repeat(auto-fit,minmax(290px,1fr));gap:12px}
+.lcard{border-radius:16px;padding:12px 12px 8px;display:flex;flex-direction:column;gap:4px;min-width:0}
+.lcard header{display:flex;align-items:center;gap:8px;padding:0 4px 5px;flex-wrap:wrap}
+.ldot{width:10px;height:10px;border-radius:50%;flex:none;box-shadow:0 0 10px currentColor}
+.lname{font-family:var(--head);font-weight:600;font-size:15px}
+.lroute{color:var(--muted);font-size:12px;margin-left:auto}
+.chip{display:flex;align-items:center;gap:12px;background:transparent;border:1px solid transparent;border-radius:11px;padding:6px 8px;cursor:pointer;text-align:left;width:100%;min-width:0;color:var(--fg);font:inherit}
+.chip:hover{background:rgba(120,170,220,.08);border-color:var(--line)}
+.chip[aria-pressed="false"]{opacity:.4}
+.chip svg{flex:none}
+.chip .lab{flex:1;min-width:0;font-weight:500;line-height:1.25}
+.chip .lab small{display:block;color:var(--muted);font-weight:400;font-size:12px}
+.chip b{font-family:var(--mono);font-size:22px;font-weight:500;font-variant-numeric:tabular-nums;color:#eaf8ff}
+/* map */
+.mapwrap{position:relative;border:1px solid rgba(120,170,220,.28);border-radius:18px;overflow:hidden;background:#05090e;height:min(72vh,640px);min-height:420px;box-shadow:0 0 0 1px rgba(0,0,0,.6),0 20px 50px rgba(0,0,0,.5),0 0 40px rgba(79,216,255,.07)}
+.mapwrap::after{content:"";position:absolute;inset:0;pointer-events:none;background:repeating-linear-gradient(0deg,rgba(255,255,255,.018) 0 1px,transparent 1px 3px),radial-gradient(ellipse at center,transparent 55%,rgba(0,0,0,.45))}
+canvas{display:block;width:100%;height:100%;touch-action:none;cursor:grab}
+canvas.drag{cursor:grabbing}
+.cb{position:absolute;width:20px;height:20px;border:2px solid rgba(79,216,255,.55);pointer-events:none;z-index:2}
+.cb.a{left:10px;top:10px;border-right:0;border-bottom:0;border-top-left-radius:6px}.cb.b{right:10px;top:10px;border-left:0;border-bottom:0;border-top-right-radius:6px}
+.cb.c{left:10px;bottom:10px;border-right:0;border-top:0;border-bottom-left-radius:6px}.cb.d{right:10px;bottom:10px;border-left:0;border-top:0;border-bottom-right-radius:6px}
+.hud{position:absolute;z-index:3;font-family:var(--mono);font-size:11.5px;letter-spacing:.04em;color:#bfe9ff;pointer-events:none}
+.hud.tl{left:36px;top:16px;display:flex;gap:14px;align-items:center;background:rgba(6,14,22,.72);border:1px solid rgba(79,216,255,.25);border-radius:8px;padding:5px 10px;backdrop-filter:blur(6px)}
+.hud .led{width:7px;height:7px;border-radius:50%;background:#ffc43c;box-shadow:0 0 8px #ffc43c;animation:led 1.8s ease-in-out infinite}
+.hud b{font-weight:600;color:#fff}
+.hud.br{right:36px;bottom:36px;color:#8fb4d0}
+.zoom{position:absolute;right:16px;top:44px;z-index:3;display:flex;flex-direction:column;border:1px solid rgba(79,216,255,.28);border-radius:11px;overflow:hidden;background:rgba(6,14,22,.8);backdrop-filter:blur(6px)}
+.zoom button{width:40px;height:38px;border:0;border-bottom:1px solid rgba(79,216,255,.16);background:transparent;color:#e8f6ff;font-size:18px;cursor:pointer;font-family:var(--mono)}
+.zoom button:last-child{border-bottom:0}
+.zoom button.t{font-size:12px;font-weight:600}
+.zoom button[aria-pressed="true"]{color:var(--accent-fg);background:var(--accent)}
+.zoom button:hover{background:rgba(79,216,255,.14)}
+.zoom button[aria-pressed="true"]:hover{background:var(--accent)}
+.tip{position:absolute;pointer-events:none;background:rgba(6,14,22,.94);color:#f2f7fb;border:1px solid rgba(79,216,255,.35);border-radius:10px;padding:8px 11px;font-size:12.5px;line-height:1.4;max-width:250px;display:none;z-index:4;box-shadow:0 8px 24px rgba(0,0,0,.5)}
+.hint{position:absolute;left:36px;bottom:34px;z-index:3;font-size:11.5px;color:#9db8d0;background:rgba(6,14,22,.72);border:1px solid rgba(79,216,255,.18);border-radius:999px;padding:3px 11px;pointer-events:none;max-width:calc(100% - 200px)}
+/* time controls */
+.timebar{display:flex;flex-wrap:wrap;gap:14px 28px;align-items:flex-end;border-radius:16px;padding:13px 15px}
+.field{display:flex;flex-direction:column;gap:5px;min-width:0}
+.field>span,.field>label{font-size:10.5px;color:var(--muted);text-transform:uppercase;letter-spacing:.12em;font-weight:600;font-family:var(--mono)}
+.row{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+button,select,input{font:inherit;color:var(--fg)}
+.seg{display:inline-flex;border:1px solid var(--line);border-radius:11px;overflow:hidden;background:rgba(6,14,22,.5)}
+.seg button{border:0;border-right:1px solid var(--line);background:transparent;padding:7px 14px;cursor:pointer;font-size:13px;font-weight:500;font-family:var(--mono)}
+.seg button:last-child{border-right:0}
+.seg button[aria-pressed="true"]{background:var(--accent);color:var(--accent-fg);box-shadow:0 0 16px var(--glow)}
+.btn{background:rgba(30,44,60,.7);border:1px solid var(--line);border-radius:11px;padding:7px 13px;cursor:pointer;font-size:13px;font-weight:500}
+.btn:hover{border-color:var(--accent);box-shadow:0 0 14px rgba(79,216,255,.18)}
+select,input[type=time]{background:rgba(6,14,22,.55);border:1px solid var(--line);border-radius:11px;padding:7px 10px;font-size:13px;max-width:100%;color-scheme:dark}
+button:focus-visible,select:focus-visible,input:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+/* departures */
+.panel{border-radius:18px;padding:16px;display:flex;flex-direction:column;gap:14px}
+.phead{display:flex;flex-wrap:wrap;gap:10px 16px;align-items:center;justify-content:space-between}
+.phead h2{font-family:var(--head);font-size:18px;margin:0}
+.stbar{display:flex;gap:8px;flex-wrap:wrap;flex:1;justify-content:flex-end;min-width:240px}
+.stbar select{flex:1;min-width:200px;max-width:440px}
+.deps{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:12px}
+.dep{background:rgba(8,16,24,.55);border:1px solid var(--line);border-radius:14px;padding:12px 14px;display:flex;flex-direction:column;gap:10px;min-width:0}
+.dh{display:flex;align-items:center;gap:12px}
+.dh b{display:block;font-size:14px}.dh small{display:block;color:var(--muted);font-size:12.5px}
+.dt{display:flex;gap:6px 20px;flex-wrap:wrap}
+.dt div{display:flex;flex-direction:column}
+.dt span{font-family:var(--mono);font-size:23px;font-weight:500;font-variant-numeric:tabular-nums;line-height:1.1;letter-spacing:-.02em}
+.dt .first span{color:var(--accent);text-shadow:0 0 14px var(--glow)}
+.dt small{color:var(--muted);font-size:12px}
+.note{font-size:12.5px;color:var(--muted);line-height:1.6;max-width:84ch;margin:0}
+/* station screen */
+#kiosk{display:none}
+body.kiosk{padding:0}
+body.kiosk::before{display:none}
+body.kiosk .wrap{max-width:none;height:100vh;height:100dvh;gap:0;display:grid;grid-template-columns:minmax(340px,36%) 1fr;grid-template-areas:"k m";margin:0}
+body.kiosk .top,body.kiosk .lines,body.kiosk .timebar,body.kiosk .panel,body.kiosk .note{display:none}
+body.kiosk #kiosk{display:flex;grid-area:k;flex-direction:column;gap:10px;padding:18px 18px 12px;overflow:auto;min-width:0;border-right:1px solid var(--line);background:rgba(7,12,18,.9)}
+body.kiosk .mapwrap{grid-area:m;height:100%;min-height:0;border:0;border-radius:0;box-shadow:none}
+body.kiosk .zoom,body.kiosk .hint,body.kiosk .hud,body.kiosk .cb{display:none}
+#kiosk .ktop{display:flex;justify-content:space-between;align-items:flex-start;gap:4px 12px;flex-wrap:wrap}
+#kName{font-size:clamp(30px,4.6vw,60px);line-height:1.02;letter-spacing:-.02em;text-wrap:balance}
+#kClock{font-family:var(--mono);font-size:clamp(24px,3vw,40px);font-variant-numeric:tabular-nums;line-height:1;text-align:right;white-space:nowrap;color:#eaf8ff;text-shadow:0 0 18px var(--glow)}
+#kDay{font-size:13px;color:var(--muted);text-align:right;margin-top:4px}
+#kiosk .badge{align-self:flex-start}
+#kStats{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+#kStats div{background:rgba(18,28,40,.8);border:1px solid var(--line);border-radius:12px;padding:8px 10px}
+#kStats b{display:block;font-family:var(--mono);font-weight:500;font-size:clamp(24px,3vw,38px);font-variant-numeric:tabular-nums;line-height:1.05}
+#kStats span{font-size:12px;color:var(--muted)}
+#kDeps{display:flex;flex-direction:column;gap:10px}
+.kdep{display:grid;grid-template-columns:auto 1fr;gap:4px 12px;align-items:center;background:rgba(18,28,40,.8);border:1px solid var(--line);border-radius:14px;padding:10px 12px}
+.kdep h3{margin:0;font-size:clamp(15px,1.7vw,20px);font-weight:600;grid-column:2}
+.kdep h3 small{display:block;color:var(--muted);font-weight:400;font-size:.72em}
+.kdep svg{grid-row:1/3}
+.kdep .times{grid-column:2;display:flex;gap:6px 14px;flex-wrap:wrap}
+.kdep .times div{font-family:var(--mono);font-size:clamp(20px,2.2vw,30px);font-variant-numeric:tabular-nums;line-height:1.05}
+.kdep .times small{display:block;font-family:var(--font);font-size:.4em;color:var(--muted)}
+.kact{margin-top:auto;display:flex;gap:8px;padding-top:6px}
+@media (max-width:760px){
+  #clock{font-size:28px}.when{text-align:left}.meta{justify-content:flex-start}
+  .stbar{justify-content:stretch}.hint{display:none}.hud.tl{left:34px}
+  body.kiosk .wrap{grid-template-columns:1fr;grid-template-rows:auto 46vh;grid-template-areas:"k" "m";height:auto}
+  body.kiosk #kiosk{border-right:0}body.kiosk .mapwrap{height:46vh}}
+@media (prefers-reduced-motion:reduce){.badge::before,.hud .led{animation:none}}
+
+.crowd .row2{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.crowd select{min-width:0;max-width:100%}
+.crowd .big{background:linear-gradient(135deg,#19c37d,#0d8f5c);border:0;color:#04140c;font-weight:700;padding:11px 18px;border-radius:12px;cursor:pointer;font-size:14px}
+.crowd .big[disabled]{opacity:.5;cursor:default}
+.crowd .msg{font-size:13px;color:var(--muted);min-height:18px}
+.crowd .rep{display:flex;justify-content:space-between;gap:10px;font-size:13px;padding:6px 0;border-bottom:1px solid var(--line)}
+.crowd .rep:last-child{border:0}
+.crowd .rep b{font-weight:600}.crowd .late{color:#ff8a65}.crowd .early{color:#6ee7a8}
+.crowd .sum{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:8px}
+.crowd .sum div{background:rgba(8,16,24,.55);border:1px solid var(--line);border-radius:12px;padding:10px 12px;font-size:12.5px;color:var(--muted)}
+.crowd .sum b{display:block;font-size:18px;color:var(--fg,#e8f0f7)}
+</style>
+
+<div class="wrap">
+  <header class="top">
+    <div class="brand">
+      <svg class="mark" viewBox="0 0 48 48" role="img" aria-label="Namma Metro mark"><rect width="48" height="48" rx="13" fill="#0a121a"/><g stroke-linecap="round" stroke-width="4" fill="none"><path d="M10 16h20" stroke="#2f9e4f"/><path d="M10 24h28" stroke="#9333c4"/><path d="M10 32h14" stroke="#ffc928"/></g><g fill="#0a121a" stroke="#4fd8ff" stroke-width="2"><circle cx="34" cy="16" r="3"/><circle cx="28" cy="32" r="3"/></g></svg>
+      <div><h1>Namma Metro</h1><p>Train simulator for the Green, Purple and Yellow lines</p><span class="badge" style="margin-top:9px">Scheduled simulation, not live GPS</span></div>
+    </div>
+    <div class="when"><div id="clock">--:--:--</div><div class="meta"><span id="daytype"></span><span class="pill" id="mode">Live clock</span></div></div>
+  </header>
+
+  <section class="lines" id="legend" aria-label="Lines and directions"></section>
+
+  <aside id="kiosk" aria-label="Station display">
+    <div class="ktop"><div><h1 id="kName"></h1></div><div><div id="kClock">--:--:--</div><div id="kDay"></div></div></div>
+    <span class="badge">Scheduled times, not live GPS</span>
+    <div id="kStats"></div>
+    <div id="kDeps"></div>
+    <div class="kact"><button class="btn" id="kFull">Full screen</button><button class="btn" id="kExit">Exit station screen</button></div>
+  </aside>
+
+  <div class="mapwrap" id="mapwrap">
+    <canvas id="cv" aria-label="Tilted 3D map of Bengaluru Metro with simulated trains"></canvas>
+    <i class="cb a"></i><i class="cb b"></i><i class="cb c"></i><i class="cb d"></i>
+    <div class="hud tl"><span class="led"></span><span>SCHEDULED SIM</span><span>TRAINS <b id="hudTrains">00</b></span><span>IST <b id="hudClock">--:--:--</b></span></div>
+    <div class="zoom"><button id="zin" aria-label="Zoom in">+</button><button id="zout" aria-label="Zoom out">&minus;</button><button id="zfit" class="t" aria-label="Fit whole network">FIT</button><button id="z3d" class="t" aria-pressed="true" aria-label="Toggle 3D tilt">3D</button></div>
+    <div class="tip" id="tip"></div>
+    <div class="hint">Drag to move, scroll or pinch to zoom, tap a station for departures</div>
+    <div class="hud br" id="hudCoord">12.9716&deg;N  77.5946&deg;E</div>
+  </div>
+
+  <section class="timebar glass" aria-label="Time controls">
+    <div class="field"><span>Speed</span>
+      <div class="seg">
+        <button data-sp="1" aria-pressed="true">Live</button><button data-sp="10" aria-pressed="false">10x</button><button data-sp="60" aria-pressed="false">60x</button><button data-sp="300" aria-pressed="false">300x</button>
+      </div></div>
+    <div class="field"><label for="jump">Jump to time</label><div class="row"><input type="time" id="jump"><button class="btn" id="now">Back to now</button></div></div>
+    <div class="field"><label for="svc">Timetable</label>
+      <select id="svc"><option value="auto">Today (automatic)</option><option value="weekday">Tuesday to Saturday</option><option value="monday">Monday</option><option value="sunday">Sunday</option><option value="holiday">Holiday (2nd and 4th Saturday)</option></select></div>
+  </section>
+
+  <section class="panel glass">
+    <div class="phead"><h2>Next departures</h2>
+      <div class="stbar"><label for="st" hidden>Station</label><select id="st"></select><button class="btn" id="openDisp">Open as station screen</button></div></div>
+    <div class="deps" id="deps"></div>
+  </section>
+
+  <section class="panel glass crowd" id="crowd">
+    <div class="phead"><h2>Rider reports: real arrival times</h2></div>
+    <p class="note">Standing on a platform? Pick your station and the train direction, then tap the button the moment a train arrives. Your report is compared with the timetable and saved for everyone, so the simulator can learn how late or early trains really run.</p>
+    <div class="row2"><span>At</span><b id="cStation">-</b><label for="cDir" hidden>Direction</label><select id="cDir"></select><button class="big" id="cGo" disabled>Train arrived just now</button></div>
+    <div class="msg" id="cMsg" role="status"></div>
+    <div class="sum" id="cSum"></div>
+    <div id="cList"></div>
+  </section>
+
+  <p class="note">Every train runs on the BMRCL timetable as transcribed in the unofficial community GTFS feed (valid 17 Aug 2026 to 17 Aug 2027). BMRCL publishes terminal times only, so times at stations between the terminals are modelled and can differ from the platform display by a minute or two. Trains are drawn as six-car sets like the real ones, but longer than true scale so they stay visible. Lines and stations are drawn at their real coordinates, without street tiles, and the 3D tilt is only a viewing angle. Pink Line trains are not in this feed yet. Planned lines (Pink, Blue, Orange, Grey and Sarjapur to Hebbal) can be switched on from the last card. They show only terminals and junctions, in dashed lines, with underground parts dotted. Positions of stations that do not exist yet are approximate and the straight links between them are schematic.</p>
+</div>
+
+<script>
+const D=__DATA__;
+const LC={G:{name:'Green',dark:'#2f9e4f',light:'#a8f0b6',track:'#1f5a35',darkTo:'Silk Institute',lightTo:'Madavara'},
+          P:{name:'Purple',dark:'#9333c4',light:'#dcaaf5',track:'#55296f',darkTo:'Challaghatta',lightTo:'Whitefield'},
+          Y:{name:'Yellow',dark:'#e0a100',light:'#fff59d',track:'#72601a',darkTo:'Bommasandra',lightTo:'RV Road'}};
+// shade: true = dark. Green/Purple direction 0 goes to Silk Institute / Challaghatta, Yellow direction 1 goes to Bommasandra
+const isDark=(l,dr)=>l==='Y'?dr===1:dr===0;
+const colorOf=(l,dr)=>isDark(l,dr)?LC[l].dark:LC[l].light;
+const toOf=(l,dr)=>isDark(l,dr)?LC[l].darkTo:LC[l].lightTo;
+const KEYS=['G0','G1','P0','P1','Y1','Y0'];
+const visible={G0:1,G1:1,P0:1,P1:1,Y1:1,Y0:1};
+
+/* projection to kilometres */
+const LAT0=12.98,LON0=77.6,KX=111.32*Math.cos(LAT0*Math.PI/180),KY=110.57;
+const proj=(la,lo)=>[(lo-LON0)*KX,-(la-LAT0)*KY];
+const patLine={};D.patterns.forEach(p=>patLine[p.sh]=p.l);
+const SHDIR={};D.patterns.forEach(p=>SHDIR[p.sh]=p.dr);
+const SH=D.shapes.map((s,i)=>({i,l:patLine[i],X:s.p.map(q=>proj(q[0],q[1])[0]),Y:s.p.map(q=>proj(q[0],q[1])[1]),d:s.d}));
+const ST=D.stations.map(s=>{const[p,q]=proj(s.la,s.lo);return{...s,x:p,y:q}});
+const PROF=D.profiles.map(pr=>({...pr,pat:D.patterns[pr.p],dur:pr.a[pr.a.length-1]}));
+const HOL=new Set(D.hol);
+/* planned lines: junctions and terminals only, no trains. Real coordinates for stations that exist today, estimates for new ones */
+const PLAN=[
+{id:'PINK',name:'Pink Line',color:'#f26aa6',route:'Kalena Agrahara to Nagawara',status:'Elevated part reported ready to open, underground part expected in 2027',pts:[
+ {n:'Kalena Agrahara',la:12.8715,lo:77.597},
+ {n:'JP Nagar 4th Phase',la:12.9025,lo:77.5985,j:'Orange Line (approved)'},
+ {n:'Jayadeva Hospital',la:12.916731,lo:77.59997,j:'Yellow Line (open)'},
+ {n:'Dairy Circle',la:12.9395,lo:77.603,ug:1,j:'Red Line (proposed)'},
+ {n:'',la:12.956,lo:77.599,ug:1,w:1},
+ {n:'Mahatma Gandhi Road',la:12.975526,lo:77.60679,ug:1,j:'Purple Line (open)'},
+ {n:'Shivajinagar',la:12.9857,lo:77.605,ug:1,j:'Shivajinagar bus terminal'},
+ {n:'Cantonment Railway Station',la:12.9945,lo:77.6005,ug:1,j:'Bengaluru Cantonment railway station'},
+ {n:'',la:13.007,lo:77.62,ug:1,w:1},
+ {n:'',la:13.025,lo:77.62,ug:1,w:1},
+ {n:'Nagawara',la:13.0425,lo:77.618,ug:1,j:'Blue Line (under construction)'}]},
+{id:'BLUE',name:'Blue Line',color:'#3f8cff',route:'Central Silk Board to the Airport',status:'Under construction, openings targeted from late 2026 to 2027',pts:[
+ {n:'Central Silk Board',la:12.916582,lo:77.62057,j:'Yellow Line (open)'},
+ {n:'Agara',la:12.923,lo:77.645,j:'Red Line (proposed)'},
+ {n:'Ibbalur',la:12.9235,lo:77.66,j:'Red Line (proposed)'},
+ {n:'Marathahalli',la:12.9565,lo:77.701},
+ {n:'KR Puram',la:12.999902,lo:77.67767,j:'Purple Line (open)'},
+ {n:'',la:13.033,lo:77.66,w:1},
+ {n:'',la:13.026,lo:77.64,w:1},
+ {n:'Nagawara',la:13.0425,lo:77.618,j:'Pink Line (under construction)'},
+ {n:'Kempapura',la:13.048,lo:77.615,j:'Orange Line (approved)'},
+ {n:'Hebbal',la:13.0358,lo:77.597,j:'Orange Line and Red Line'},
+ {n:'Yelahanka (Kogilu Cross)',la:13.105,lo:77.601},
+ {n:'Airport (KIAL Terminals)',la:13.1989,lo:77.7068}]},
+{id:'ORANGE',name:'Orange Line',color:'#ff9a2e',route:'JP Nagar 4th Phase to Kempapura',status:'Approved in 2024, target 2029',pts:[
+ {n:'JP Nagar 4th Phase',la:12.9025,lo:77.5985,j:'Pink Line (under construction)'},
+ {n:'JP Nagar',la:12.907475,lo:77.57313,j:'Green Line (open)'},
+ {n:'Mysore Road',la:12.946718,lo:77.53016,j:'Purple Line (open)'},
+ {n:'Sumanahalli Cross',la:12.99,lo:77.526,j:'Grey Line (approved)'},
+ {n:'',la:13.033019,lo:77.5332,w:1},
+ {n:'Hebbal',la:13.0358,lo:77.597,j:'Blue Line and Red Line'},
+ {n:'Kempapura',la:13.048,lo:77.615,j:'Blue Line (under construction)'}]},
+{id:'GREY',name:'Grey Line',color:'#b4bcc6',route:'Hosahalli to Kadabagere',status:'Approved in 2024, target 2029',pts:[
+ {n:'Hosahalli',la:12.974293,lo:77.54562},
+ {n:'Sumanahalli Cross',la:12.99,lo:77.526,j:'Orange Line (approved)'},
+ {n:'',la:12.997,lo:77.505,w:1},
+ {n:'Kadabagere',la:13.008,lo:77.438}]},
+{id:'RED',name:'Sarjapur to Hebbal',color:'#ef4f4f',route:'Sarjapur to Hebbal (Red Line, proposed)',status:'Proposed, state approved, waiting for the Centre, building 2027 to 2033',pts:[
+ {n:'Sarjapur',la:12.859,lo:77.787},
+ {n:'',la:12.9,lo:77.72,w:1},
+ {n:'Ibbalur',la:12.9235,lo:77.66,j:'Blue Line (under construction)'},
+ {n:'Agara',la:12.923,lo:77.645,j:'Blue Line (under construction)'},
+ {n:'',la:12.9345,lo:77.625,w:1},
+ {n:'Dairy Circle',la:12.9395,lo:77.603,j:'Pink Line (under construction)'},
+ {n:'',la:12.953,lo:77.596,w:1},
+ {n:'',la:12.964,lo:77.585,w:1},
+ {n:'KR Circle',la:12.980958,lo:77.59757,j:'Purple Line (open)'},
+ {n:'',la:12.993,lo:77.585,w:1},
+ {n:'',la:13.01,lo:77.58,w:1},
+ {n:'Hebbal',la:13.0358,lo:77.597,j:'Blue Line and Orange Line'}]}
+];
+PLAN.forEach(p=>p.pts.forEach(q=>{const c=proj(q.la,q.lo);q.x=c[0];q.y=c[1]}));
+const showPlan={};PLAN.forEach(p=>showPlan[p.id]=0);
+
+function posAt(sh,dist){const d=sh.d;let lo=0,hi=d.length-1;if(dist<=d[0])return[sh.X[0],sh.Y[0]];if(dist>=d[hi])return[sh.X[hi],sh.Y[hi]];
+  while(hi-lo>1){const m=(lo+hi)>>1;if(d[m]<=dist)lo=m;else hi=m}
+  const f=(dist-d[lo])/((d[hi]-d[lo])||1);return[sh.X[lo]+(sh.X[hi]-sh.X[lo])*f,sh.Y[lo]+(sh.Y[hi]-sh.Y[lo])*f]}
+
+/* platform orientation: direction of the track at each station, in map units */
+const STANG=[];
+(function(){D.patterns.forEach(p=>p.s.forEach((si,k)=>{if(STANG[si])return;const sh=SH[p.sh],d=p.d[k],a=posAt(sh,Math.max(0,d-.03)),b=posAt(sh,d+.03);let tx=b[0]-a[0],ty=b[1]-a[1];const m=Math.hypot(tx,ty)||1;STANG[si]=[tx/m,ty/m]}))})();
+
+/* underground sections: Purple Cubbon Park to Majestic, Green Majestic to National College (BMRCL Phase 1 tunnels) */
+const UGN=['Cubbon Park','Dr. B. R. Ambedkar','Sir M. Visvesvaraya','Nadaprabhu Kempegowda','Chickpete','Krishna Rajendra','National College'];
+const UGST=ST.map(s=>UGN.some(n=>s.n.startsWith(n))),UGR={},RAMP=.3;
+D.patterns.forEach(p=>{if(UGR[p.sh]!==undefined)return;const ix=p.s.map((si,k)=>UGST[si]?k:-1).filter(k=>k>=0);
+  if(!ix.length){UGR[p.sh]=null;return}const fi=ix[0],li=ix[ix.length-1],n=p.s.length;
+  const g0=fi>0?p.d[fi]-p.d[fi-1]:0,g1=li<n-1?p.d[li+1]-p.d[li]:0;
+  UGR[p.sh]=[fi>0?p.d[fi]-g0*.35:-9,li<n-1?p.d[li]+g1*.35:1e9]});
+const depthAt=(si,d)=>{const r=UGR[si];if(!r)return 0;const o=Math.max(r[0]-d,d-r[1],0);return Math.max(0,Math.min(1,1-o/RAMP))};
+SH.forEach(s=>{s.dep=s.d.map(d=>depthAt(s.i,d))});
+/* simulated clock */
+const IST=19800000;
+let baseReal=performance.now(),baseSim=Date.now(),speed=1,override='auto';
+const simMs=()=>baseSim+(performance.now()-baseReal)*speed;
+function setSim(ms,sp){baseSim=ms;baseReal=performance.now();if(sp)speed=sp}
+function svcFor(ms){const i=new Date(ms+IST),y=i.getUTCFullYear(),m=String(i.getUTCMonth()+1).padStart(2,'0'),d=String(i.getUTCDate()).padStart(2,'0');
+  if(HOL.has(''+y+m+d))return'holiday';const w=i.getUTCDay();return w===0?'sunday':w===1?'monday':'weekday'}
+const DAYNAME={weekday:'Tuesday to Saturday timetable',monday:'Monday timetable',sunday:'Sunday timetable',holiday:'Holiday timetable'};
+function lists(ms){const t=((ms+IST)%86400000)/1000;
+  if(override!=='auto')return{t,L:[[D.runs[override],0],[D.runs[override],86400]],svc:override};
+  return{t,L:[[D.runs[svcFor(ms)],0],[D.runs[svcFor(ms-86400000)],86400]],svc:svcFor(ms)}}
+function stateOf(pr,el){const a=pr.a,d=pr.d,n=a.length;if(el<0||el>a[n-1])return null;let k=0;while(k+1<n&&a[k+1]<=el)k++;
+  const pd=pr.pat.d;if(el<=d[k]||k===n-1)return{dist:pd[k],k,next:k,halt:true};
+  const f=(el-d[k])/(a[k+1]-d[k]);return{dist:pd[k]+f*(pd[k+1]-pd[k]),k,next:k+1,halt:false}}
+
+/* canvas + view */
+let kiosk=false,kStation=-1;
+const cv=document.getElementById('cv'),ctx=cv.getContext('2d'),wrap=document.getElementById('mapwrap'),tip=document.getElementById('tip');
+let W=0,H=0,DPR=1,scale=10,ox=0,oy=0,pitch=.6,view3d=true;
+const TAU=6.283185;
+function getBounds(){let a=1e9,b=-1e9,c=1e9,d=-1e9;const add=(x,y)=>{a=Math.min(a,x);b=Math.max(b,x);c=Math.min(c,y);d=Math.max(d,y)};ST.forEach(s=>add(s.x,s.y));PLAN.forEach(p=>{if(showPlan[p.id])p.pts.forEach(q=>add(q.x,q.y))});return{a,b,c,d}}
+function fit(){const b=getBounds();const a=(W-130)/(b.b-b.a||1),c=(H-110)/(((b.d-b.c)*pitch)||1);scale=Math.min(a,c);
+  ox=W/2-30-((b.a+b.b)/2)*scale;oy=H/2+14-((b.c+b.d)/2)*scale*pitch}
+let HUDBOX=[]; // screen boxes of the overlays drawn over the map, so station names avoid them
+function resize(){const r=wrap.getBoundingClientRect();DPR=window.devicePixelRatio||1;W=r.width;H=r.height;cv.width=Math.round(W*DPR);cv.height=Math.round(H*DPR);
+  HUDBOX=[...wrap.querySelectorAll('.zoom,.hud,.hint')].map(e=>e.getBoundingClientRect()).filter(q=>q.width>0).map(q=>[q.left-r.left-4,q.top-r.top-4,q.right-r.left+4,q.bottom-r.top+4])}
+resize();fit();
+new ResizeObserver(()=>{const ow=W;resize();if(kiosk)fitKiosk();else if(!ow)fit()}).observe(wrap);
+const sx=x=>x*scale+ox,sy=y=>y*scale*pitch+oy;
+function zoomAt(f,cx,cy){const ns=Math.min(400,Math.max(3,scale*f));const k=ns/scale;ox=cx-(cx-ox)*k;oy=cy-(cy-oy)*k;scale=ns}
+document.getElementById('zin').onclick=()=>zoomAt(1.6,W/2,H/2);
+document.getElementById('zout').onclick=()=>zoomAt(1/1.6,W/2,H/2);
+document.getElementById('zfit').onclick=fit;
+const b3=document.getElementById('z3d');b3.onclick=()=>{view3d=!view3d;b3.setAttribute('aria-pressed',view3d)};
+cv.addEventListener('wheel',e=>{e.preventDefault();const r=cv.getBoundingClientRect();zoomAt(e.deltaY<0?1.2:1/1.2,e.clientX-r.left,e.clientY-r.top)},{passive:false});
+const ptrs=new Map();let moved=0,pinch=0;
+cv.addEventListener('pointerdown',e=>{cv.setPointerCapture(e.pointerId);ptrs.set(e.pointerId,[e.clientX,e.clientY]);moved=0;cv.classList.add('drag');
+  if(ptrs.size===2){const v=[...ptrs.values()];pinch=Math.hypot(v[0][0]-v[1][0],v[0][1]-v[1][1])}});
+cv.addEventListener('pointermove',e=>{
+  if(ptrs.has(e.pointerId)){const p=ptrs.get(e.pointerId);
+    if(ptrs.size===1){ox+=e.clientX-p[0];oy+=e.clientY-p[1];moved+=Math.abs(e.clientX-p[0])+Math.abs(e.clientY-p[1])}
+    ptrs.set(e.pointerId,[e.clientX,e.clientY]);
+    if(ptrs.size===2){const v=[...ptrs.values()],dd=Math.hypot(v[0][0]-v[1][0],v[0][1]-v[1][1]),r=cv.getBoundingClientRect();
+      if(pinch)zoomAt(dd/pinch,(v[0][0]+v[1][0])/2-r.left,(v[0][1]+v[1][1])/2-r.top);pinch=dd;moved+=9}
+  } else hover(e)});
+const up=e=>{ptrs.delete(e.pointerId);pinch=0;if(!ptrs.size)cv.classList.remove('drag')};
+cv.addEventListener('pointerup',e=>{const wasTap=moved<6&&ptrs.size===1;up(e);if(wasTap)pick(e)});
+cv.addEventListener('pointercancel',up);
+cv.addEventListener('pointerleave',()=>{tip.style.display='none'});
+
+/* colour helpers */
+const hexRGB=h=>h[0]==='#'?[1,3,5].map(i=>parseInt(h.slice(i,i+2),16)):h.match(/\d+/g).map(Number);
+const mixC={};function mix(a,b,w){const k=a+b+w;return mixC[k]||(mixC[k]=(()=>{const A=hexRGB(a),B=hexRGB(b);return`rgb(${A.map((v,i)=>Math.round(v+(B[i]-v)*w)).join(',')})`})())}
+
+/* a box drawn as a 3D prism: footprint P (screen points), height h in pixels. Only faces turned towards the viewer are drawn. */
+function prism(c,P,h,topC,sideC,win){
+  let cx=0,cy=0;P.forEach(p=>{cx+=p[0];cy+=p[1]});cx/=P.length;cy/=P.length;const n=P.length;
+  for(let i=0;i<n;i++){const a=P[i],b=P[(i+1)%n];const ex=b[0]-a[0],ey=b[1]-a[1];let nx=ey,ny=-ex;
+    if(nx*((a[0]+b[0])/2-cx)+ny*((a[1]+b[1])/2-cy)<0){nx=-nx;ny=-ny}
+    if(ny<=0.001)continue;const len=Math.hypot(nx,ny)||1,fac=ny/len;
+    c.beginPath();c.moveTo(a[0],a[1]);c.lineTo(b[0],b[1]);c.lineTo(b[0],b[1]-h);c.lineTo(a[0],a[1]-h);c.closePath();
+    c.fillStyle=sideC;c.fill();c.fillStyle=`rgba(0,0,0,${(.5*(1-fac)).toFixed(2)})`;c.fill();
+    if(win&&Math.hypot(ex,ey)>win.min&&h>3.2){const t0=.1,t1=.9,y0=h*.42,y1=h*.8;
+      const A=[a[0]+ex*t0,a[1]+ey*t0],B=[a[0]+ex*t1,a[1]+ey*t1];
+      c.beginPath();c.moveTo(A[0],A[1]-y0);c.lineTo(B[0],B[1]-y0);c.lineTo(B[0],B[1]-y1);c.lineTo(A[0],A[1]-y1);c.closePath();c.fillStyle='rgba(8,20,30,.92)';c.fill();
+      c.beginPath();c.moveTo(A[0],A[1]-y1);c.lineTo(B[0],B[1]-y1);c.strokeStyle='rgba(190,230,255,.45)';c.lineWidth=.7;c.stroke();
+      // doors: two lighter breaks
+      if(win.doors){c.strokeStyle=win.open?'#c9ffd9':'rgba(0,0,0,.45)';c.lineWidth=win.open?2.2:1;for(const t of[.36,.64]){const x=a[0]+ex*t,y=a[1]+ey*t;c.beginPath();c.moveTo(x,y-h*.1);c.lineTo(x,y-y1);c.stroke()}}}}
+  c.beginPath();P.forEach((p,i)=>i?c.lineTo(p[0],p[1]-h):c.moveTo(p[0],p[1]-h));c.closePath();c.fillStyle=topC;c.fill();
+  c.lineWidth=.8;c.strokeStyle='rgba(255,255,255,.28)';c.stroke()}
+
+let plScreen=[],drawn=[],stScreen=[],G=15;
+const elevF=()=>Math.max(0,Math.min(1,(1-pitch)/.4));
+const hsc=()=>.35+.65*elevF();
+
+/* position along a shape that keeps going straight past either end, so a train halted at a terminal can still be centred on its platform */
+function posX(sh,d){const n=sh.d.length,e=sh.d[n-1];if(d>=0&&d<=e)return posAt(sh,d);
+  const [i,j,o]=d<0?[1,0,d]:[n-2,n-1,d-e],l=(sh.d[j]-sh.d[i])||1,s=o/Math.abs(l);
+  return[sh.X[j]+(sh.X[j]-sh.X[i])*s*Math.sign(l),sh.Y[j]+(sh.Y[j]-sh.Y[i])*s*Math.sign(l)]}
+const NCARS=6;
+function drawTrain(sh,hd,pat,OFF,sz,halt){
+  const base=colorOf(pat.l,pat.dr),topC=mix(base,'#ffffff',.3),sideC=mix(base,'#000000',.32);
+  const {L,Wd}=sz,hh=sz.h*hsc(),dk=(L+sz.g)/scale,NC=NCARS,cars=[];
+  hd+=NC*dk/2; // dist marks the middle of the train, so a halted set sits centred on its platform (terminals included)
+  for(let i=0;i<NC;i++){const d=hd-(i+.5)*dk;const p=posX(sh,d),a0=posX(sh,d-.012),a1=posX(sh,d+.012);
+    let tx=a1[0]-a0[0],ty=a1[1]-a0[1];const m=Math.hypot(tx,ty)||1;tx/=m;ty/=m;const vx=-ty,vy=tx;
+    const dep=depthAt(sh.i,d),cX=sx(p[0])+vx*OFF,cY=sy(p[1])+vy*OFF*pitch+dep*G;
+    const f=(a,b)=>[cX+tx*a+vx*b,cY+(ty*a+vy*b)*pitch];
+    const nose=Wd*.5,front=i===0,rear=i===NC-1,P=[];
+    P.push(rear?f(-L/2+nose,-Wd/2):f(-L/2,-Wd/2));P.push(front?f(L/2-nose,-Wd/2):f(L/2,-Wd/2));
+    if(front)P.push(f(L/2,-Wd*.2),f(L/2,Wd*.2));
+    P.push(front?f(L/2-nose,Wd/2):f(L/2,Wd/2));P.push(rear?f(-L/2+nose,Wd/2):f(-L/2,Wd/2));
+    if(rear)P.push(f(-L/2,Wd*.2),f(-L/2,-Wd*.2));
+    cars.push({P,cX,cY,f,front,tx,ty,dep})}
+  if(!cars.length)return null;
+  // shadow on the ground below the viaduct, then headlight glow, then cars back to front
+  ctx.fillStyle='rgba(0,0,0,.30)';
+  cars.forEach(c=>{if(c.dep>.5)return;const so=G*(1-c.dep)+1;ctx.beginPath();c.P.forEach((q,i)=>i?ctx.lineTo(q[0]+so*.7,q[1]+so):ctx.moveTo(q[0]+so*.7,q[1]+so));ctx.closePath();ctx.fill()});
+  const hc=cars[0];if(hc.front&&hc.dep<.6){const g=hc.f(L*1.15,0),gr=ctx.createRadialGradient(g[0],g[1]-hh*.4,1,g[0],g[1]-hh*.4,L*1.5);
+    gr.addColorStop(0,'rgba(255,244,205,.42)');gr.addColorStop(1,'rgba(255,244,205,0)');ctx.save();ctx.globalCompositeOperation='lighter';ctx.fillStyle=gr;ctx.beginPath();ctx.arc(g[0],g[1]-hh*.4,L*1.5,0,TAU);ctx.fill();ctx.restore()}
+  cars.slice().sort((p,q)=>p.cY-q.cY).forEach(c=>{const q=Math.round(c.dep*5)/5,b2=q?mix(base,'#0b2236',q*.6):base,tC=q?mix(b2,'#ffffff',.3):topC,sC=q?mix(b2,'#000000',.32):sideC;ctx.globalAlpha=1-.5*c.dep;prism(ctx,c.P,hh,tC,sC,{min:L*.5,doors:L>5,open:halt&&c.dep<.3});
+    // roof unit
+    const r=[c.f(-L*.22,-Wd*.2),c.f(L*.22,-Wd*.2),c.f(L*.22,Wd*.2),c.f(-L*.22,Wd*.2)];ctx.beginPath();r.forEach((q,i)=>i?ctx.lineTo(q[0],q[1]-hh-.8):ctx.moveTo(q[0],q[1]-hh-.8));ctx.closePath();ctx.fillStyle=mix(base,'#000000',.3);ctx.fill();
+    if(c.front){const q=c.f(L/2,0);ctx.fillStyle='#fff4cf';ctx.beginPath();ctx.arc(q[0],q[1]-hh*.4,Math.max(1.1,sz.h*.14),0,TAU);ctx.fill()}ctx.globalAlpha=1});
+  if(halt&&cars.length&&cars[0].dep<.3&&(scale>=32||kiosk)){const m0=cars[0],m1=cars[cars.length-1],px=(m0.cX+m1.cX)/2,py=Math.min(m0.cY,m1.cY)-hh-9;
+    const pulse=.5+.5*Math.sin(performance.now()/260);ctx.beginPath();ctx.arc(px-13,py,3+pulse*3,0,TAU);ctx.fillStyle=`rgba(90,255,150,${.25*(1-pulse)})`;ctx.fill();
+    ctx.fillStyle='rgba(6,16,24,.9)';ctx.strokeStyle='rgba(90,255,150,.7)';ctx.lineWidth=1;const w=38;ctx.beginPath();ctx.roundRect?ctx.roundRect(px-w/2,py-7,w,14,7):ctx.rect(px-w/2,py-7,w,14);ctx.fill();ctx.stroke();
+    ctx.beginPath();ctx.arc(px-13,py,2.3,0,TAU);ctx.fillStyle='#5aff96';ctx.fill();ctx.fillStyle='#d9ffe6';ctx.font='600 9px "JetBrains Mono",ui-monospace,monospace';ctx.textAlign='left';ctx.textBaseline='middle';ctx.fillText('STOP',px-8,py+.5)}
+  return cars[0]}
+
+function frame(){
+  const ms=simMs(),{t,L,svc}=lists(ms);
+  const pt=view3d?.6:1;if(Math.abs(pitch-pt)>.003){const cyM=(H/2-oy)/(scale*pitch);pitch+=(pt-pitch)*.14;oy=H/2-cyM*scale*pitch}else if(pitch!==pt){const cyM=(H/2-oy)/(scale*pitch);pitch=pt;oy=H/2-cyM*scale*pitch}
+  const hs=hsc();
+  ctx.setTransform(DPR,0,0,DPR,0,0);const bg=ctx.createRadialGradient(W*.5,H*.42,H*.08,W*.5,H*.5,Math.max(W,H)*.8);bg.addColorStop(0,'#10202e');bg.addColorStop(.55,'#0a131c');bg.addColorStop(1,'#05090e');ctx.fillStyle=bg;ctx.fillRect(0,0,W,H);
+  // ground grid in map space, every 1 km when zoomed in and every 5 km always
+  const x1=(W-ox)/scale,y1=(H-oy)/(scale*pitch),x0=-ox/scale,y0=-oy/(scale*pitch);
+  const grid=(step,al)=>{ctx.strokeStyle=`rgba(90,150,200,${al})`;ctx.lineWidth=1;ctx.beginPath();for(let x=Math.floor(x0/step)*step;x<=x1;x+=step){ctx.moveTo(sx(x),0);ctx.lineTo(sx(x),H)}for(let y=Math.floor(y0/step)*step;y<=y1;y+=step){ctx.moveTo(0,sy(y));ctx.lineTo(W,sy(y))}ctx.stroke()};
+  if(scale>=26)grid(1,.045);grid(5,.1);
+  // tracks: elevated viaducts with pillars, underground sections dipping into tunnel portals
+  ctx.lineJoin='round';ctx.lineCap='round';
+  const OFF=kiosk?10:(scale<12?4.5:(scale<40?6.5:8)),tw=kiosk?7:(scale<12?3:(scale<40?4:5)),vh=13*hs+2;G=vh+3;
+  // mode 'el' draws vertices that are mostly above ground, 'ug' those that go below, 'all' everything; fix = fixed drop in px
+  const pathD=(s,off,mode,fix,lift)=>{ctx.beginPath();const n=s.X.length;let pen=false;for(let i=0;i<n;i++){const dp=s.dep[i];
+    if((mode==='el'&&dp>.999)||(mode==='ug'&&dp<.001)){pen=false;continue}
+    const a=Math.max(0,i-1),b=Math.min(n-1,i+1);let tx=s.X[b]-s.X[a],ty=s.Y[b]-s.Y[a];const m=Math.hypot(tx,ty)||1;tx/=m;ty/=m;
+    const X=sx(s.X[i])-ty*off,Y=sy(s.Y[i])+tx*off*pitch+(fix!==undefined?fix:dp*G)+(lift||0);pen?ctx.lineTo(X,Y):ctx.moveTo(X,Y);pen=true}};
+  const act=SH.filter(s=>visible[s.l+SHDIR[s.i]]);
+  // ground shadow of the viaduct
+  ctx.strokeStyle='rgba(0,0,0,.4)';ctx.lineWidth=tw+7;act.forEach(s=>{pathD(s,OFF,'el',G)});
+  act.forEach(s=>{pathD(s,OFF,'el',G);ctx.stroke()});
+  // tunnel bed: soft dark band with cyan edge ticks where the line runs underground
+  act.forEach(s=>{if(!UGR[s.i])return;pathD(s,OFF,'ug');ctx.strokeStyle='rgba(60,150,210,.08)';ctx.lineWidth=tw+22;ctx.stroke();ctx.strokeStyle='rgba(60,150,210,.1)';ctx.lineWidth=tw+14;ctx.stroke();ctx.strokeStyle='rgba(3,8,14,.72)';ctx.lineWidth=tw+7;ctx.stroke()});
+  // pillars and cross-heads
+  if(scale>=9){ctx.lineCap='butt';ctx.lineWidth=2.6;ctx.strokeStyle='#0e1a26';ctx.beginPath();
+    act.forEach(s=>{if(SHDIR[s.i]!==0)return;let acc=0,px=null,py=null;const n=s.X.length;for(let i=0;i<n;i++){const X=sx(s.X[i]),Y=sy(s.Y[i]);if(px!==null)acc+=Math.hypot(X-px,Y-py);px=X;py=Y;if(acc>28&&s.dep[i]<.4){acc=0;ctx.moveTo(X,Y+2+s.dep[i]*G);ctx.lineTo(X,Y+G)}}});ctx.stroke();ctx.lineCap='round'}
+  // viaduct deck and rails
+  ctx.strokeStyle='#04080c';ctx.lineWidth=tw+4;act.forEach(s=>{pathD(s,OFF,'el');ctx.stroke()});
+  act.forEach(s=>{const dr=SHDIR[s.i],c=colorOf(s.l,dr);ctx.strokeStyle=c;ctx.lineWidth=tw;pathD(s,OFF,'el');ctx.stroke();
+    ctx.strokeStyle=mix(c,'#ffffff',.55);ctx.globalAlpha=.7;ctx.lineWidth=Math.max(.8,tw*.22);pathD(s,OFF,'el',undefined,-tw*.18);ctx.stroke();ctx.globalAlpha=1;
+    if(scale>=12){ctx.lineCap='butt';ctx.setLineDash([1.3,4.2]);ctx.strokeStyle='rgba(4,8,12,.5)';ctx.lineWidth=tw*.95;pathD(s,OFF,'el');ctx.stroke();ctx.setLineDash([]);ctx.lineCap='round'}
+    if(UGR[s.i]){ctx.globalAlpha=.4;ctx.strokeStyle=c;ctx.lineWidth=Math.max(1.4,tw*.55);pathD(s,OFF,'ug');ctx.stroke();ctx.globalAlpha=1;
+      // portal mouths where the track enters the tunnel
+      const n=s.X.length;for(let i=1;i<n;i++){const a=s.dep[i-1],b=s.dep[i];if((a<.999&&b>=.999)||(a>=.999&&b<.999)){const k=a<.999?i:i-1,q=Math.max(0,k-1),w=Math.min(n-1,k+1);let tx=s.X[w]-s.X[q],ty=s.Y[w]-s.Y[q];const m=Math.hypot(tx,ty)||1;tx/=m;ty/=m;
+        const X=sx(s.X[k])+ty*-OFF,Y=sy(s.Y[k])+tx*OFF*pitch+G,r=tw*.8+3;const gl=ctx.createRadialGradient(X,Y,1,X,Y,r*3);gl.addColorStop(0,'rgba(79,216,255,.28)');gl.addColorStop(1,'rgba(79,216,255,0)');ctx.fillStyle=gl;ctx.beginPath();ctx.arc(X,Y,r*3,0,TAU);ctx.fill();ctx.beginPath();ctx.ellipse(X,Y,r+2.5,(r+2.5)*1.2,0,Math.PI,0);ctx.closePath();ctx.fillStyle='#7d93a8';ctx.fill();ctx.beginPath();ctx.ellipse(X,Y,r,r*1.2,0,Math.PI,0);ctx.closePath();ctx.fillStyle='#02060a';ctx.fill()}}}});
+  // planned lines: dashed, underground parts dotted
+  PLAN.forEach(pl=>{if(kiosk||!showPlan[pl.id])return;ctx.strokeStyle='#05090e';ctx.lineWidth=7;ctx.setLineDash([]);ctx.beginPath();pl.pts.forEach((q,i)=>{const X=sx(q.x),Y=sy(q.y);i?ctx.lineTo(X,Y):ctx.moveTo(X,Y)});ctx.stroke()});
+  PLAN.forEach(pl=>{if(kiosk||!showPlan[pl.id])return;ctx.strokeStyle=pl.color;ctx.lineWidth=3.5;
+    for(let i=1;i<pl.pts.length;i++){const a=pl.pts[i-1],b=pl.pts[i];ctx.setLineDash(b.ug?[1,6]:[9,6]);ctx.lineCap=b.ug?'round':'butt';ctx.beginPath();ctx.moveTo(sx(a.x),sy(a.y));ctx.lineTo(sx(b.x),sy(b.y));ctx.stroke()}});
+  ctx.setLineDash([]);ctx.lineCap='round';
+  // train size grows with zoom (6 cars like the real sets, length exaggerated so trains stay visible) and every platform is a bit longer than a full train.
+  // T4 is the old four-car length: width and height still follow it so cars keep their bulk; six cars run 1.2x as long.
+  const T4=kiosk?Math.max(44,Math.min(100,.3*scale)):Math.max(23,Math.min(130,.09*scale*4)),Ttot=T4*1.2,gp=Math.max(1.2,Ttot*.018),Lc=Ttot/NCARS-gp;
+  const sz={L:Lc,Wd:T4*.1,h:T4*.105,g:gp};
+  // stations: elevated ones sit on a concourse under a curved shell roof, underground ones show a sunken platform and a surface entrance dome
+  stScreen=[];const boxes=HUDBOX.slice(),roofs=[],badges=[];
+  const lvl=(kiosk||scale>=40)?3:(scale>=20?2:1),rb=kiosk?13:(lvl===3?10:(lvl===2?8:6.5)),hb=(lvl===3?32:(lvl===2?25:19))*(.55+.45*hs);
+  const Ls=Ttot*1.22,Ws=2*OFF+(kiosk?14:8),hp=(kiosk?5:3)*hs;
+  const stadium=(f,len,wid,fy)=>{const P=[],r=wid/2,h=len/2-r;for(let k=0;k<=8;k++){const a=-1.5708+k/8*3.14159;P.push(f(h+Math.cos(a)*r,Math.sin(a)*r))}for(let k=0;k<=8;k++){const a=1.5708+k/8*3.14159;P.push(f(-h+Math.cos(a)*r,Math.sin(a)*r))}return P};
+  ctx.font=`600 ${kiosk?14:11.5}px Inter,system-ui,sans-serif`;ctx.textBaseline='middle';
+  ST.forEach((s,i)=>{const X=sx(s.x),Y0=sy(s.y);if(X<-50||Y0<-90||X>W+50||Y0>H+60)return;
+    const big=s.l.length>1,term=!!PLACES[i],ang=STANG[i]||[1,0],tx=ang[0],ty=ang[1],vx=-ty,vy=tx,ug=UGST[i],Y=Y0+(ug?G:0);
+    const f=(a,b,dy)=>[X+tx*a+vx*b,Y+(dy||0)+(ty*a+vy*b)*pitch];
+    const k=big?1.12:1,len=Ls*k;
+    if(lvl>=2){
+      if(!ug){const P=stadium(f,len,Ws);
+        // concourse level under the platform, with a lighter band and pillars to the ground
+        const Pg=stadium((a,b)=>f(a,b,G),len*.82,Ws*.8);ctx.fillStyle='rgba(0,0,0,.32)';ctx.beginPath();Pg.forEach((q,j)=>j?ctx.lineTo(q[0]+4,q[1]+3):ctx.moveTo(q[0]+4,q[1]+3));ctx.fill();
+        prism(ctx,Pg,G-hp,'#3b4d60','#1b2733',{min:8});
+        prism(ctx,P,hp,'#5a7088','#2a3b4d',null);
+        s.l.forEach((l,j)=>{ctx.strokeStyle=LC[l].dark;ctx.lineWidth=1.4;const q=f(-len/2+Ws/2,-Ws/2+2+j*2,0),r=f(len/2-Ws/2,-Ws/2+2+j*2,0);ctx.beginPath();ctx.moveTo(q[0],q[1]-hp);ctx.lineTo(r[0],r[1]-hp);ctx.stroke()});
+        roofs.push({f,len,hp,ug:false})}
+      else{const P=stadium(f,len,Ws);ctx.beginPath();P.forEach((q,j)=>j?ctx.lineTo(q[0],q[1]):ctx.moveTo(q[0],q[1]));ctx.closePath();ctx.fillStyle='rgba(79,216,255,.1)';ctx.fill();ctx.setLineDash([4,3]);ctx.lineWidth=1.3;ctx.strokeStyle='rgba(79,216,255,.7)';ctx.stroke();ctx.setLineDash([]);
+        s.l.forEach((l,j)=>{ctx.strokeStyle=LC[l].dark;ctx.lineWidth=1.4;const q=f(-len/2+Ws/2,-Ws/2+2+j*2),r=f(len/2-Ws/2,-Ws/2+2+j*2);ctx.beginPath();ctx.moveTo(q[0],q[1]);ctx.lineTo(r[0],r[1]);ctx.stroke()});
+        roofs.push({f,len,hp:0,ug:true})}}
+    else{ctx.beginPath();ctx.ellipse(X,Y,2.8,2.8*pitch,0,0,TAU);ctx.fillStyle=ug?'#4fd8ff':'#e8f0f6';ctx.fill();ctx.lineWidth=1.2;ctx.strokeStyle='#05090e';ctx.stroke()}
+    if(kiosk&&i===kStation){ctx.beginPath();ctx.ellipse(X,Y,26,26*pitch,0,0,TAU);ctx.lineWidth=3;ctx.strokeStyle='#ffd54a';ctx.stroke()}
+    if(lvl>=2||big||term)badges.push({i,X,Y,big,hp:ug?0:hp,ug});
+    else stScreen.push([i,X,Y])});
+  // planned stations: terminals and junctions, concentric rings where lines meet
+  plScreen=[];const said=new Set();
+  PLAN.forEach((pl,li)=>{if(kiosk||!showPlan[pl.id])return;pl.pts.forEach((q,pi)=>{if(q.w)return;const X=sx(q.x),Y=sy(q.y);if(X<-20||Y<-20||X>W+20||Y>H+20)return;plScreen.push([li,pi,X,Y]);
+    const r=q.j?6+li*1.8:5;ctx.beginPath();ctx.ellipse(X,Y,r,r*Math.max(.7,pitch),0,0,TAU);if(!q.j){ctx.fillStyle='#f4f6f8';ctx.fill()}ctx.lineWidth=2.6;ctx.strokeStyle=pl.color;ctx.stroke();
+    if(!said.has(q.n)){said.add(q.n);const w=ctx.measureText(q.n).width,bx=X+12+(q.j?li*1.8:0),by=Y-7;
+      if(!boxes.some(b=>bx<b[2]&&bx+w>b[0]&&by<b[3]&&by+14>b[1])){boxes.push([bx,by,bx+w,by+14]);ctx.lineWidth=3.5;ctx.strokeStyle='#05090e';ctx.strokeText(q.n,bx,Y);ctx.fillStyle='#ffe3a8';ctx.fillText(q.n,bx,Y)}}})});
+  // trains: collect, sort back to front, draw as six-car sets
+  drawn=[];const counts={G0:0,G1:0,P0:0,P1:0,Y0:0,Y1:0},tl=[];
+  for(const[runs,add]of L){const tt=t+add;
+    for(const r of runs){const pr=PROF[r[0]];if(r[1]>tt)break;const el=tt-r[1];if(el>pr.dur)continue;
+      const pat=pr.pat,key=pat.l+pat.dr;counts[key]++;if(!visible[key])continue;const s=stateOf(pr,el);if(!s)continue;
+      const sh=SH[pat.sh],p=posAt(sh,s.dist);const Y=sy(p[1]),X=sx(p[0]);if(X<-90||Y<-90||X>W+90||Y>H+90)continue;
+      tl.push({sh,hd:s.dist,pat,pr,el,s,key,Y})}}
+  tl.sort((a,b)=>a.Y-b.Y).forEach(o=>{const hc=drawTrain(o.sh,o.hd,o.pat,OFF,sz,o.s.halt);if(hc)drawn.push({X:hc.cX,Y:hc.cY-sz.h*hs/2,pr:o.pr,el:o.el,s:o.s,key:o.key})});
+  // shell roofs: curved ribs over the platform, translucent so trains stay visible; underground stations get a glass entrance dome beside the platform
+  roofs.forEach(c=>{const n=lvl>=3?9:5,half=c.len/2-Ws*.35,wd=Ws/2+3,peak=(c.ug?0:14)*hs+5;
+    const arch=(a,e)=>{const pts=[];for(let q=0;q<=6;q++){const u=q/6*2-1;pts.push(c.f(a,u*wd,-c.hp-(1-u*u)*e))}return pts};
+    if(c.ug){const ax=0,bx=Ws*1.1+4,e=11*hs+4,cp=(u)=>c.f(ax+0,bx+u*0,0);
+      const base=c.f(0,Ws*.9+6,0);ctx.beginPath();ctx.ellipse(base[0],base[1],Ws*.55,Ws*.55*pitch,0,0,TAU);ctx.fillStyle='rgba(0,0,0,.3)';ctx.fill();
+      ctx.beginPath();ctx.ellipse(base[0],base[1],Ws*.5,Ws*.5*pitch,0,Math.PI,0);ctx.lineTo(base[0]+Ws*.5,base[1]);ctx.closePath();
+      ctx.save();ctx.translate(0,-0);const g=ctx.createLinearGradient(0,base[1]-e*1.6,0,base[1]);g.addColorStop(0,'rgba(180,235,255,.55)');g.addColorStop(1,'rgba(79,216,255,.15)');
+      ctx.beginPath();ctx.moveTo(base[0]-Ws*.5,base[1]);ctx.quadraticCurveTo(base[0]-Ws*.5,base[1]-e*1.7,base[0],base[1]-e*1.7);ctx.quadraticCurveTo(base[0]+Ws*.5,base[1]-e*1.7,base[0]+Ws*.5,base[1]);ctx.closePath();ctx.fillStyle=g;ctx.fill();ctx.strokeStyle='rgba(200,240,255,.8)';ctx.lineWidth=1.1;ctx.stroke();
+      ctx.beginPath();ctx.moveTo(base[0],base[1]-e*1.7);ctx.lineTo(base[0],base[1]);ctx.moveTo(base[0]-Ws*.3,base[1]-e*1.2);ctx.lineTo(base[0]-Ws*.3,base[1]);ctx.moveTo(base[0]+Ws*.3,base[1]-e*1.2);ctx.lineTo(base[0]+Ws*.3,base[1]);ctx.strokeStyle='rgba(200,240,255,.4)';ctx.stroke();ctx.restore();return}
+    const ribs=[];for(let q=0;q<n;q++){const a=-half+q/(n-1)*half*2,e=peak*(.6+.4*Math.sin(q/(n-1)*3.14159));ribs.push({a,e,p:arch(a,e)})}
+    // shell panels between ribs
+    for(let q=1;q<n;q++){const A=ribs[q-1].p,B=ribs[q].p;ctx.beginPath();A.forEach((p,j)=>j?ctx.lineTo(p[0],p[1]):ctx.moveTo(p[0],p[1]));for(let j=B.length-1;j>=0;j--)ctx.lineTo(B[j][0],B[j][1]);ctx.closePath();
+      ctx.fillStyle=q%2?'rgba(190,215,240,.2)':'rgba(150,185,220,.24)';ctx.fill()}
+    ctx.strokeStyle='rgba(215,235,255,.75)';ctx.lineWidth=1.1;ribs.forEach(r=>{ctx.beginPath();r.p.forEach((p,j)=>j?ctx.lineTo(p[0],p[1]):ctx.moveTo(p[0],p[1]));ctx.stroke()});
+    // ridge beam and edge beams along the shell
+    ctx.strokeStyle='rgba(235,245,255,.85)';ctx.lineWidth=1.4;ctx.beginPath();ribs.forEach((r,j)=>{const m=r.p[3];j?ctx.lineTo(m[0],m[1]):ctx.moveTo(m[0],m[1])});ctx.stroke();
+    ctx.lineWidth=1;[0,6].forEach(k=>{ctx.beginPath();ribs.forEach((r,j)=>{const m=r.p[k];j?ctx.lineTo(m[0],m[1]):ctx.moveTo(m[0],m[1])});ctx.stroke()});
+    // slender columns at the shell's edge
+    if(lvl>=3){ctx.strokeStyle='rgba(170,195,220,.6)';ctx.lineWidth=1.2;[0,n-1].forEach(j=>[0,6].forEach(k=>{const p=ribs[j].p[k];ctx.beginPath();ctx.moveTo(p[0],p[1]);ctx.lineTo(p[0],p[1]+c.hp+ribs[j].e*0+(k===0?2:2));ctx.stroke()}))}});
+  // M markers on top, with the line colours as a ring, then names.
+  // Interchanges and terminals are placed first; an ordinary station whose marker would land on another becomes a small dot.
+  const pri=b=>b.big?0:(PLACES[b.i]?1:2),disc=[];
+  badges.sort((a,b)=>pri(a)-pri(b)||a.i-b.i);
+  badges.forEach(b=>{b.r=rb+(b.big?2:0);b.by=b.Y-hb;b.mini=pri(b)===2&&disc.some(d=>Math.hypot(d[0]-b.X,d[1]-b.by)<d[2]+b.r+3);
+    if(b.mini){b.by=b.Y-b.hp-4;b.r=3.2}else{disc.push([b.X,b.by,b.r]);boxes.push([b.X-b.r-1,b.by-b.r-1,b.X+b.r+1,b.by+b.r+1])}});
+  badges.slice().sort((a,b)=>a.by-b.by).forEach(b=>{const s=ST[b.i],by=b.by,r=b.r;stScreen.push([b.i,b.X,by]);
+    if(b.mini){ctx.beginPath();ctx.arc(b.X,by,r,0,TAU);ctx.fillStyle='#0a121a';ctx.fill();ctx.lineWidth=1.8;ctx.strokeStyle=LC[s.l[0]].dark===LC.Y.dark?'#ffc928':LC[s.l[0]].dark;ctx.stroke();return}
+    ctx.strokeStyle='rgba(225,238,255,.5)';ctx.lineWidth=1.4;ctx.beginPath();ctx.moveTo(b.X,b.Y-b.hp);ctx.lineTo(b.X,by+r);ctx.stroke();
+    ctx.save();ctx.shadowColor=LC[s.l[0]].dark;ctx.shadowBlur=9;ctx.beginPath();ctx.arc(b.X,by,r,0,TAU);ctx.fillStyle='#0a121a';ctx.fill();ctx.restore();
+    const n=s.l.length;s.l.forEach((l,j)=>{ctx.beginPath();ctx.arc(b.X,by,r-1.2,j/n*TAU-1.5708+(n>1?.06:0),(j+1)/n*TAU-1.5708-(n>1?.06:0));ctx.lineWidth=b.big?3:2.4;ctx.strokeStyle=LC[l].dark===LC.Y.dark?'#ffc928':LC[l].dark;ctx.stroke()});
+    ctx.fillStyle='#ffffff';ctx.font=`700 ${Math.round(r*1.15)}px "Space Grotesk",Inter,sans-serif`;ctx.textAlign='center';ctx.fillText('M',b.X,by+.5);ctx.textAlign='left'});
+  // names: first free spot right, left, above or below the marker (checked against every marker, name and the map edge), else no name
+  ctx.font=`600 ${kiosk?14:11.5}px Inter,system-ui,sans-serif`;
+  badges.forEach(b=>{if(b.mini||!(lvl>=3||b.big||PLACES[b.i]))return;
+    const nm=shortName(b.i),w=ctx.measureText(nm).width,r=b.r,X=b.X,y=b.by,hh2=8;
+    const dy=r+hh2+1,spots=[[X+r+6,y],[X-r-6-w,y],[X-w/2,y-dy-2],[X-w/2,y+dy+2],[X+r*.7,y-dy],[X+r*.7,y+dy],[X-r*.7-w,y-dy],[X-r*.7-w,y+dy]];
+    for(const[bx,yy]of spots){if(bx<6||bx+w>W-6||yy-hh2<4||yy+hh2>H-4)continue;
+      if(boxes.some(q=>bx-2<q[2]&&bx+w+2>q[0]&&yy-hh2<q[3]&&yy+hh2>q[1]))continue;
+      boxes.push([bx,yy-hh2,bx+w,yy+hh2]);ctx.lineWidth=3.5;ctx.strokeStyle='#05090e';ctx.strokeText(nm,bx,yy);ctx.fillStyle='#e6eef6';ctx.fillText(nm,bx,yy);break}});
+  // scale bar
+  const opts=[.5,1,2,5,10,20];let km=opts[0];for(const o of opts){km=o;if(o*scale>=70)break}
+  const bw=km*scale,bx=W-bw-38,by=H-62;ctx.strokeStyle='rgba(200,225,250,.8)';ctx.lineWidth=1.5;ctx.beginPath();ctx.moveTo(bx,by-4);ctx.lineTo(bx,by);ctx.lineTo(bx+bw,by);ctx.lineTo(bx+bw,by-4);ctx.stroke();
+  ctx.fillStyle='rgba(200,225,250,.85)';ctx.font='500 11px "JetBrains Mono",ui-monospace,monospace';ctx.textAlign='right';ctx.fillText(km+' km',bx+bw,by-12);ctx.textAlign='left';
+  return{counts,ms,t,L,svc}}
+
+const PLACES={};
+D.patterns.forEach(p=>{PLACES[p.s[0]]=1;PLACES[p.s[p.s.length-1]]=1});
+const fmt=sec=>{sec=((Math.floor(sec)%86400)+86400)%86400;return String(Math.floor(sec/3600)).padStart(2,'0')+':'+String(Math.floor(sec%3600/60)).padStart(2,'0')};
+function stationName(i){return ST[i].n.replace('Nadaprabhu Kempegowda Station, Majestic','Majestic (Nadaprabhu Kempegowda)')}
+
+/* hover + pick */
+function nearest(e){const r=cv.getBoundingClientRect(),mx=e.clientX-r.left,my=e.clientY-r.top;
+  let bt=null,bd=14*14;for(const d of drawn){const k=(d.X-mx)**2+(d.Y-my)**2;if(k<bd){bd=k;bt=d}}
+  let bs=null;bd=14*14;for(const s of stScreen){const k=(s[1]-mx)**2+(s[2]-my)**2;if(k<bd){bd=k;bs=s}}
+  let bp=null;bd=14*14;for(const s of plScreen){const k=(s[2]-mx)**2+(s[3]-my)**2;if(k<bd){bd=k;bp=s}}
+  return{bt,bs,bp,mx,my}}
+function hover(e){const{bt,bs,bp,mx,my}=nearest(e);let h='';
+  {const x=(mx-ox)/scale,y=(my-oy)/(scale*pitch),la=LAT0-y/KY,lo=LON0+x/KX;const c=document.getElementById('hudCoord');if(c)c.textContent=la.toFixed(4)+'\u00b0N  '+lo.toFixed(4)+'\u00b0E'}
+  if(bt){const p=bt.pr.pat;h=`<b>${LC[p.l].name} Line</b> towards ${stationName(p.s[p.s.length-1])}<br>`+(bt.s.halt?`At ${stationName(p.s[bt.s.k])}`:`Next: ${stationName(p.s[bt.s.next])} in ${Math.max(1,Math.round((bt.pr.a[bt.s.next]-bt.el)/60))} min`)}
+  else if(bp){const q=PLAN[bp[0]].pts[bp[1]],on=PLAN.filter(p=>showPlan[p.id]&&p.pts.some(r=>r.n===q.n));
+    h=`<b>${q.n}</b><br>Planned: ${on.map(p=>p.name).join(' + ')}`+(q.j?`<br>Connects with ${q.j}`:'')+`<br><small>${PLAN[bp[0]].status}</small>`}
+  else if(bs){h=`<b>${stationName(bs[0])}</b><br>${ST[bs[0]].l.map(l=>LC[l].name).join(' + ')}`}
+  if(!h){tip.style.display='none';return}
+  tip.innerHTML=h;tip.style.display='block';tip.style.left=Math.min(mx+14,W-250)+'px';tip.style.top=Math.max(8,my-10)+'px'}
+function pick(e){if(kiosk)return;const{bs}=nearest(e);if(bs){stSel.value=bs[0];renderDeps(true)}}
+
+/* controls */
+document.querySelectorAll('[data-sp]').forEach(b=>b.onclick=()=>{setSim(simMs(),+b.dataset.sp);document.querySelectorAll('[data-sp]').forEach(x=>x.setAttribute('aria-pressed',x===b))});
+{const i=Date.now()+IST,ds=Math.floor(i/86400000)*86400000,h=(i-ds)/3600000;
+  if(h<5.2||h>=23.9)setSim(ds+8.5*3600000-IST,10);else setSim(Date.now(),10);
+  document.querySelectorAll('[data-sp]').forEach(x=>x.setAttribute('aria-pressed',x.dataset.sp==='10'))}
+document.getElementById('now').onclick=()=>{setSim(Date.now(),1);document.querySelectorAll('[data-sp]').forEach(x=>x.setAttribute('aria-pressed',x.dataset.sp==='1'))};
+const jump=document.getElementById('jump');
+jump.onchange=()=>{if(!jump.value)return;const[h,m]=jump.value.split(':').map(Number);const i=simMs()+IST,ds=Math.floor(i/86400000)*86400000;setSim(ds+h*3600000+m*60000-IST)};
+document.getElementById('svc').onchange=e=>{override=e.target.value};
+
+/* legend: one card per line, two direction rows that also work as filters */
+const lg=document.getElementById('legend'),chipCount={};
+const ROUTE={G:'Madavara to Silk Institute',P:'Whitefield to Challaghatta',Y:'RV Road to Bommasandra'};
+['G','P','Y'].forEach(l=>{const card=document.createElement('section');card.className='lcard glass';
+  card.innerHTML=`<header><span class="ldot" style="background:${LC[l].dark}"></span><span class="lname">${LC[l].name} line</span><span class="lroute">${ROUTE[l]}</span></header>`;
+  (l==='Y'?['Y1','Y0']:[l+'0',l+'1']).forEach(k=>{const dr=+k[1],b=document.createElement('button');b.className='chip';b.setAttribute('aria-pressed','true');
+    b.innerHTML=trainIcon(l,dr)+`<span class="lab">to ${toOf(l,dr)}<small>${isDark(l,dr)?'dark':'light'} track</small></span><b>0</b>`;
+    b.onclick=()=>{visible[k]=visible[k]?0:1;b.setAttribute('aria-pressed',!!visible[k])};chipCount[k]=b.querySelector('b');card.appendChild(b)});
+  lg.appendChild(card)});
+/* planned lines card */
+(function(){const card=document.createElement('section');card.className='lcard glass plan';
+  card.innerHTML='<header><span class="ldot" style="background:repeating-linear-gradient(90deg,#9aa6b2 0 4px,transparent 4px 7px);border-radius:2px;width:16px;height:4px"></span><span class="lname">Planned lines</span><span class="lroute">no trains, junctions only</span></header>';
+  PLAN.forEach(p=>{const b=document.createElement('button');b.className='chip';b.setAttribute('aria-pressed','false');
+    b.innerHTML=`<svg width="36" height="14" viewBox="0 0 36 14" aria-hidden="true"><path d="M2 7H34" stroke="${p.color}" stroke-width="4" stroke-dasharray="7 4" stroke-linecap="butt"/></svg><span class="lab">${p.name}<small>${p.route}</small></span>`;
+    b.title=p.status;b.onclick=()=>{showPlan[p.id]=showPlan[p.id]?0:1;b.setAttribute('aria-pressed',!!showPlan[p.id]);if(!kiosk)fit()};card.appendChild(b)});
+  lg.appendChild(card)})();
+/* station list */
+const stSel=document.getElementById('st');
+ST.map((s,i)=>[stationName(i)+' ('+s.l.map(l=>LC[l].name).join(', ')+')',i]).sort((a,b)=>a[0].localeCompare(b[0])).forEach(([n,i])=>stSel.add(new Option(n,i)));
+stSel.value=ST.findIndex(s=>s.n==='Majestic'||s.n.includes('Majestic'));
+stSel.onchange=()=>renderDeps(true);
+const depsEl=document.getElementById('deps');
+function collect(i){const{t,L}=lists(simMs()),g={};
+  for(const[runs,add]of L){const tt=t+add;for(const r of runs){const pr=PROF[r[0]],p=pr.pat,k=p.s.indexOf(i);if(k<0||k===p.s.length-1)continue;const dep=r[1]+pr.d[k];if(dep<tt-30||dep>tt+4*3600)continue;
+    const key=p.l+p.dr+'|'+p.s[p.s.length-1];(g[key]=g[key]||{p,list:[]}).list.push(dep-tt)}}
+  Object.values(g).forEach(v=>v.list.sort((a,b)=>a-b));return{t,g,keys:Object.keys(g).sort()}}
+const when=x=>x<30?'now':'in '+Math.max(0,Math.round(x/60))+' min';
+function renderDeps(){const i=+stSel.value,{t,g,keys}=collect(i);depsEl.innerHTML='';
+  if(!keys.length){depsEl.innerHTML='<p class="note">No more departures from this station in the next four hours.</p>';return}
+  keys.forEach(k=>{const{p,list}=g[k];const d=document.createElement('div');d.className='dep';
+    d.innerHTML=`<div class="dh">${trainIcon(p.l,p.dr)}<div><b>${LC[p.l].name} line</b><small>towards ${stationName(p.s[p.s.length-1])}</small></div></div><div class="dt">`+
+      list.slice(0,3).map((x,j)=>`<div class="${j?'':'first'}"><span>${fmt(t+x)}</span><small>${when(x)}</small></div>`).join('')+'</div>';depsEl.appendChild(d)})}
+
+/* station display mode */
+const shortName=i=>ST[i].n.replace('Nadaprabhu Kempegowda Station, Majestic','Majestic').replace('Delta Electronics Bommasandra','Bommasandra').replace('Rashtreeya Vidyalaya Road','RV Road');
+const slug=i=>shortName(i).toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'');
+function trainIcon(l,dr){const c=colorOf(l,dr),top=mix(c,'#ffffff',.35),low=mix(c,'#000000',.38);
+  return `<svg width="54" height="26" viewBox="0 0 54 26" aria-hidden="true"><ellipse cx="27" cy="24.2" rx="25" ry="1.6" fill="rgba(0,0,0,.35)"/><path d="M3 6h32c8 0 13 4 16 10v4H3z" fill="${c}"/><path d="M3 6h32c3 0 6 .6 8.5 1.8H3z" fill="${top}"/><path d="M3 17h48v3H3z" fill="${low}"/><g fill="#08141d"><rect x="6" y="9" width="6" height="5.4" rx="1"/><rect x="14.5" y="9" width="6" height="5.4" rx="1"/><rect x="23" y="9" width="6" height="5.4" rx="1"/><path d="M32 9h4c3 0 6 1.7 8 5.4H32z"/></g><circle cx="12" cy="21.4" r="2.1" fill="#0a1119" stroke="#9fb3c6" stroke-width=".7"/><circle cx="40" cy="21.4" r="2.1" fill="#0a1119" stroke="#9fb3c6" stroke-width=".7"/><circle cx="49.6" cy="16.2" r="1.3" fill="#fff4cf"/></svg>`}
+function fitKiosk(){if(kStation<0||!W)return;const pts=[[ST[kStation].x,ST[kStation].y]];
+  D.patterns.forEach(p=>{const k=p.s.indexOf(kStation);if(k<0)return;for(let j=Math.max(0,k-3);j<=Math.min(p.s.length-1,k+3);j++)pts.push([ST[p.s[j]].x,ST[p.s[j]].y])});
+  let a=1e9,b=-1e9,c=1e9,d=-1e9;pts.forEach(q=>{a=Math.min(a,q[0]);b=Math.max(b,q[0]);c=Math.min(c,q[1]);d=Math.max(d,q[1])});
+  const spx=Math.max(b-a,1.5),spy=Math.max(d-c,1.5);scale=Math.min(140,Math.max(18,.85*Math.min((W-170)/spx,(H-130)/(spy*pitch))));
+  ox=W/2-((a+b)/2)*scale;oy=H/2+10-((c+d)/2)*scale*pitch}
+function renderKiosk(info){const i=kStation,{t,g,keys}=collect(i);
+  // trains heading to, halted at and past this station
+  let appr=0,here=0,away=0;
+  for(const[runs,add]of info.L){const tt=info.t+add;for(const r of runs){const pr=PROF[r[0]];if(r[1]>tt)break;const el=tt-r[1];if(el>pr.dur)continue;const kk=pr.pat.s.indexOf(i);if(kk<0)continue;
+    const s=stateOf(pr,el);if(!s)continue;if(s.halt&&s.k===kk)here++;else{const pos=s.halt?s.k:s.next-.5;if(pos<kk)appr++;else away++}}}
+  document.getElementById('kStats').innerHTML=`<div><b>${appr}</b><span>trains approaching</span></div><div><b>${here}</b><span>at the platform</span></div><div><b>${away}</b><span>moving away</span></div>`;
+  const el=document.getElementById('kDeps');
+  if(!keys.length){el.innerHTML='<div class="kdep"><h3>No more departures from this station in the next four hours</h3></div>';return}
+  el.innerHTML=keys.map(k=>{const{p,list}=g[k];return `<div class="kdep" style="border-left:6px solid ${colorOf(p.l,p.dr)}">${trainIcon(p.l,p.dr)}<h3>${LC[p.l].name} line <small>towards ${stationName(p.s[p.s.length-1])}</small></h3><div class="times">`+list.slice(0,3).map(x=>`<div>${fmt(t+x)}<small>${when(x)}</small></div>`).join('')+'</div></div>'}).join('')}
+function setKiosk(idx){const was=kiosk;kiosk=idx>=0;kStation=idx;document.body.classList.toggle('kiosk',kiosk);
+  if(kiosk){document.getElementById('kName').textContent=shortName(idx);document.title=shortName(idx)+' station screen';stSel.value=idx}else{document.title='Namma Metro Simulator'}
+  resize();if(kiosk)fitKiosk();else if(was)fit();
+  try{window.scrollTo(0,0)}catch(e){}}
+function applyHash(){const m=location.hash.slice(1).match(/^display-([a-z0-9-]+)$/);setKiosk(m?ST.findIndex((s,i)=>slug(i)===m[1]):-1)}
+function setHash(h){try{if(location.hash.slice(1)!==h)location.hash=h}catch(e){}}
+document.getElementById('openDisp').onclick=()=>{const i=+stSel.value;setKiosk(i);setHash('display-'+slug(i))};
+document.getElementById('kExit').onclick=()=>{setKiosk(-1);setHash('')};
+document.getElementById('kFull').onclick=()=>{try{const p=document.documentElement.requestFullscreen();if(p&&p.catch)p.catch(()=>{})}catch(e){}};
+window.addEventListener('hashchange',applyHash);
+document.addEventListener('keydown',e=>{if(e.key==='Escape'&&kiosk&&!document.fullscreenElement){setKiosk(-1);setHash('')}});
+
+
+/* crowd-sourced timing: needs the claude.ai artifact database, so the panel is hidden when the page is hosted elsewhere */
+(()=>{
+if(typeof window.claude==='undefined'){document.getElementById('crowd').style.display='none';return}
+const cDir=document.getElementById('cDir'),cGo=document.getElementById('cGo'),cMsg=document.getElementById('cMsg'),cList=document.getElementById('cList'),cSum=document.getElementById('cSum'),cSt=document.getElementById('cStation');
+const sfmt=sec=>{sec=((Math.floor(sec)%86400)+86400)%86400;const p=n=>String(n).padStart(2,'0');return p(Math.floor(sec/3600))+':'+p(Math.floor(sec%3600/60))+':'+p(sec%60)};
+const dl=x=>{const m=Math.round(Math.abs(x)/6)/10;return x>=30?`<span class="late">${m} min late</span>`:x<=-30?`<span class="early">${m} min early</span>`:'<span class="early">on time</span>'};
+let db=null,uid=null,rows=[],last={};
+function dirs(i){const o=[];D.patterns.forEach((p,pi)=>{const k=p.s.indexOf(i);if(k<0||k===p.s.length-1&&false)return;
+  const key=p.l+'|'+p.dr+'|'+p.s[p.s.length-1];if(!o.some(x=>x.key===key))o.push({key,p,pi})});return o}
+function fill(){const i=+stSel.value;cSt.textContent=stationName(i);cDir.innerHTML='';
+  dirs(i).forEach(o=>{const to=o.p.s[o.p.s.length-1];if(to===i)return;cDir.add(new Option(LC[o.p.l].name+' line towards '+stationName(to),o.key))});
+  cGo.disabled=!db||!cDir.options.length;draw()}
+stSel.addEventListener('change',fill);
+function matchSched(i,key,nowSec,svc){let best=null;
+  for(const add of[0,86400,-86400]){const runs=D.runs[svc];for(const r of runs){const pr=PROF[r[0]],p=pr.pat;if(p.l+'|'+p.dr+'|'+p.s[p.s.length-1]!==key)continue;const k=p.s.indexOf(i);if(k<0)continue;
+    const arr=r[1]+pr.a[k]+add;const d=nowSec-arr;if(best===null||Math.abs(d)<Math.abs(best.d))best={d,arr}}}
+  return best}
+cGo.onclick=async()=>{if(!db)return;const i=+stSel.value,key=cDir.value;if(!key)return;
+  const lk=i+'|'+key;if(last[lk]&&Date.now()-last[lk]<90000){cMsg.textContent='You already reported this train a moment ago. Wait for the next one.';return}
+  const now=Date.now(),nowSec=((now+IST)%86400000)/1000,svc=svcFor(now),m=matchSched(i,key,nowSec,svc),[l,dr,to]=key.split('|');
+  const ok=m&&Math.abs(m.d)<=1200;
+  const rec={station:i,stationName:stationName(i),line:l,dir:+dr,towards:stationName(+to),svc,actualSec:Math.round(nowSec),schedSec:ok?Math.round(m.arr%86400):null,delaySec:ok?Math.round(m.d):null,ts:now,uid:uid||'anon',simSpeed:speed};
+  cGo.disabled=true;try{await db.collection('reports').add(rec);last[lk]=now;
+    cMsg.innerHTML=ok?`Thanks. Logged at ${sfmt(rec.actualSec)} against a scheduled ${sfmt(rec.schedSec)}: ${dl(rec.delaySec)}.`:`Thanks. Logged at ${sfmt(rec.actualSec)}. No scheduled train within 20 minutes, so no delay was calculated.`}
+  catch(e){cMsg.textContent='Could not save the report ('+(e&&e.code||'error')+'). Try again.'}
+  cGo.disabled=false};
+function draw(){const i=+stSel.value;
+  const mine=rows.filter(r=>r.station===i&&r.delaySec!=null);
+  const all=rows.filter(r=>r.delaySec!=null);
+  const med=a=>{if(!a.length)return null;const b=a.map(r=>r.delaySec).sort((x,y)=>x-y);return b[Math.floor(b.length/2)]};
+  const ms=med(mine),ma=med(all);
+  cSum.innerHTML=`<div><b>${rows.length}</b>reports from riders</div><div><b>${mine.length}</b>at this station</div><div><b>${ms==null?'-':dl(ms)}</b>typical here (median)</div><div><b>${ma==null?'-':dl(ma)}</b>typical, whole network</div>`;
+  cList.innerHTML=rows.length?rows.slice(0,8).map(r=>`<div class="rep"><span><b>${r.stationName}</b> &middot; ${LC[r.line]?LC[r.line].name:r.line} towards ${r.towards}</span><span>${sfmt(r.actualSec)} ${r.delaySec==null?'':dl(r.delaySec)}</span></div>`).join(''):'<p class="note">No reports yet. Be the first to log a train.</p>'}
+(async()=>{try{db=await claude.use('db');const u=await claude.use('user');if(u&&u.id)uid=await u.id()}catch(e){}
+  if(!db){cMsg.textContent='Sign in to the artifact to send reports.';fill();return}
+  fill();let timer=setTimeout(()=>{cMsg.textContent='Reports cannot be reached yet.'},10000);
+  db.collection('reports').orderBy('ts','desc').limit(300).onSnapshot(s=>{clearTimeout(timer);rows=s.docs.map(d=>d.data());draw()},e=>{clearTimeout(timer);cMsg.textContent='Reports unavailable ('+(e&&e.code)+').'})})();
+fill();
+})();
+/* main loop */
+let lastUi=0;
+function loop(ts){const info=frame();
+  if(ts-lastUi>250){lastUi=ts;
+    const d=new Date(info.ms+IST),p=n=>String(n).padStart(2,'0');
+    document.getElementById('clock').textContent=`${p(d.getUTCHours())}:${p(d.getUTCMinutes())}:${p(d.getUTCSeconds())} IST`;
+    const ymd=''+d.getUTCFullYear()+p(d.getUTCMonth()+1)+p(d.getUTCDate());
+    document.getElementById('mode').textContent=speed===1&&Math.abs(info.ms-Date.now())<5000?'Live clock':'Simulated time, '+speed+'x';
+    document.getElementById('daytype').textContent=d.toUTCString().slice(0,16)+' · '+DAYNAME[info.svc]+(ymd<D.feed[0]||ymd>D.feed[1]?' · outside the feed dates':'');
+    KEYS.forEach(k=>chipCount[k].textContent=info.counts[k]);
+    {const n=KEYS.reduce((s,k)=>s+info.counts[k],0);const h=document.getElementById('hudTrains');if(h)h.textContent=String(n).padStart(2,'0');const hc=document.getElementById('hudClock');if(hc)hc.textContent=`${p(d.getUTCHours())}:${p(d.getUTCMinutes())}:${p(d.getUTCSeconds())}`}
+    if(kiosk){document.getElementById('kClock').textContent=`${p(d.getUTCHours())}:${p(d.getUTCMinutes())}:${p(d.getUTCSeconds())}`;document.getElementById('kDay').textContent=d.toUTCString().slice(0,16)+' · '+DAYNAME[info.svc];renderKiosk(info)}else renderDeps()}
+  requestAnimationFrame(loop)}
+applyHash();requestAnimationFrame(loop);
+</script>

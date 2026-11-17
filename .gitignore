@@ -1,0 +1,6 @@
+__pycache__/
+*.pyc
+# screenshots written by the Playwright tests
+*.png
+.vercel/
+.env*
